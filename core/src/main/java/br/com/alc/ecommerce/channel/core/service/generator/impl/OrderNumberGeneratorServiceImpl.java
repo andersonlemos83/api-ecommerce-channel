@@ -1,7 +1,7 @@
-package br.com.alc.ecommerce.channel.core.service.impl;
+package br.com.alc.ecommerce.channel.core.service.generator.impl;
 
 import br.com.alc.ecommerce.channel.core.domain.bot.OrderBotRequest;
-import br.com.alc.ecommerce.channel.core.service.OrderNumberService;
+import br.com.alc.ecommerce.channel.core.service.generator.OrderNumberGeneratorService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import reactor.core.publisher.Flux;
@@ -10,7 +10,7 @@ import java.util.Random;
 
 @Log4j2
 @AllArgsConstructor
-public class OrderNumberServiceImpl implements OrderNumberService {
+public class OrderNumberGeneratorServiceImpl implements OrderNumberGeneratorService {
 
     private static final int BOUND = 999999999;
 

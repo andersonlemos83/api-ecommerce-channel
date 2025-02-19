@@ -9,7 +9,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderGeneratorRequest implements Serializable {
+public final class OrderGeneratorRequest implements Serializable {
 
     private String orderNumber;
 

@@ -9,7 +9,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderBotRequest implements Serializable {
+public final class OrderBotRequest implements Serializable {
 
     private Integer orderQuantity;
 

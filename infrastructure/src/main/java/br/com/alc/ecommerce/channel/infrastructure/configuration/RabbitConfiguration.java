@@ -19,6 +19,15 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.order-generator-queue}")
     private String orderGeneratorQueueName;
 
+    @Value("${spring.rabbitmq.order-exchange}")
+    private String orderExchange;
+
+    @Value("${spring.rabbitmq.order-queue}")
+    private String orderQueueName;
+
+    @Value("${spring.rabbitmq.sale-callback-queue}")
+    private String saleCallbackQueueName;
+
     @Bean
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
@@ -37,12 +46,32 @@ public class RabbitConfiguration {
     }
 
     @Bean
+    public TopicExchange orderExchange() {
+        return ExchangeBuilder.topicExchange(orderExchange).build();
+    }
+
+    @Bean
     public Queue orderGeneratorQueue() {
         return QueueBuilder.durable(orderGeneratorQueueName).build();
     }
 
     @Bean
+    public Queue orderQueue() {
+        return QueueBuilder.durable(orderQueueName).build();
+    }
+
+    @Bean
+    public Queue saleCallbackQueue() {
+        return QueueBuilder.durable(saleCallbackQueueName).build();
+    }
+
+    @Bean
     public Binding orderGeneratorQueueBinding(TopicExchange orderBotExchange, Queue orderGeneratorQueue) {
         return BindingBuilder.bind(orderGeneratorQueue).to(orderBotExchange).with(orderGeneratorQueueName);
+    }
+
+    @Bean
+    public Binding orderQueueBinding(TopicExchange orderExchange, Queue orderQueue) {
+        return BindingBuilder.bind(orderQueue).to(orderExchange).with(orderQueueName);
     }
 }

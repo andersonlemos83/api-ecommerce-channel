@@ -32,6 +32,8 @@ spring:
         auto-startup: true
     order-bot-exchange: order-bot-exchange
     order-generator-queue: order-generator-queue
+    order-exchange: order-exchange
+    order-queue: order-queue
     sale-callback-queue: sale-callback-queue
   web:
     locale: pt_BR
