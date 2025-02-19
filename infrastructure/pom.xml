@@ -87,12 +87,6 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
-        <!-- spring-boot - undertow -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-
         <!-- spring-boot - log4j2 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

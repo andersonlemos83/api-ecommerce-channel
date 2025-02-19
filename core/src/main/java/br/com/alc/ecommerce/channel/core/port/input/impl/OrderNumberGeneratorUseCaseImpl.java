@@ -1,6 +1,7 @@
 package br.com.alc.ecommerce.channel.core.port.input.impl;
 
 import br.com.alc.ecommerce.channel.core.domain.bot.OrderBotRequest;
+import br.com.alc.ecommerce.channel.core.domain.bot.OrderBotResponse;
 import br.com.alc.ecommerce.channel.core.domain.generator.OrderGeneratorRequest;
 import br.com.alc.ecommerce.channel.core.port.input.OrderNumberGeneratorUseCase;
 import br.com.alc.ecommerce.channel.core.port.output.OrderNumberIntegratorOutPort;
@@ -19,19 +20,19 @@ public class OrderNumberGeneratorUseCaseImpl implements OrderNumberGeneratorUseC
     private final OrderNumberIntegratorOutPort orderNumberIntegratorOutPort;
 
     @Override
-    public Flux<String> execute(OrderBotRequest orderBotRequest) {
+    public Flux<OrderBotResponse> execute(OrderBotRequest orderBotRequest) {
         return Flux.just(orderBotRequest)
                 .doOnNext(in -> log.info("Incoming into OrderNumberGeneratorUseCaseImpl: {}", generateJson(in)))
                 .flatMap(orderNumberService::execute)
-//                .flatMap(this::integrateOrderNumber)
+                .flatMap(this::integrateOrderNumber)
                 .doOnNext(out -> log.info("Outgoing from OrderNumberGeneratorUseCaseImpl: {}", generateJson(out)));
     }
 
-    private Flux<String> integrateOrderNumber(String orderNumber) {
-        return Flux.just(orderNumber)
+    private Flux<OrderBotResponse> integrateOrderNumber(OrderBotResponse orderBotResponse) {
+        return Flux.just(orderBotResponse.getOrderNumber())
                 .map(this::buildOrderNumberRequest)
-                .flatMap(request -> orderNumberIntegratorOutPort.execute(request))
-                .map(object -> orderNumber);
+                .flatMap(orderNumberIntegratorOutPort::execute)
+                .map(object -> orderBotResponse);
     }
 
     private OrderGeneratorRequest buildOrderNumberRequest(String orderNumber) {

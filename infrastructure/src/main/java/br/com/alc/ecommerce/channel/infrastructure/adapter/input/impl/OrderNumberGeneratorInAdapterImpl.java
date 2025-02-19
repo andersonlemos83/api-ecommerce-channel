@@ -1,9 +1,11 @@
 package br.com.alc.ecommerce.channel.infrastructure.adapter.input.impl;
 
 import br.com.alc.ecommerce.channel.core.domain.bot.OrderBotRequest;
+import br.com.alc.ecommerce.channel.core.domain.bot.OrderBotResponse;
 import br.com.alc.ecommerce.channel.core.port.input.OrderNumberGeneratorUseCase;
 import br.com.alc.ecommerce.channel.infrastructure.adapter.input.OrderNumberGeneratorInAdapter;
 import br.com.alc.ecommerce.channel.infrastructure.dto.bot.OrderBotRequestDto;
+import br.com.alc.ecommerce.channel.infrastructure.dto.bot.OrderBotResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -21,15 +23,20 @@ public class OrderNumberGeneratorInAdapterImpl implements OrderNumberGeneratorIn
     private final ModelMapper modelMapper;
 
     @Override
-    public Flux<String> execute(OrderBotRequestDto orderBotRequestDto) {
+    public Flux<OrderBotResponseDto> execute(OrderBotRequestDto orderBotRequestDto) {
         return Flux.just(orderBotRequestDto)
                 .doOnNext(in -> log.debug("Incoming into OrderNumberGeneratorInAdapterImpl: {}", generateJson(in)))
                 .map(this::buildOrderBotRequest)
                 .flatMap(orderNumberGeneratorUseCase::execute)
+                .map(this::buildOrderBotResponseDto)
                 .doOnNext(out -> log.debug("Outgoing from OrderNumberGeneratorInAdapterImpl: {}", generateJson(out)));
     }
 
     private OrderBotRequest buildOrderBotRequest(OrderBotRequestDto orderBotRequestDto) {
         return modelMapper.map(orderBotRequestDto, OrderBotRequest.class);
+    }
+
+    private OrderBotResponseDto buildOrderBotResponseDto(OrderBotResponse orderBotResponse) {
+        return modelMapper.map(orderBotResponse, OrderBotResponseDto.class);
     }
 }
