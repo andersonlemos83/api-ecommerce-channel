@@ -26,6 +26,6 @@ public class OrderController {
     public Flux<String> startOrderBot(@Valid @RequestBody OrderBotRequestDto orderBotRequestDto) {
         log.info("---> Request POST /start-order-bot: {}", generateJson(orderBotRequestDto));
         return orderNumberGeneratorInAdapter.execute(orderBotRequestDto)
-                .doFinally(responses -> log.info("<--- Response POST /start-order-bot: {}", generateJson(responses)));
+                .doOnNext(responses -> log.info("<--- Response POST /start-order-bot: {}", generateJson(responses)));
     }
 }

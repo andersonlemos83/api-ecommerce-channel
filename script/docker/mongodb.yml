@@ -1,34 +1,38 @@
-version: '3.1'
+version: '3.8'
 
 services:
-  mongo:
-    container_name: mongo-db
-    image: mongo
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    restart: always
     ports:
-      - 27017:27017
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-    expose:
-      - 27017
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - mongo_data:/data/db
+
   mongo-express:
-    container_name: mongo-express
     image: mongo-express
+    container_name: mongo-express
+    restart: always
     ports:
-      - 8081:8081
+      - "8081:8081"
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
       ME_CONFIG_BASICAUTH_USERNAME: express
       ME_CONFIG_BASICAUTH_PASSWORD: express
-      ME_CONFIG_MONGODB_PORT: 27017
-    depends_on:
-      - mongo-db
+      ME_CONFIG_MONGODB_URL: mongodb://admin:secret@mongodb:27017/
+
+volumes:
+  mongo_data:
       
 # Application
 # http://localhost:8081/
 
 # host: localhost
 # port: 27017
-# username: mongo
-# password: mongo
+# username: admin
+# password: secret

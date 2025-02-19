@@ -23,7 +23,7 @@ public class OrderNumberGeneratorUseCaseImpl implements OrderNumberGeneratorUseC
         return Flux.just(orderBotRequest)
                 .doOnNext(in -> log.info("Incoming into OrderNumberGeneratorUseCaseImpl: {}", generateJson(in)))
                 .flatMap(orderNumberService::execute)
-                .flatMap(this::integrateOrderNumber)
+//                .flatMap(this::integrateOrderNumber)
                 .doOnNext(out -> log.info("Outgoing from OrderNumberGeneratorUseCaseImpl: {}", generateJson(out)));
     }
 

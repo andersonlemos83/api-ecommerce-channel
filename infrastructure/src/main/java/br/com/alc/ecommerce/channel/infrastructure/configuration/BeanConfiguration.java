@@ -6,6 +6,7 @@ import br.com.alc.ecommerce.channel.core.port.output.OrderNumberIntegratorOutPor
 import br.com.alc.ecommerce.channel.core.service.OrderNumberService;
 import br.com.alc.ecommerce.channel.core.service.impl.OrderNumberServiceImpl;
 import br.com.alc.ecommerce.channel.infrastructure.EcommerceChannelInfrastructureApplication;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,5 +24,10 @@ public class BeanConfiguration {
     @Bean
     public OrderNumberService orderNumberService() {
         return new OrderNumberServiceImpl();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }
