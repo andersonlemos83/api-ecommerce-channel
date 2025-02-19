@@ -1,0 +1,120 @@
+logging:
+  level:
+    br.com.alc.ecommerce.channel.infrastructure: DEBUG
+    org.springframework:
+      ampq: TRACE
+      boot.context: INFO
+      ws.client: TRACE
+      ws.soap: TRACE
+      web: WARN
+
+spring:
+  application:
+    name: api-ecommerce-channel
+  messages:
+    basename: i18n/messages
+  jmx:
+    default-domain: ~project.artifactId~
+  main:
+    allow-bean-definition-overriding: true
+  cache:
+    redis:
+      time-to-live: 172800
+    type: redis
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: null
+    password: null
+    virtual-host: ecommerce-checkout
+    listener:
+      simple:
+        auto-startup: true
+    order-bot-exchange: order-bot-exchange
+    order-generator-queue: order-generator-queue
+    sale-callback-queue: sale-callback-queue
+  web:
+    locale: pt_BR
+    locale-resolver: accept_header
+  mvc:
+    pathmatch:
+      matching-strategy: path_pattern_parser
+  data:
+    redis:
+      repositories:
+        enabled: false
+      host: localhost
+      port: 6379
+      password: null
+    mongodb:
+      database:
+      authentication-database:
+      uri: mongodb://localhost:27017/ecommerce_db
+      repositories:
+        enabled: true
+
+server:
+  compression:
+    enabled: true
+  port: 8181
+  servlet:
+    context-path: /
+
+endpoints:
+  prometheus:
+    id: metrics
+    enabled: true
+    sensitive: false
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 15000
+        readTimeout: 15000
+        loggerLevel: BASIC # NONE, BASIC, HEADERS, FULL
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      sale-authorizer-circuitbreaker:
+        slidingWindowType: TIME_BASED
+        slidingWindowSize: 30
+        minimumNumberOfCalls: 2
+        failureRateThreshold: 80
+        permittedNumberOfCallsInHalfOpenState: 2
+        waitDurationInOpenState: 30s
+
+management:
+  server:
+    port: 9191
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        prometheus: /metrics
+      exposure:
+        include: '*'
+        exclude: metrics
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+  health:
+    redis:
+      enabled: false
+
+client:
+  tax:
+    url: http://localhost:9091/api-tax/
+  mid-client:
+    url: http://localhost:9092/api-mid-client/

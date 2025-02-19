@@ -350,12 +350,16 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- ecommerce-checkout - core -->
+        <!-- ecommerce-channel - core -->
         <dependency>
             <groupId>br.com.alc</groupId>
-            <artifactId>api-ecommerce-checkout-core</artifactId>
+            <artifactId>api-ecommerce-channel-core</artifactId>
             <version>${project.version}</version>
             <exclusions>
+                <exclusion>
+                    <groupId>io.projectreactor</groupId>
+                    <artifactId>reactor-core</artifactId>
+                </exclusion>
                 <exclusion>
                     <groupId>org.projectlombok</groupId>
                     <artifactId>lombok</artifactId>

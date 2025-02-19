@@ -1,0 +1,39 @@
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ecommerce-channel
+    password: ecommerce-channel
+    virtual-host: ecommerce-checkout
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+    mongodb:
+      database: ecommerce_db
+      authentication-database: admin
+      uri: mongodb://localhost:27017/ecommerce_db
+      repositories:
+        enabled: true
+
+server:
+  port: 8383
+
+management:
+  server:
+    port: 9393
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 15000
+        readTimeout: 15000
+        loggerLevel: FULL # NONE, BASIC, HEADERS, FULL
+
+client:
+  tax:
+    url: http://localhost:8443/
+  mid-client:
+    url: http://localhost:8443/
