@@ -34,7 +34,7 @@ public class OrderNumberIntegratorOutPortImpl implements OrderNumberIntegratorOu
     }
 
     @Override
-    public Flux<Void> execute(OrderGeneratorRequest orderGeneratorRequest) {
+    public Flux<String> execute(OrderGeneratorRequest orderGeneratorRequest) {
         return Flux.just(orderGeneratorRequest)
                 .doOnNext(in -> log.debug("Incoming into OrderNumberIntegratorOutPortImpl: {}", generateJson(in)))
                 .map(this::buildOrderGeneratorRequestDto)
@@ -45,7 +45,8 @@ public class OrderNumberIntegratorOutPortImpl implements OrderNumberIntegratorOu
         return modelMapper.map(orderGeneratorRequest, OrderGeneratorRequestDto.class);
     }
 
-    private Mono<Void> publish(OrderGeneratorRequestDto orderGeneratorRequestDto) {
-        return Mono.fromRunnable(() -> messagingProducer.publish(orderBotExchange, orderGeneratorQueue, orderGeneratorRequestDto));
+    private Mono<String> publish(OrderGeneratorRequestDto orderGeneratorRequestDto) {
+        return Mono.fromRunnable(() -> messagingProducer.publish(orderBotExchange, orderGeneratorQueue, orderGeneratorRequestDto))
+                .thenReturn(orderGeneratorRequestDto.getOrderNumber());
     }
 }

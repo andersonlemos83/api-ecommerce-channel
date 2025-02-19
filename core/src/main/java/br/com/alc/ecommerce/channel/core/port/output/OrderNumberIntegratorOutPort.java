@@ -5,6 +5,6 @@ import reactor.core.publisher.Flux;
 
 public interface OrderNumberIntegratorOutPort {
 
-    Flux<Void> execute(OrderGeneratorRequest orderGeneratorRequest);
+    Flux<String> execute(OrderGeneratorRequest orderGeneratorRequest);
 
 }

@@ -20,7 +20,7 @@ public class MessagingProducerImpl implements MessagingProducer {
 
     private final RabbitTemplate rabbitTemplate;
 
-//    @Async
+    @Async
     @Override
     public void publish(String exchange, String queue, Object request) {
         try {
@@ -32,7 +32,7 @@ public class MessagingProducerImpl implements MessagingProducer {
         }
     }
 
-//    @Async
+    @Async
     @Override
     public void publish(String queue, Object request) {
         try {
