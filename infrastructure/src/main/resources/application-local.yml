@@ -33,7 +33,5 @@ feign:
         loggerLevel: FULL # NONE, BASIC, HEADERS, FULL
 
 client:
-  tax:
-    url: http://localhost:8443/
-  mid-client:
-    url: http://localhost:8443/
+  via-cep:
+    url: https://viacep.com.br/

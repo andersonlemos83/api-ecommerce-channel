@@ -14,7 +14,7 @@ import static br.com.alc.ecommerce.channel.core.util.ObjectMapperUtil.generateJs
 
 @Log4j2
 @AllArgsConstructor
-public class OrderNumberGeneratorUseCaseImpl implements OrderNumberGeneratorUseCase {
+public final class OrderNumberGeneratorUseCaseImpl implements OrderNumberGeneratorUseCase {
 
     private final OrderNumberGeneratorService orderNumberGeneratorService;
     private final OrderNumberIntegratorOutPort orderNumberIntegratorOutPort;

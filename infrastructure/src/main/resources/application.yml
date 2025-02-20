@@ -116,7 +116,5 @@ management:
       enabled: false
 
 client:
-  tax:
-    url: http://localhost:9091/api-tax/
-  mid-client:
-    url: http://localhost:9092/api-mid-client/
+  via-cep:
+    url: http://localhost:9093/api-via-cep/

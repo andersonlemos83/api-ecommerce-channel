@@ -4,10 +4,17 @@ import br.com.alc.ecommerce.channel.core.port.input.OrderGeneratorUseCase;
 import br.com.alc.ecommerce.channel.core.port.input.OrderNumberGeneratorUseCase;
 import br.com.alc.ecommerce.channel.core.port.input.impl.OrderGeneratorUseCaseImpl;
 import br.com.alc.ecommerce.channel.core.port.input.impl.OrderNumberGeneratorUseCaseImpl;
+import br.com.alc.ecommerce.channel.core.port.output.AddressFinderOutPort;
 import br.com.alc.ecommerce.channel.core.port.output.OrderIntegratorOutPort;
 import br.com.alc.ecommerce.channel.core.port.output.OrderNumberIntegratorOutPort;
+import br.com.alc.ecommerce.channel.core.service.generator.CepGeneratorService;
+import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderNumberGeneratorService;
+import br.com.alc.ecommerce.channel.core.service.generator.impl.CepGeneratorServiceImpl;
+import br.com.alc.ecommerce.channel.core.service.generator.impl.OrderGeneratorServiceImpl;
 import br.com.alc.ecommerce.channel.core.service.generator.impl.OrderNumberGeneratorServiceImpl;
+import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
+import br.com.alc.ecommerce.channel.core.service.watch.impl.RealWatchService;
 import br.com.alc.ecommerce.channel.infrastructure.EcommerceChannelInfrastructureApplication;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +42,25 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public OrderGeneratorUseCase orderGeneratorUseCase(OrderIntegratorOutPort orderIntegratorOutPort) {
-        return new OrderGeneratorUseCaseImpl(orderIntegratorOutPort);
+    public OrderGeneratorUseCase orderGeneratorUseCase(CepGeneratorService cepGeneratorService,
+                                                       AddressFinderOutPort addressFinderOutPort,
+                                                       OrderGeneratorService orderGeneratorService,
+                                                       OrderIntegratorOutPort orderIntegratorOutPort) {
+        return new OrderGeneratorUseCaseImpl(cepGeneratorService, addressFinderOutPort, orderGeneratorService, orderIntegratorOutPort);
+    }
+
+    @Bean
+    public CepGeneratorService cepGeneratorService() {
+        return new CepGeneratorServiceImpl();
+    }
+
+    @Bean
+    public OrderGeneratorService orderGeneratorService(WatchService watchService) {
+        return new OrderGeneratorServiceImpl(watchService);
+    }
+
+    @Bean
+    public WatchService watchService() {
+        return new RealWatchService();
     }
 }
