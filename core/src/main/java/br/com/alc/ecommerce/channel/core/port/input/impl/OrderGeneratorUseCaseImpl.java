@@ -1,7 +1,7 @@
 package br.com.alc.ecommerce.channel.core.port.input.impl;
 
-import br.com.alc.ecommerce.channel.core.domain.generator.OrderGeneratorRequest;
 import br.com.alc.ecommerce.channel.core.domain.address.AddressResponse;
+import br.com.alc.ecommerce.channel.core.domain.generator.OrderGeneratorRequest;
 import br.com.alc.ecommerce.channel.core.domain.order.OrderRequest;
 import br.com.alc.ecommerce.channel.core.port.input.OrderGeneratorUseCase;
 import br.com.alc.ecommerce.channel.core.port.output.AddressFinderOutPort;

@@ -11,8 +11,11 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+
+import static br.com.alc.ecommerce.channel.infrastructure.util.ConstantesUtil.ADDRESS_FINDER_CACHE;
 
 @EnableCaching
 @Configuration
@@ -24,10 +27,10 @@ public class CacheConfiguration {
     public CacheManager cacheManager(final RedisConnectionFactory redisConnectionFactory, final ResourceLoader resourceLoader) {
         final Map<String, RedisCacheConfiguration> caches = new HashMap<>();
 
-//        caches.put(TAX_FINDER_CACHE, RedisCacheConfiguration.defaultCacheConfig()
-//                .disableCachingNullValues()
-//                .serializeValuesWith(SERIALIZATION_CONTEXT)
-//                .entryTtl(Duration.ofMinutes(5L)));
+        caches.put(ADDRESS_FINDER_CACHE, RedisCacheConfiguration.defaultCacheConfig()
+                .disableCachingNullValues()
+                .serializeValuesWith(SERIALIZATION_CONTEXT)
+                .entryTtl(Duration.ofMinutes(5L)));
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory)

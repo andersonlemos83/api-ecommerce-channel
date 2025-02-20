@@ -1,7 +1,7 @@
 package br.com.alc.ecommerce.channel.core.service.generator.impl;
 
-import br.com.alc.ecommerce.channel.core.domain.generator.OrderGeneratorRequest;
 import br.com.alc.ecommerce.channel.core.domain.address.AddressResponse;
+import br.com.alc.ecommerce.channel.core.domain.generator.OrderGeneratorRequest;
 import br.com.alc.ecommerce.channel.core.domain.order.*;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
@@ -35,8 +35,9 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
     public OrderRequest execute(OrderGeneratorRequest orderGeneratorRequest, AddressResponse addressResponse) {
         log.info("Incoming into OrderGeneratorServiceImpl: {} - {}", generateJson(orderGeneratorRequest), generateJson(addressResponse));
         List<ShoppingCartItem> items = buildRandomItems();
-        BigDecimal totalValue = buildTotalValue(items);
-        BigDecimal freightValue = buildRandomFreightValue(totalValue);
+        BigDecimal totalItemValue = getTotalItemValue(items);
+        BigDecimal freightValue = buildRandomFreightValue(totalItemValue);
+        BigDecimal totalValue = buildTotalValue(totalItemValue, freightValue);
         OrderRequest orderRequest = OrderRequest.builder()
                 .channelCode(buildRandomChannelCode())
                 .companyCode(buildRandomCompanyCode())
@@ -47,7 +48,7 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
                 .orderNumber(orderGeneratorRequest.getOrderNumber())
                 .customer(buildRandomCustomer(addressResponse))
                 .items(items)
-                .payments(buildRandomPayments(totalValue, freightValue))
+                .payments(buildRandomPayments(totalValue))
                 .build();
         log.info("Outgoing from OrderGeneratorServiceImpl: {}", generateJson(orderRequest));
         return orderRequest;
@@ -79,7 +80,7 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
         return BigDecimal.valueOf(randomValue).setScale(2, HALF_EVEN);
     }
 
-    private BigDecimal buildTotalValue(List<ShoppingCartItem> items) {
+    private BigDecimal getTotalItemValue(List<ShoppingCartItem> items) {
         return Optional.ofNullable(items)
                 .orElse(emptyList())
                 .stream()
@@ -87,8 +88,12 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
                 .reduce(ZERO, BigDecimal::add);
     }
 
-    private BigDecimal buildRandomFreightValue(BigDecimal totalValue) {
-        return totalValue.multiply(BigDecimal.valueOf(0.01)).setScale(2, HALF_EVEN);
+    private BigDecimal buildRandomFreightValue(BigDecimal totalItemValue) {
+        return totalItemValue.multiply(BigDecimal.valueOf(0.01)).setScale(2, HALF_EVEN);
+    }
+
+    private BigDecimal buildTotalValue(BigDecimal totalItemValue, BigDecimal freightValue) {
+        return totalItemValue.add(freightValue);
     }
 
     private String buildRandomChannelCode() {
@@ -162,11 +167,15 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
     }
 
     private String buildRandomEmail(String name) {
-        String[] nameParts = name.trim().toLowerCase().split("\\s+");
+        String[] nameParts = name.trim()
+                .toLowerCase()
+                .replace(".", "")
+                .replace(",", "")
+                .split("\\s+");
         return nameParts[0] + (nameParts.length > 1 ? "." + nameParts[nameParts.length - 1] : "") + "@gmail.com";
     }
 
-    private List<Payment> buildRandomPayments(BigDecimal totalValue, BigDecimal freightValue) {
+    private List<Payment> buildRandomPayments(BigDecimal totalValue) {
         PaymentMethod paymentMethod = buildRandomPaymentMethod();
         Payment payment = Payment.builder()
                 .paymentMethod(paymentMethod)
@@ -174,7 +183,7 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
                 .authorizationCode(buildRandomAuthorizationCode())
                 .cardNumber(buildRandomCardNumber(paymentMethod))
                 .pixKey(buildRandomPixKey(paymentMethod))
-                .value(totalValue.add(freightValue))
+                .value(totalValue)
                 .build();
         return Arrays.asList(payment);
     }

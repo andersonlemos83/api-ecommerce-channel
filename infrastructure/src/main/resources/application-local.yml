@@ -12,8 +12,7 @@ spring:
       password:
     mongodb:
       database: ecommerce_db
-      authentication-database: admin
-      uri: mongodb://localhost:27017/ecommerce_db
+      uri: mongodb://admin:secret@localhost:27017/ecommerce_db?authSource=admin
       repositories:
         enabled: true
 
@@ -35,3 +34,5 @@ feign:
 client:
   via-cep:
     url: https://viacep.com.br/
+  ecommerce-checkout:
+    url: http://localhost:8181/

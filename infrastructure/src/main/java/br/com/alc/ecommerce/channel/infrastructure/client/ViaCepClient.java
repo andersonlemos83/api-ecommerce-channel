@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@FeignClient(name = "via-cep", url = "${client.via-cep.url}")
+@FeignClient(name = "api-via-cep", url = "${client.via-cep.url}")
 public interface ViaCepClient {
 
     @Headers("Content-Type: " + APPLICATION_JSON_VALUE)

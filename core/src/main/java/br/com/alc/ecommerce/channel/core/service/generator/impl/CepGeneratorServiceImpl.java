@@ -16,7 +16,6 @@ public final class CepGeneratorServiceImpl implements CepGeneratorService {
             "01001000", // Praça da Sé, São Paulo/SP
             "20040000", // Avenida Rio Branco, Rio de Janeiro/RJ
             "30130000", // Praça Sete de Setembro, Belo Horizonte/MG
-            "40020000", // Avenida Sete de Setembro, Salvador/BA
             "60060000", // Rua Barão do Rio Branco, Fortaleza/CE
             "70040010", // Esplanada dos Ministérios, Brasília/DF
             "80010000", // Praça Tiradentes, Curitiba/PR
@@ -27,7 +26,7 @@ public final class CepGeneratorServiceImpl implements CepGeneratorService {
             "66010000", // Avenida Presidente Vargas, Belém/PA
             "79002000", // Rua 14 de Julho, Campo Grande/MS
             "88010400", // Rua Felipe Schmidt, Florianópolis/SC
-            "64000000", // Avenida Frei Serafim, Teresina/PI
+            "64000020", // Avenida Frei Serafim, Teresina, PI
             "58010000", // Avenida Getúlio Vargas, João Pessoa/PB
             "59010000", // Avenida Rio Branco, Natal/RN
             "76801000", // Avenida Sete de Setembro, Porto Velho/RO

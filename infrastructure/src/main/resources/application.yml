@@ -83,7 +83,7 @@ feign:
 resilience4j:
   circuitbreaker:
     instances:
-      sale-authorizer-circuitbreaker:
+      order-invoicer-circuitbreaker:
         slidingWindowType: TIME_BASED
         slidingWindowSize: 30
         minimumNumberOfCalls: 2
@@ -118,3 +118,5 @@ management:
 client:
   via-cep:
     url: http://localhost:9093/api-via-cep/
+  ecommerce-checkout:
+    url: http://localhost:9094/api-ecommerce-checkout/

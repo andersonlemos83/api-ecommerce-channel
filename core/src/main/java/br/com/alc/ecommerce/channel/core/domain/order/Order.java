@@ -1,0 +1,28 @@
+package br.com.alc.ecommerce.channel.core.domain.order;
+
+import lombok.*;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Data
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public final class Order implements Serializable {
+
+    private String id;
+    private OrderRequest orderRequest;
+    private OrderStatus status;
+    private String errorReason;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
+
+    public String getOrderNumber() {
+        return Optional.ofNullable(orderRequest)
+                .map(OrderRequest::getOrderNumber)
+                .orElse(null);
+    }
+}

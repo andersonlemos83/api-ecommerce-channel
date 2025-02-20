@@ -2,11 +2,11 @@ package br.com.alc.ecommerce.channel.infrastructure.configuration;
 
 import br.com.alc.ecommerce.channel.core.port.input.OrderGeneratorUseCase;
 import br.com.alc.ecommerce.channel.core.port.input.OrderNumberGeneratorUseCase;
+import br.com.alc.ecommerce.channel.core.port.input.OrderProcessorUseCase;
 import br.com.alc.ecommerce.channel.core.port.input.impl.OrderGeneratorUseCaseImpl;
 import br.com.alc.ecommerce.channel.core.port.input.impl.OrderNumberGeneratorUseCaseImpl;
-import br.com.alc.ecommerce.channel.core.port.output.AddressFinderOutPort;
-import br.com.alc.ecommerce.channel.core.port.output.OrderIntegratorOutPort;
-import br.com.alc.ecommerce.channel.core.port.output.OrderNumberIntegratorOutPort;
+import br.com.alc.ecommerce.channel.core.port.input.impl.OrderProcessorUseCaseImpl;
+import br.com.alc.ecommerce.channel.core.port.output.*;
 import br.com.alc.ecommerce.channel.core.service.generator.CepGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderNumberGeneratorService;
@@ -62,5 +62,12 @@ public class BeanConfiguration {
     @Bean
     public WatchService watchService() {
         return new RealWatchService();
+    }
+
+    @Bean
+    public OrderProcessorUseCase orderProcessorUseCase(OrderInserterOutPort orderInserterOutPort,
+                                                       OrderInvoicerOutPort orderInvoicerOutPort,
+                                                       WatchService watchService) {
+        return new OrderProcessorUseCaseImpl(orderInserterOutPort, orderInvoicerOutPort, watchService);
     }
 }
