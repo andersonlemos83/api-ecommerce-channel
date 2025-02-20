@@ -1,6 +1,6 @@
 package br.com.alc.ecommerce.channel.infrastructure.client;
 
-import br.com.alc.ecommerce.channel.infrastructure.dto.location.AddressResponseDto;
+import br.com.alc.ecommerce.channel.infrastructure.dto.address.AddressResponseDto;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

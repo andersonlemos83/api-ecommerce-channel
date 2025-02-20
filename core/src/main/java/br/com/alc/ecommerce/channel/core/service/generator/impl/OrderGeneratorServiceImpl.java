@@ -1,7 +1,7 @@
 package br.com.alc.ecommerce.channel.core.service.generator.impl;
 
 import br.com.alc.ecommerce.channel.core.domain.generator.OrderGeneratorRequest;
-import br.com.alc.ecommerce.channel.core.domain.location.AddressResponse;
+import br.com.alc.ecommerce.channel.core.domain.address.AddressResponse;
 import br.com.alc.ecommerce.channel.core.domain.order.*;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
@@ -192,7 +192,7 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
 
     private String buildRandomCardNumber(PaymentMethod paymentMethod) {
         return Optional.ofNullable(paymentMethod)
-                .filter(p -> CREDIT.equals(p) && DEBIT.equals(p))
+                .filter(p -> CREDIT.equals(p) || DEBIT.equals(p))
                 .map(p -> {
                     int randomPrefix = ThreadLocalRandom.current().nextInt(10000000, 99999999);
                     int randomSufix = ThreadLocalRandom.current().nextInt(10000000, 99999999);

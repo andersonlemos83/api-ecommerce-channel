@@ -1,4 +1,4 @@
-package br.com.alc.ecommerce.channel.infrastructure.dto.location;
+package br.com.alc.ecommerce.channel.infrastructure.dto.address;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

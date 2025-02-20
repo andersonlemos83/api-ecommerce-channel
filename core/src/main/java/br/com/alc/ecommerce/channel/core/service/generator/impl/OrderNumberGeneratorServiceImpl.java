@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import reactor.core.publisher.Flux;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static br.com.alc.ecommerce.channel.core.util.ObjectMapperUtil.generateJson;

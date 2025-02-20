@@ -1,11 +1,11 @@
 package br.com.alc.ecommerce.channel.infrastructure.adapter.output;
 
-import br.com.alc.ecommerce.channel.core.domain.location.AddressResponse;
+import br.com.alc.ecommerce.channel.core.domain.address.AddressResponse;
 import br.com.alc.ecommerce.channel.core.exception.DefaultOutPortException;
 import br.com.alc.ecommerce.channel.core.exception.ZipCodeNotFoundException;
 import br.com.alc.ecommerce.channel.core.port.output.AddressFinderOutPort;
 import br.com.alc.ecommerce.channel.infrastructure.client.ViaCepClient;
-import br.com.alc.ecommerce.channel.infrastructure.dto.location.AddressResponseDto;
+import br.com.alc.ecommerce.channel.infrastructure.dto.address.AddressResponseDto;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;

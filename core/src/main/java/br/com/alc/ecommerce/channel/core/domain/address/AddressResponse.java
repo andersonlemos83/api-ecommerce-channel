@@ -1,4 +1,4 @@
-package br.com.alc.ecommerce.channel.core.domain.location;
+package br.com.alc.ecommerce.channel.core.domain.address;
 
 import lombok.*;
 
