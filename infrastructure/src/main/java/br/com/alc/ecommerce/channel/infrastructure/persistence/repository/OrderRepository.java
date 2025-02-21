@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository extends MongoRepository<OrderDocument, String> {
 
-    Optional<OrderDocument> findFirstByOrderRequest_OrderNumber(String orderNumber);
+    Optional<OrderDocument> findFirstByOrderRequest_OrderNumberOrderByUpdatedDateDesc(String orderNumber);
 
 }

@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import static br.com.alc.ecommerce.channel.core.domain.order.OrderStatus.INVOICED;
+
 @Data
 @Builder
 @ToString
@@ -24,5 +26,9 @@ public final class Order implements Serializable {
         return Optional.ofNullable(orderRequest)
                 .map(OrderRequest::getOrderNumber)
                 .orElse(null);
+    }
+
+    public boolean isInvoiced() {
+        return INVOICED.equals(status);
     }
 }

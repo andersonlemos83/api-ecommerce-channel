@@ -19,7 +19,8 @@ public final class OrderNumberGeneratorServiceImpl implements OrderNumberGenerat
     @Override
     public Flux<String> execute(OrderBotRequest orderBotRequest) {
         return Flux.range(0, orderBotRequest.getOrderQuantity())
-                .map(i -> ThreadLocalRandom.current().nextInt(BOUND))
+                .doOnNext(q -> log.info("Incoming into OrderNumberGeneratorServiceImpl: {}", generateJson(q)))
+                .map(q -> ThreadLocalRandom.current().nextInt(BOUND))
                 .map(String::valueOf)
                 .doOnNext(orderNumber -> log.info("Outgoing from OrderNumberGeneratorServiceImpl: {}", generateJson(orderNumber)));
     }

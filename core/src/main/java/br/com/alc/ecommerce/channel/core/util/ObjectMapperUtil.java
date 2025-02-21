@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.*;
@@ -37,6 +39,15 @@ public final class ObjectMapperUtil {
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
             return object.toString();
+        }
+    }
+
+    public static Map<String, Object> generateMap(String json) {
+        try {
+            return ObjectMapperUtil.getInstance().readValue(json, Map.class);
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+            return new HashMap<>();
         }
     }
 }

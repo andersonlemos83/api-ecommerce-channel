@@ -15,7 +15,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(NON_NULL)
-public final class ErrorResponseDto implements Serializable {
+public class ErrorResponseDto implements Serializable {
 
     @Schema(description = "Response HTTP status", example = "BAD_REQUEST")
     private HttpStatus httpStatus;
