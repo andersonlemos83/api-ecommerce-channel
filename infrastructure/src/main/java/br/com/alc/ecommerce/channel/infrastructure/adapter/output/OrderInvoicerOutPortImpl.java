@@ -9,7 +9,6 @@ import br.com.alc.ecommerce.channel.infrastructure.client.EcommerceCheckoutClien
 import br.com.alc.ecommerce.channel.infrastructure.dto.order.OrderRequestDto;
 import br.com.alc.ecommerce.channel.infrastructure.dto.order.OrderResponseDto;
 import feign.FeignException;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -30,7 +29,6 @@ public class OrderInvoicerOutPortImpl implements OrderInvoicerOutPort {
     private final ModelMapper modelMapper;
 
     @Override
-    @CircuitBreaker(name = "order-invoicer-circuitbreaker")
     public OrderResponse execute(OrderRequest orderRequest) {
         try {
             log.debug("Incoming into OrderInvoicerOutPortImpl: {}", generateJson(orderRequest));
@@ -42,11 +40,11 @@ public class OrderInvoicerOutPortImpl implements OrderInvoicerOutPort {
             log.debug("Outgoing from OrderInvoicerOutPortImpl: {}", generateJson(orderResponse));
             return orderResponse;
         } catch (FeignException exception) {
-            log.error("Error in the TaxFinderOutPortImpl: {}", getMessage(exception), exception);
+            log.error("Error in the OrderInvoicerOutPortImpl: {}", getMessage(exception), exception);
             Map<String, Object> properties = ObjectMapperUtil.generateMap(exception.contentUTF8());
             String message = Optional.ofNullable(properties.get("message"))
                     .map(String.class::cast)
-                    .orElse(exception.contentUTF8());
+                    .orElse(exception.getMessage());
             throw new DefaultOutPortException(message, exception.getCause());
         }
     }

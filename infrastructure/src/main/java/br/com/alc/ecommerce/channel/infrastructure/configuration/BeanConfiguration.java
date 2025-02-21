@@ -65,9 +65,10 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public OrderProcessorUseCase orderProcessorUseCase(OrderInserterOutPort orderInserterOutPort,
+    public OrderProcessorUseCase orderProcessorUseCase(MostRecentOrderFinderOutPort mostRecentOrderFinderOutPort,
+                                                       OrderInserterOutPort orderInserterOutPort,
                                                        OrderInvoicerOutPort orderInvoicerOutPort,
                                                        WatchService watchService) {
-        return new OrderProcessorUseCaseImpl(orderInserterOutPort, orderInvoicerOutPort, watchService);
+        return new OrderProcessorUseCaseImpl(mostRecentOrderFinderOutPort, orderInserterOutPort, orderInvoicerOutPort, watchService);
     }
 }
