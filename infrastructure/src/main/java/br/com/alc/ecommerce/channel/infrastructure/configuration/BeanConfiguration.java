@@ -1,8 +1,10 @@
 package br.com.alc.ecommerce.channel.infrastructure.configuration;
 
+import br.com.alc.ecommerce.channel.core.port.input.OrderCallbackProcessorUseCase;
 import br.com.alc.ecommerce.channel.core.port.input.OrderGeneratorUseCase;
 import br.com.alc.ecommerce.channel.core.port.input.OrderNumberGeneratorUseCase;
 import br.com.alc.ecommerce.channel.core.port.input.OrderProcessorUseCase;
+import br.com.alc.ecommerce.channel.core.port.input.impl.OrderCallbackProcessorUseCaseImpl;
 import br.com.alc.ecommerce.channel.core.port.input.impl.OrderGeneratorUseCaseImpl;
 import br.com.alc.ecommerce.channel.core.port.input.impl.OrderNumberGeneratorUseCaseImpl;
 import br.com.alc.ecommerce.channel.core.port.input.impl.OrderProcessorUseCaseImpl;
@@ -70,5 +72,12 @@ public class BeanConfiguration {
                                                        OrderInvoicerOutPort orderInvoicerOutPort,
                                                        WatchService watchService) {
         return new OrderProcessorUseCaseImpl(mostRecentOrderFinderOutPort, orderInserterOutPort, orderInvoicerOutPort, watchService);
+    }
+
+    @Bean
+    public OrderCallbackProcessorUseCase orderCallbackProcessorUseCase(MostRecentOrderFinderOutPort mostRecentOrderFinderOutPort,
+                                                                       OrderInserterOutPort orderInserterOutPort,
+                                                                       WatchService watchService) {
+        return new OrderCallbackProcessorUseCaseImpl(mostRecentOrderFinderOutPort, orderInserterOutPort, watchService);
     }
 }

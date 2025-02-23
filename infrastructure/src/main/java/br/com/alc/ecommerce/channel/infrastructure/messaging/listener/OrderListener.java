@@ -20,7 +20,7 @@ public class OrderListener {
     private final OrderProcessorInAdapter orderProcessorInAdapter;
 
     @RabbitListener(queues = {"${spring.rabbitmq.order-queue}"})
-    public void authorizeSale(OrderRequestDto orderRequestDto) {
+    public void processOrder(OrderRequestDto orderRequestDto) {
         try {
             log.info("---> Listener of the order-queue: {}", generateJson(orderRequestDto));
             orderProcessorInAdapter.execute(orderRequestDto);

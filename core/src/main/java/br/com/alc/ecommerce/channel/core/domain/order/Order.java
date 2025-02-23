@@ -16,7 +16,13 @@ import static br.com.alc.ecommerce.channel.core.domain.order.OrderStatus.INVOICE
 public final class Order implements Serializable {
 
     private String id;
+
     private OrderRequest orderRequest;
+    private String invoiceKey;
+    private String invoiceNumber;
+    private LocalDateTime issuanceDate;
+    private String invoiceBase64;
+
     private OrderStatus status;
     private String errorReason;
     private LocalDateTime createdDate;

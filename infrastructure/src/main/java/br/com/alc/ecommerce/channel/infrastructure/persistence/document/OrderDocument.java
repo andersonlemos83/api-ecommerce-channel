@@ -22,7 +22,12 @@ public class OrderDocument {
 
     @Id
     private String id;
+
     private OrderRequestDto orderRequest;
+    private String invoiceKey;
+    private String invoiceNumber;
+    private LocalDateTime issuanceDate;
+    private String invoiceBase64;
 
     private OrderStatus status;
     private String errorReason;

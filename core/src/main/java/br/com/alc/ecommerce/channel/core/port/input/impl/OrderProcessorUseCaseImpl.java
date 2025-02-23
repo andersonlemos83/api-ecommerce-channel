@@ -23,7 +23,7 @@ import static org.apache.commons.lang3.exception.ExceptionUtils.getMessage;
 @AllArgsConstructor
 public final class OrderProcessorUseCaseImpl implements OrderProcessorUseCase {
 
-    private static final String OUTGOING_FROM_ORDER_PROCESSOR_USE_CASE_IMPL = "Outgoing from OrderProcessorUseCaseImpl: {} - {}";
+    private static final String OUTGOING_TEMPLATE = "Outgoing from OrderProcessorUseCaseImpl: {} - {}";
 
     private final MostRecentOrderFinderOutPort mostRecentOrderFinderOutPort;
     private final OrderInserterOutPort orderInserterOutPort;
@@ -36,7 +36,7 @@ public final class OrderProcessorUseCaseImpl implements OrderProcessorUseCase {
         Optional<Order> orderOptional = mostRecentOrderFinderOutPort.execute(orderRequest.getOrderNumber());
 
         if (orderOptional.filter(Order::isInvoiced).isPresent()) {
-            log.info(OUTGOING_FROM_ORDER_PROCESSOR_USE_CASE_IMPL, orderOptional.get().getStatus(), generateJson(orderOptional.get()));
+            log.info(OUTGOING_TEMPLATE, orderOptional.get().getStatus(), generateJson(orderOptional.get()));
             return;
         }
 
@@ -49,12 +49,12 @@ public final class OrderProcessorUseCaseImpl implements OrderProcessorUseCase {
             }
             Order invoicePendingOrder = buildInvoicePendingOrder(orderRequest);
             orderInserterOutPort.execute(invoicePendingOrder);
-            log.info(OUTGOING_FROM_ORDER_PROCESSOR_USE_CASE_IMPL, invoicePendingOrder.getStatus(), generateJson(invoicePendingOrder));
+            log.info(OUTGOING_TEMPLATE, invoicePendingOrder.getStatus(), generateJson(invoicePendingOrder));
         } catch (Exception exception) {
             log.error("Error in the OrderProcessorUseCaseImpl: {}", getMessage(exception), exception);
             Order errorOrder = buildErrorOrder(orderRequest, exception.getMessage());
             orderInserterOutPort.execute(errorOrder);
-            log.info(OUTGOING_FROM_ORDER_PROCESSOR_USE_CASE_IMPL, errorOrder.getStatus(), generateJson(errorOrder));
+            log.info(OUTGOING_TEMPLATE, errorOrder.getStatus(), generateJson(errorOrder));
         }
     }
 

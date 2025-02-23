@@ -20,7 +20,7 @@ public class OrderGeneratorListener {
     private final OrderGeneratorInAdapter orderGeneratorInAdapter;
 
     @RabbitListener(queues = {"${spring.rabbitmq.order-generator-queue}"})
-    public void authorizeSale(OrderGeneratorRequestDto orderGeneratorRequestDto) {
+    public void generateOrder(OrderGeneratorRequestDto orderGeneratorRequestDto) {
         try {
             log.info("---> Listener of the order-generator-queue: {}", generateJson(orderGeneratorRequestDto));
             orderGeneratorInAdapter.execute(orderGeneratorRequestDto);
