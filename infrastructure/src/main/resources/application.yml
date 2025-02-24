@@ -38,9 +38,6 @@ spring:
   web:
     locale: pt_BR
     locale-resolver: accept_header
-  mvc:
-    pathmatch:
-      matching-strategy: path_pattern_parser
   data:
     redis:
       repositories:
@@ -71,6 +68,7 @@ endpoints:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+    enabled: true
 
 feign:
   circuitbreaker:

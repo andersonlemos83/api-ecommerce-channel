@@ -19,8 +19,9 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
 
 @Log4j2
-@AllArgsConstructor
 @RestController
+@AllArgsConstructor
+@RequestMapping("/order")
 public class OrderController {
 
     private final OrderNumberGeneratorInAdapter orderNumberGeneratorInAdapter;
@@ -28,21 +29,21 @@ public class OrderController {
     private final ByPeriodOrderFinderInAdapter byPeriodOrderFinderInAdapter;
 
     @ResponseStatus(CREATED)
-    @PostMapping(value = "/start-order-bot", produces = TEXT_EVENT_STREAM_VALUE)
+    @PostMapping(value = "/start-bot", produces = TEXT_EVENT_STREAM_VALUE)
     public Flux<OrderBotResponseDto> startOrderBot(@Valid @RequestBody OrderBotRequestDto orderBotRequestDto) {
         log.info("---> Request POST /order/start-bot: {}", generateJson(orderBotRequestDto));
         return orderNumberGeneratorInAdapter.execute(orderBotRequestDto)
                 .doOnNext(responses -> log.info("<--- Response POST /order/start-bot: {}", generateJson(responses)));
     }
 
-    @GetMapping(value = "/order/{orderNumber}", produces = TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/{orderNumber}", produces = TEXT_EVENT_STREAM_VALUE)
     public Mono<OrderFinderResponseDto> findOrdersByOrderNumber(@PathVariable("orderNumber") String orderNumber) {
         log.info("---> Request GET /order/{}", orderNumber);
         return byOrderNumberOrderFinderInAdapter.execute(orderNumber)
                 .doFinally(responses -> log.info("<--- Response GET /order/{}: {}", orderNumber, generateJson(responses)));
     }
 
-    @GetMapping(value = "/order/paginated", produces = TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/paginated", produces = TEXT_EVENT_STREAM_VALUE)
     public Flux<OrderFinderResponseDto> findOrdersByPeriod(@RequestParam OrderFinderRequestDto orderFinderRequestDto) {
         log.info("---> Request GET /order/paginated: {}", generateJson(orderFinderRequestDto));
         return byPeriodOrderFinderInAdapter.execute(orderFinderRequestDto)
