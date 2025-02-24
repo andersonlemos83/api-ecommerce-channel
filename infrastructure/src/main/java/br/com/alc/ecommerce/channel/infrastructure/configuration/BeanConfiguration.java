@@ -1,13 +1,7 @@
 package br.com.alc.ecommerce.channel.infrastructure.configuration;
 
-import br.com.alc.ecommerce.channel.core.port.input.OrderCallbackProcessorUseCase;
-import br.com.alc.ecommerce.channel.core.port.input.OrderGeneratorUseCase;
-import br.com.alc.ecommerce.channel.core.port.input.OrderNumberGeneratorUseCase;
-import br.com.alc.ecommerce.channel.core.port.input.OrderProcessorUseCase;
-import br.com.alc.ecommerce.channel.core.port.input.impl.OrderCallbackProcessorUseCaseImpl;
-import br.com.alc.ecommerce.channel.core.port.input.impl.OrderGeneratorUseCaseImpl;
-import br.com.alc.ecommerce.channel.core.port.input.impl.OrderNumberGeneratorUseCaseImpl;
-import br.com.alc.ecommerce.channel.core.port.input.impl.OrderProcessorUseCaseImpl;
+import br.com.alc.ecommerce.channel.core.port.input.*;
+import br.com.alc.ecommerce.channel.core.port.input.impl.*;
 import br.com.alc.ecommerce.channel.core.port.output.*;
 import br.com.alc.ecommerce.channel.core.service.generator.CepGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
@@ -79,5 +73,15 @@ public class BeanConfiguration {
                                                                        OrderInserterOutPort orderInserterOutPort,
                                                                        WatchService watchService) {
         return new OrderCallbackProcessorUseCaseImpl(mostRecentOrderFinderOutPort, orderInserterOutPort, watchService);
+    }
+
+    @Bean
+    public ByOrderNumberOrderFinderUseCase byOrderNumberOrderFinderUseCase(ByOrderNumberOrderFinderOutPort byOrderNumberOrderFinderOutPort) {
+        return new ByOrderNumberOrderFinderUseCaseImpl(byOrderNumberOrderFinderOutPort);
+    }
+
+    @Bean
+    public ByPeriodOrderFinderUseCase byPeriodOrderFinderUseCase() {
+        return new ByPeriodOrderFinderUseCaseImpl();
     }
 }
