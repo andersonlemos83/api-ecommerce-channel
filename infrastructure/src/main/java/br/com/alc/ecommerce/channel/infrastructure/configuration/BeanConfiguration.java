@@ -9,6 +9,8 @@ import br.com.alc.ecommerce.channel.core.service.generator.OrderNumberGeneratorS
 import br.com.alc.ecommerce.channel.core.service.generator.impl.CepGeneratorServiceImpl;
 import br.com.alc.ecommerce.channel.core.service.generator.impl.OrderGeneratorServiceImpl;
 import br.com.alc.ecommerce.channel.core.service.generator.impl.OrderNumberGeneratorServiceImpl;
+import br.com.alc.ecommerce.channel.core.service.validator.ByPeriodOrderFinderValidatorService;
+import br.com.alc.ecommerce.channel.core.service.validator.impl.ByPeriodOrderFinderValidatorServiceImpl;
 import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
 import br.com.alc.ecommerce.channel.core.service.watch.impl.RealWatchService;
 import br.com.alc.ecommerce.channel.infrastructure.EcommerceChannelInfrastructureApplication;
@@ -16,6 +18,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import static org.modelmapper.convention.MatchingStrategies.LOOSE;
 
 @Configuration
 @ComponentScan(basePackageClasses = EcommerceChannelInfrastructureApplication.class)
@@ -35,6 +39,13 @@ public class BeanConfiguration {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+
+    @Bean
+    public ModelMapper looseModelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(LOOSE);
+        return modelMapper;
     }
 
     @Bean
@@ -81,7 +92,13 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ByPeriodOrderFinderUseCase byPeriodOrderFinderUseCase() {
-        return new ByPeriodOrderFinderUseCaseImpl();
+    public ByPeriodOrderFinderUseCase byPeriodOrderFinderUseCase(ByPeriodOrderFinderValidatorService byPeriodOrderFinderValidatorService,
+                                                                 ByPeriodOrderFinderFinderOutPort byPeriodOrderFinderFinderOutPort) {
+        return new ByPeriodOrderFinderUseCaseImpl(byPeriodOrderFinderValidatorService, byPeriodOrderFinderFinderOutPort);
+    }
+
+    @Bean
+    public ByPeriodOrderFinderValidatorService byPeriodOrderFinderValidatorService() {
+        return new ByPeriodOrderFinderValidatorServiceImpl();
     }
 }

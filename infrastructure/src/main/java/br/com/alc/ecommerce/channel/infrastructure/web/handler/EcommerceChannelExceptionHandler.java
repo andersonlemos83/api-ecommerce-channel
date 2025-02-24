@@ -1,6 +1,7 @@
 package br.com.alc.ecommerce.channel.infrastructure.web.handler;
 
 import br.com.alc.ecommerce.channel.core.exception.OrderNotFoundException;
+import br.com.alc.ecommerce.channel.core.exception.PeriodInvalidException;
 import br.com.alc.ecommerce.channel.infrastructure.dto.error.ErrorResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,15 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @ControllerAdvice
 public class EcommerceChannelExceptionHandler {
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        return Mono.just(Objects.requireNonNull(exception.getBindingResult()))
+                .map(this::joiningMessages)
+                .map(this::buildBadRequestErrorResponseDto)
+                .map(this::buildBadRequestResponseEntity)
+                .block();
+    }
+
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleOrderNotFoundException(OrderNotFoundException exception) {
         return Mono.just(exception)
@@ -29,13 +39,12 @@ public class EcommerceChannelExceptionHandler {
                 .block();
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        return Mono.just(Objects.requireNonNull(exception.getBindingResult()))
-                .map(this::joiningMessages)
+    @ExceptionHandler(PeriodInvalidException.class)
+    public Mono<ResponseEntity<ErrorResponseDto>> handlePeriodInvalidException(PeriodInvalidException exception) {
+        return Mono.just(exception)
+                .map(PeriodInvalidException::getMessage)
                 .map(this::buildBadRequestErrorResponseDto)
-                .map(this::buildBadRequestResponseEntity)
-                .block();
+                .map(this::buildBadRequestResponseEntity);
     }
 
     private String joiningMessages(BindingResult bindingResult) {

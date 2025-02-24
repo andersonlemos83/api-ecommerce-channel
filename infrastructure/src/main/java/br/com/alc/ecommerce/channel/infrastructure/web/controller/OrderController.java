@@ -5,8 +5,9 @@ import br.com.alc.ecommerce.channel.infrastructure.adapter.input.ByPeriodOrderFi
 import br.com.alc.ecommerce.channel.infrastructure.adapter.input.OrderNumberGeneratorInAdapter;
 import br.com.alc.ecommerce.channel.infrastructure.dto.bot.OrderBotRequestDto;
 import br.com.alc.ecommerce.channel.infrastructure.dto.bot.OrderBotResponseDto;
+import br.com.alc.ecommerce.channel.infrastructure.dto.finder.FullOrderFinderResponseDto;
+import br.com.alc.ecommerce.channel.infrastructure.dto.finder.HalfOrderFinderResponseDto;
 import br.com.alc.ecommerce.channel.infrastructure.dto.finder.OrderFinderRequestDto;
-import br.com.alc.ecommerce.channel.infrastructure.dto.finder.OrderFinderResponseDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -37,14 +38,14 @@ public class OrderController {
     }
 
     @GetMapping(value = "/{orderNumber}", produces = TEXT_EVENT_STREAM_VALUE)
-    public Mono<OrderFinderResponseDto> findOrdersByOrderNumber(@PathVariable("orderNumber") String orderNumber) {
+    public Mono<FullOrderFinderResponseDto> findOrdersByOrderNumber(@PathVariable("orderNumber") String orderNumber) {
         log.info("---> Request GET /order/{}", orderNumber);
         return byOrderNumberOrderFinderInAdapter.execute(orderNumber)
                 .doFinally(responses -> log.info("<--- Response GET /order/{}: {}", orderNumber, generateJson(responses)));
     }
 
     @GetMapping(value = "/paginated", produces = TEXT_EVENT_STREAM_VALUE)
-    public Flux<OrderFinderResponseDto> findOrdersByPeriod(@RequestParam OrderFinderRequestDto orderFinderRequestDto) {
+    public Flux<HalfOrderFinderResponseDto> findOrdersByPeriod(@Valid @ModelAttribute OrderFinderRequestDto orderFinderRequestDto) {
         log.info("---> Request GET /order/paginated: {}", generateJson(orderFinderRequestDto));
         return byPeriodOrderFinderInAdapter.execute(orderFinderRequestDto)
                 .doFinally(responses -> log.info("<--- Response GET /order/paginated: {}", generateJson(responses)));

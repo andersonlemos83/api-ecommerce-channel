@@ -84,7 +84,7 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
         return Optional.ofNullable(items)
                 .orElse(emptyList())
                 .stream()
-                .map(ShoppingCartItem::getTotalItemValue)
+                .map(ShoppingCartItem::generateTotalItemValue)
                 .reduce(ZERO, BigDecimal::add);
     }
 

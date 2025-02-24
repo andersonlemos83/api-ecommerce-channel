@@ -28,7 +28,7 @@ public final class Order implements Serializable {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public String getOrderNumber() {
+    public String fetchOrderNumber() {
         return Optional.ofNullable(orderRequest)
                 .map(OrderRequest::getOrderNumber)
                 .orElse(null);

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderFinderResponseDto implements Serializable {
+public class HalfOrderFinderResponseDto implements Serializable {
 
     private String id;
 
@@ -23,6 +23,10 @@ public class OrderFinderResponseDto implements Serializable {
     private String orderNumber;
     private BigDecimal totalValue;
     private BigDecimal freightValue;
+
+    private String invoiceKey;
+    private String invoiceNumber;
+    private LocalDateTime issuanceDate;
 
     private OrderStatus status;
     private String errorReason;

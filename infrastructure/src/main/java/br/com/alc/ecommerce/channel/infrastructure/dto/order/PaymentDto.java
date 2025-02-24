@@ -20,8 +20,8 @@ public class PaymentDto implements Serializable {
 
     private PaymentMethod paymentMethod;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime paymentDate;
     private String authorizationCode;
     private String cardNumber;

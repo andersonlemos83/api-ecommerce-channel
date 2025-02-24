@@ -3,7 +3,7 @@ package br.com.alc.ecommerce.channel.infrastructure.adapter.input.impl;
 import br.com.alc.ecommerce.channel.core.domain.order.Order;
 import br.com.alc.ecommerce.channel.core.port.input.ByOrderNumberOrderFinderUseCase;
 import br.com.alc.ecommerce.channel.infrastructure.adapter.input.ByOrderNumberOrderFinderInAdapter;
-import br.com.alc.ecommerce.channel.infrastructure.dto.finder.OrderFinderResponseDto;
+import br.com.alc.ecommerce.channel.infrastructure.dto.finder.FullOrderFinderResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -21,7 +21,7 @@ public class ByOrderNumberOrderFinderInAdapterImpl implements ByOrderNumberOrder
     private final ModelMapper modelMapper;
 
     @Override
-    public Mono<OrderFinderResponseDto> execute(String orderNumber) {
+    public Mono<FullOrderFinderResponseDto> execute(String orderNumber) {
         return Mono.just(orderNumber)
                 .doOnNext(in -> log.debug("Incoming into ByOrderNumberOrderFinderInAdapterImpl: {}", generateJson(in)))
                 .flatMap(byOrderNumberOrderFinderUseCase::execute)
@@ -29,7 +29,7 @@ public class ByOrderNumberOrderFinderInAdapterImpl implements ByOrderNumberOrder
                 .doOnNext(out -> log.debug("Outgoing from ByOrderNumberOrderFinderInAdapterImpl: {}", generateJson(out)));
     }
 
-    private OrderFinderResponseDto buildOrderFinderResponseDto(Order order) {
-        return modelMapper.map(order, OrderFinderResponseDto.class);
+    private FullOrderFinderResponseDto buildOrderFinderResponseDto(Order order) {
+        return modelMapper.map(order, FullOrderFinderResponseDto.class);
     }
 }

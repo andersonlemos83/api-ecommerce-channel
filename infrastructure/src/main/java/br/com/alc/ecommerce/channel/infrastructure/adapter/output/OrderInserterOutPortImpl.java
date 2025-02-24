@@ -25,7 +25,7 @@ public class OrderInserterOutPortImpl implements OrderInserterOutPort {
     public void execute(Order order) {
         log.debug("Incoming into OrderInserterOutPortImpl: {}", generateJson(order));
         OrderDocument orderDocument = modelMapper.map(order, OrderDocument.class);
-        Optional<OrderDocument> orderOptional = orderRepository.findFirstByOrderRequest_OrderNumberOrderByUpdatedDateDesc(order.getOrderNumber());
+        Optional<OrderDocument> orderOptional = orderRepository.findFirstByOrderRequest_OrderNumberOrderByUpdatedDateDesc(order.fetchOrderNumber());
         orderOptional.ifPresent(document -> orderDocument.setId(document.getId()));
         OrderDocument insertedOrderDocument = orderRepository.save(orderDocument);
         log.debug("Outgoing from OrderInserterOutPortImpl: {}", generateJson(insertedOrderDocument));
