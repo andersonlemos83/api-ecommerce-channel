@@ -5,6 +5,7 @@ import br.com.alc.ecommerce.channel.core.domain.generator.OrderGeneratorRequest;
 import br.com.alc.ecommerce.channel.core.domain.order.Customer;
 import br.com.alc.ecommerce.channel.core.domain.order.OrderRequest;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
+import br.com.alc.ecommerce.channel.core.service.watch.stub.VirtualWatchService;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.order.OrderRequestDataTable;
 import br.com.alc.ecommerce.channel.infrastructure.helper.util.ObjectMapperHelper;
 
@@ -23,6 +24,7 @@ public class OrderGeneratorServiceStub implements OrderGeneratorService {
     @Override
     public OrderRequest execute(OrderGeneratorRequest orderGeneratorRequest, AddressResponse addressResponse) {
         orderRequest.setOrderNumber(orderGeneratorRequest.getOrderNumber());
+
         Optional.ofNullable(orderRequest.getCustomer())
                 .ifPresent(customer -> {
                     customer.setAddress(addressResponse.getStreet());
@@ -33,6 +35,11 @@ public class OrderGeneratorServiceStub implements OrderGeneratorService {
                     customer.setZipCode(addressResponse.getZipCode());
                     customer.setPhone(customer.getPhone().replace("XX", addressResponse.getDdd()));
                 });
+
+        Optional.ofNullable(orderRequest.getPayments())
+                .orElse(emptyList())
+                .forEach(payment -> payment.setPaymentDate(new VirtualWatchService().nowLocalDateTime()));
+
         return orderRequest;
     }
 

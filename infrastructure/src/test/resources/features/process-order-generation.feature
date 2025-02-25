@@ -20,16 +20,16 @@ Funcionalidade: Processar Geracao Pedido
       | Channel Code | Company Code | Store Code | Pos | Total Value | Freight Value |
       | APP          | 001          | 100        | 105 | 105.04      | 5.05          |
     E que seja gerado os seguintes dados de Customer
-      | Name              | Document    | Document Type | Address Number | Country | Phone       | Email                        |
-      | Martin Kauê Lopes | 60778532402 | CPF           | 622            | Brasil  | XX992344475 | martin_lopes@rafaelmarin.net |
+      | Name              | Document       | Document Type | Address Number | Country | Phone           | Email                        |
+      | Martin Kauê Lopes | 607.785.324-02 | CPF           | 622            | Brasil  | (XX) 99234-4475 | martin_lopes@rafaelmarin.net |
     E que seja gerado os seguintes dados de Shopping Cart Item
       | Code         | Quantity | Value |
       | 100231933559 | 1        | 7.09  |
       | 874631202305 | 2        | 17.68 |
       | 392084657819 | 3        | 19.18 |
     E que seja gerado os seguintes dados de Payment
-      | Payment Method | Payment Date        | Authorization Code | Card Number      | Pix Key | Value  |
-      | CREDIT         | 2025-01-30T13:45:01 | 270606             | 3556777163651312 |         | 105.04 |
+      | Payment Method | Authorization Code | Card Number      | Pix Key | Value  |
+      | CREDIT         | 270606             | 3556777163651312 |         | 105.04 |
     Quando processar geracao pedido
     Entao deveria publicar o JSON esperado na fila
       | Queue Name  | Json Key  |
@@ -48,16 +48,16 @@ Funcionalidade: Processar Geracao Pedido
       | Channel Code | Company Code | Store Code | Pos | Total Value | Freight Value |
       | APP          | 001          | 100        | 105 | 105.04      | 5.05          |
     E que seja gerado os seguintes dados de Customer
-      | Name              | Document    | Document Type | Address Number | Country | Phone       | Email                        |
-      | Martin Kauê Lopes | 60778532402 | CPF           | 622            | Brasil  | XX992344475 | martin_lopes@rafaelmarin.net |
+      | Name              | Document       | Document Type | Address Number | Country | Phone           | Email                        |
+      | Martin Kauê Lopes | 607.785.324-02 | CPF           | 622            | Brasil  | (XX) 99234-4475 | martin_lopes@rafaelmarin.net |
     E que seja gerado os seguintes dados de Shopping Cart Item
       | Code         | Quantity | Value |
       | 100231933559 | 1        | 7.09  |
       | 874631202305 | 2        | 17.68 |
       | 392084657819 | 3        | 19.18 |
     E que seja gerado os seguintes dados de Payment
-      | Payment Method | Payment Date        | Authorization Code | Card Number      | Pix Key | Value  |
-      | CREDIT         | 2025-01-30T13:45:01 | 270606             | 3556777163651312 |         | 105.04 |
+      | Payment Method | Authorization Code | Card Number      | Pix Key | Value  |
+      | CREDIT         | 270606             | 3556777163651312 |         | 105.04 |
     Quando processar geracao pedido
     Entao nao deveria publicar nenhum JSON na fila
       | Queue Name  |
@@ -76,16 +76,16 @@ Funcionalidade: Processar Geracao Pedido
       | Channel Code | Company Code | Store Code | Pos | Total Value | Freight Value |
       | APP          | 001          | 100        | 105 | 105.04      | 5.05          |
     E que seja gerado os seguintes dados de Customer
-      | Name              | Document    | Document Type | Address Number | Country | Phone       | Email                        |
-      | Martin Kauê Lopes | 60778532402 | CPF           | 622            | Brasil  | XX992344475 | martin_lopes@rafaelmarin.net |
+      | Name              | Document       | Document Type | Address Number | Country | Phone           | Email                        |
+      | Martin Kauê Lopes | 607.785.324-02 | CPF           | 622            | Brasil  | (XX) 99234-4475 | martin_lopes@rafaelmarin.net |
     E que seja gerado os seguintes dados de Shopping Cart Item
       | Code         | Quantity | Value |
       | 100231933559 | 1        | 7.09  |
       | 874631202305 | 2        | 17.68 |
       | 392084657819 | 3        | 19.18 |
     E que seja gerado os seguintes dados de Payment
-      | Payment Method | Payment Date        | Authorization Code | Card Number      | Pix Key | Value  |
-      | CREDIT         | 2025-01-30T13:45:01 | 270606             | 3556777163651312 |         | 105.04 |
+      | Payment Method | Authorization Code | Card Number      | Pix Key | Value  |
+      | CREDIT         | 270606             | 3556777163651312 |         | 105.04 |
     Quando processar geracao pedido
     Entao nao deveria publicar nenhum JSON na fila
       | Queue Name  |
