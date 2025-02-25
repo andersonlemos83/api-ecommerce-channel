@@ -13,11 +13,14 @@ public class ContainerManagerMongoDB extends AbstractContainerManager {
     @Override
     protected GenericContainer createContainer() {
         MongoDBContainer container = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"))
+                .withEnv("MONGO_INITDB_ROOT_USERNAME", "admin")
+                .withEnv("MONGO_INITDB_ROOT_PASSWORD", "secret")
+                .withEnv("MONGO_INITDB_DATABASE", "ecommerce_db")
                 .withPrivilegedMode(true)
                 .withReuse(false);
         container.setPortBindings(singletonList(MONGO_PORT + ":" + MONGO_PORT));
         container.withExposedPorts(MONGO_PORT);
-        return null;
+        return container;
     }
 
     @Override

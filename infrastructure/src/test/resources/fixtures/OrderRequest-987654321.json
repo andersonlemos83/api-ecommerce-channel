@@ -1,0 +1,51 @@
+{
+  "channelCode": "APP",
+  "companyCode": "001",
+  "storeCode": "100",
+  "pos": 105,
+  "orderNumber": "987654321",
+  "totalValue": 105.04,
+  "freightValue": 5.05,
+  "customer": {
+    "name": "Martin Kauê Lopes",
+    "document": "60778532402",
+    "documentType": "CPF",
+    "address": "Rua Projetada 913",
+    "addressNumber": "622",
+    "addressComplement": "Apt 202",
+    "neighborhood": "Antares",
+    "city": "Maceió",
+    "state": "AL",
+    "country": "Brasil",
+    "zipCode": "57048434",
+    "phone": "82992344475",
+    "email": "martin_lopes@rafaelmarin.net"
+  },
+  "items": [
+    {
+      "code": 100231933559,
+      "quantity": 1,
+      "value": 7.09
+    },
+    {
+      "code": 874631202305,
+      "quantity": 2,
+      "value": 17.68
+    },
+    {
+      "code": 392084657819,
+      "quantity": 3,
+      "value": 19.18
+    }
+  ],
+  "payments": [
+    {
+      "paymentMethod": "CREDIT",
+      "paymentDate": "2025-01-30T13:45:01",
+      "authorizationCode": "270606",
+      "cardNumber": "3556777163651312",
+      "pixKey": null,
+      "value": 105.04
+    }
+  ]
+}

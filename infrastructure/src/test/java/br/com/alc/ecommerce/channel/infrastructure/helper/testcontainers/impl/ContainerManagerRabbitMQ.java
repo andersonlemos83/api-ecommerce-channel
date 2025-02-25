@@ -22,10 +22,10 @@ public class ContainerManagerRabbitMQ extends AbstractContainerManager {
 
     private static final List<String> VHOST_ENABLE_PLUGINS_COMMAND = asList("rabbitmq-plugins", "enable", "rabbitmq_management", "rabbitmq_management_agent", "rabbitmq_shovel");
     private static final List<String> VHOST_ECOMMERCE_CHECKOUT_COMMAND = asList("rabbitmqadmin", "declare", "vhost", "name=ecommerce-checkout");
-    private static final List<String> USER_ECOMMERCE_CHECKOUT_COMMAND = asList("rabbitmqadmin", "declare", "user", "name=ecommerce-checkout", "password=ecommerce-checkout", "tags=" + String.join(",", singletonList("administrator")));
-    private static final List<String> PERMISSION_ECOMMERCE_CHECKOUT_TO_ECOMMERCE_CHECKOUT_COMMAND = asList("rabbitmqadmin", "declare", "permission", "vhost=ecommerce-checkout", "user=ecommerce-checkout", "configure=.*", "write=.*", "read=.*");
+    private static final List<String> USER_ECOMMERCE_CHANNEL_COMMAND = asList("rabbitmqadmin", "declare", "user", "name=ecommerce-channel", "password=ecommerce-channel", "tags=" + String.join(",", singletonList("administrator")));
+    private static final List<String> PERMISSION_ECOMMERCE_CHANNEL_TO_ECOMMERCE_CHECKOUT_COMMAND = asList("rabbitmqadmin", "declare", "permission", "vhost=ecommerce-checkout", "user=ecommerce-channel", "configure=.*", "write=.*", "read=.*");
 
-    private static final List<List<String>> COMMANDS = asList(VHOST_ENABLE_PLUGINS_COMMAND, VHOST_ECOMMERCE_CHECKOUT_COMMAND, USER_ECOMMERCE_CHECKOUT_COMMAND, PERMISSION_ECOMMERCE_CHECKOUT_TO_ECOMMERCE_CHECKOUT_COMMAND);
+    private static final List<List<String>> COMMANDS = asList(VHOST_ENABLE_PLUGINS_COMMAND, VHOST_ECOMMERCE_CHECKOUT_COMMAND, USER_ECOMMERCE_CHANNEL_COMMAND, PERMISSION_ECOMMERCE_CHANNEL_TO_ECOMMERCE_CHECKOUT_COMMAND);
 
     @Override
     protected GenericContainer createContainer() {

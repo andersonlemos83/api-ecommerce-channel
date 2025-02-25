@@ -1,10 +1,12 @@
 package br.com.alc.ecommerce.channel.infrastructure.helper.util;
 
+import br.com.alc.ecommerce.channel.core.domain.order.OrderRequest;
 import br.com.alc.ecommerce.channel.infrastructure.dto.error.ErrorResponseDto;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.SneakyThrows;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
@@ -48,6 +50,11 @@ public final class ObjectMapperHelper {
 
     public static JsonNode generateJsonNode(InputStream inputStream) throws Exception {
         return objectMapper.readValue(inputStream, JsonNode.class);
+    }
+
+    @SneakyThrows
+    public static OrderRequest generateOrderRequest(String json) {
+        return objectMapper.readValue(json, OrderRequest.class);
     }
 
     public static ErrorResponseDto generateErrorResponseDto(ResultActions result) throws Exception {

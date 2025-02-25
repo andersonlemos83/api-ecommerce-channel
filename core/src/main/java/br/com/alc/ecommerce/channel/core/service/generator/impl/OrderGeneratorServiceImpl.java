@@ -123,7 +123,7 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
                 .name(name)
                 .document(buildRandomDocument(documentType))
                 .documentType(documentType)
-                .address(addressResponse.getCity())
+                .address(addressResponse.getStreet())
                 .addressNumber(buildRandomAddressNumber())
                 .addressComplement(addressResponse.getComplement())
                 .neighborhood(addressResponse.getNeighborhood())
