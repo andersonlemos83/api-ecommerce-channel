@@ -1,0 +1,39 @@
+cucumber:
+  publish:
+    quiet: true
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ecommerce-channel
+    password: ecommerce-channel
+    virtual-host: ecommerce-checkout
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: null
+    mongodb:
+      database: ecommerce_db
+      uri: mongodb://admin:secret@localhost:27017/ecommerce_db?authSource=admin
+      repositories:
+        enabled: true
+  web:
+    locale: pt_BR
+    locale-resolver: fixed
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: FULL # NONE, BASIC, HEADERS, FULL
+
+client:
+  via-cep:
+    url: http://localhost:9090/
+  ecommerce-checkout:
+    url: http://localhost:9090/
