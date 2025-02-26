@@ -28,8 +28,8 @@ public abstract class AbstractContainerManager implements ContainerManager {
             try {
                 log.info("{} starting...", createContainerName());
                 getInstance().start();
-                log.info("{} started successfully!", createContainerName());
                 executeInContainer();
+                log.info("{} started successfully!", createContainerName());
             } catch (Exception exception) {
                 log.error("Error starting the {}: {}", createContainerName(), exception.getMessage(), exception);
                 stop();

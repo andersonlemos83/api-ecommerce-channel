@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.joining;
 @Log4j2
 public final class JsonFixture {
 
-    private static final String ORDER_REQUEST_987654321 = ResourceFixture.getContentFromResourceJson("/fixtures/OrderRequest-987654321.json");
+    private static final String ORDER_REQUEST_DTO_987654321 = ResourceFixture.getContentFromResourceJson("/fixtures/OrderRequestDto-987654321.json");
 
     private static final Map<MessagingDataTable, String> jsons;
     private static final Map<MessagingDataTable, String> unusedJsons;
@@ -21,7 +21,7 @@ public final class JsonFixture {
     static {
         jsons = new HashMap<>();
 
-        jsons.put(MessagingDataTable.builder().queueName("order-queue").jsonKey("987654321").build(), mergeJsons(ORDER_REQUEST_987654321));
+        jsons.put(MessagingDataTable.builder().queueName("order-queue").jsonKey("987654321").build(), mergeJsons(ORDER_REQUEST_DTO_987654321));
 
         unusedJsons = new HashMap<>(jsons);
     }

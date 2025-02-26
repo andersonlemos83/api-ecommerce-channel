@@ -2,6 +2,7 @@ package br.com.alc.ecommerce.channel.infrastructure.client;
 
 import br.com.alc.ecommerce.channel.infrastructure.dto.order.OrderRequestDto;
 import br.com.alc.ecommerce.channel.infrastructure.dto.order.OrderResponseDto;
+import feign.FeignException;
 import feign.Headers;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,6 +20,9 @@ public interface EcommerceCheckoutClient {
     OrderResponseDto authorizeSale(OrderRequestDto orderRequestDto);
 
     default OrderResponseDto fallback(OrderRequestDto orderRequestDto, Throwable throwable) {
+        if (throwable instanceof FeignException.BadRequest exception) {
+            throw exception;
+        }
         return OrderResponseDto.builder()
                 .status(ERROR)
                 .build();

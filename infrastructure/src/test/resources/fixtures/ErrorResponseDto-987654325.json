@@ -1,0 +1,4 @@
+{
+  "httpStatus": "BAD_REQUEST",
+  "message": "O campo companyCode não foi informado."
+}

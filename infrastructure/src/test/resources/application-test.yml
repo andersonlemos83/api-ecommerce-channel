@@ -20,6 +20,7 @@ spring:
     mongodb:
       database: ecommerce_db
       uri: mongodb://admin:secret@localhost:27017/ecommerce_db?authSource=admin
+#      uri: mongodb://ecommerce_user:ecommerce_user@localhost:27017/ecommerce_db?authSource=ecommerce_user
       repositories:
         enabled: true
   web:

@@ -59,7 +59,8 @@ Funcionalidade: Processar Geracao Pedido
       | Payment Method | Authorization Code | Card Number      | Pix Key | Value  |
       | CREDIT         | 270606             | 3556777163651312 |         | 105.04 |
     Quando processar geracao pedido
-    Entao nao deveria publicar nenhum JSON na fila
+    Entao nao deveria existir nenhum Order Document na base
+    E nao deveria publicar nenhum JSON na fila
       | Queue Name  |
       | order-queue |
 
@@ -87,6 +88,7 @@ Funcionalidade: Processar Geracao Pedido
       | Payment Method | Authorization Code | Card Number      | Pix Key | Value  |
       | CREDIT         | 270606             | 3556777163651312 |         | 105.04 |
     Quando processar geracao pedido
-    Entao nao deveria publicar nenhum JSON na fila
+    Entao nao deveria existir nenhum Order Document na base
+    E nao deveria publicar nenhum JSON na fila
       | Queue Name  |
       | order-queue |

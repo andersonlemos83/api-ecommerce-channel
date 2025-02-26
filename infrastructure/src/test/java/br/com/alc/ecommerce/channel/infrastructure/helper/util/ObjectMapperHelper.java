@@ -1,20 +1,19 @@
 package br.com.alc.ecommerce.channel.infrastructure.helper.util;
 
 import br.com.alc.ecommerce.channel.core.domain.order.OrderRequest;
-import br.com.alc.ecommerce.channel.infrastructure.dto.error.ErrorResponseDto;
+import br.com.alc.ecommerce.channel.infrastructure.dto.order.OrderRequestDto;
+import br.com.alc.ecommerce.channel.infrastructure.persistence.document.OrderDocument;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.SneakyThrows;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
 import java.util.TimeZone;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.*;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public final class ObjectMapperHelper {
 
@@ -57,7 +56,13 @@ public final class ObjectMapperHelper {
         return objectMapper.readValue(json, OrderRequest.class);
     }
 
-    public static ErrorResponseDto generateErrorResponseDto(ResultActions result) throws Exception {
-        return objectMapper.readValue(result.andReturn().getResponse().getContentAsString(UTF_8), ErrorResponseDto.class);
+    @SneakyThrows
+    public static OrderRequestDto generateOrderRequestDto(String json) {
+        return objectMapper.readValue(json, OrderRequestDto.class);
+    }
+
+    @SneakyThrows
+    public static OrderDocument generateOrderDocument(String json) {
+        return objectMapper.readValue(json, OrderDocument.class);
     }
 }
