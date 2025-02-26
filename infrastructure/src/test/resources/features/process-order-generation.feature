@@ -34,6 +34,7 @@ Funcionalidade: Processar Geracao Pedido
     Entao deveria publicar o JSON esperado na fila
       | Queue Name  | Json Key  |
       | order-queue | 987654321 |
+    E nao deveria existir nenhum Order Document na base
 
   Cenario: 02 - Processar geracao pedido com CEP nao existente - Fluxo excepcional
     Dado que seja informado os dados de Order Generator Request

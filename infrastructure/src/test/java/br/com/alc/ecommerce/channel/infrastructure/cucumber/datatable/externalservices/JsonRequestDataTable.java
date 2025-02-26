@@ -29,8 +29,4 @@ public class JsonRequestDataTable implements Serializable {
         }
         return request;
     }
-
-    public boolean isStatusOk() {
-        return OK.equals(status);
-    }
 }
