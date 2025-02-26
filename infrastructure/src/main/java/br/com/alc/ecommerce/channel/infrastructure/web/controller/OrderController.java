@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 
 import static br.com.alc.ecommerce.channel.core.util.ObjectMapperUtil.generateJson;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
 
 @Log4j2
@@ -37,7 +38,7 @@ public class OrderController {
                 .doOnNext(responses -> log.info("<--- Response POST /order/start-bot: {}", generateJson(responses)));
     }
 
-    @GetMapping(value = "/{orderNumber}", produces = TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/{orderNumber}", produces = APPLICATION_JSON_VALUE)
     public Mono<FullOrderFinderResponseDto> findOrdersByOrderNumber(@PathVariable("orderNumber") String orderNumber) {
         log.info("---> Request GET /order/{}", orderNumber);
         return byOrderNumberOrderFinderInAdapter.execute(orderNumber)
@@ -48,6 +49,6 @@ public class OrderController {
     public Flux<HalfOrderFinderResponseDto> findOrdersByPeriod(@Valid @ModelAttribute OrderFinderRequestDto orderFinderRequestDto) {
         log.info("---> Request GET /order/paginated: {}", generateJson(orderFinderRequestDto));
         return byPeriodOrderFinderInAdapter.execute(orderFinderRequestDto)
-                .doFinally(responses -> log.info("<--- Response GET /order/paginated: {}", generateJson(responses)));
+                .doOnNext(responses -> log.info("<--- Response GET /order/paginated: {}", generateJson(responses)));
     }
 }

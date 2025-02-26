@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,6 +20,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransitionDataTable implements Serializable {
+
+    private WebTestClient.ResponseSpec response;
 
     private OrderGeneratorRequestDataTable orderGeneratorRequestDataTable;
 

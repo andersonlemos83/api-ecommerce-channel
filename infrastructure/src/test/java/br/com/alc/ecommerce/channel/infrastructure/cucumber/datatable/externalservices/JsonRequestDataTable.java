@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import java.io.Serializable;
 
 import static lombok.AccessLevel.NONE;
-import static org.springframework.http.HttpStatus.OK;
 
 @Data
 @Builder

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.*;
 import io.cucumber.spring.CucumberContextConfiguration;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,11 +21,10 @@ import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-//@WebAppConfiguration
 @ActiveProfiles("test")
+@AutoConfigureWebTestClient
 @CucumberContextConfiguration
-//@AutoConfigureMockMvc(printOnlyOnFailure = true) // Set false for debug
-@SpringBootTest(classes = EcommerceChannelInfrastructureApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = EcommerceChannelInfrastructureApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ContextConfiguration(classes = {EcommerceChannelInfrastructureApplication.class, EcommerceChannelInfrastructureConfig.class, RabbitConfig.class, WireMockConfig.class})
 public class SpringContextStepDefs extends StepDefs {
 
