@@ -12,7 +12,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
         AllUtilUnitTests.class
 })
 @SuppressWarnings("squid:S2187")
-@SuiteDisplayName(" Suite that gathers all unit tests")
+@SuiteDisplayName("Suite that gathers all unit tests")
 public class UnitTests {
 
 }

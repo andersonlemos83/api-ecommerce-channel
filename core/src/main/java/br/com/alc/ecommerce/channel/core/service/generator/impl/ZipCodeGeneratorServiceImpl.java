@@ -1,6 +1,6 @@
 package br.com.alc.ecommerce.channel.core.service.generator.impl;
 
-import br.com.alc.ecommerce.channel.core.service.generator.CepGeneratorService;
+import br.com.alc.ecommerce.channel.core.service.generator.ZipCodeGeneratorService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -10,7 +10,7 @@ import static br.com.alc.ecommerce.channel.core.util.ObjectMapperUtil.generateJs
 
 @Log4j2
 @AllArgsConstructor
-public final class CepGeneratorServiceImpl implements CepGeneratorService {
+public final class ZipCodeGeneratorServiceImpl implements ZipCodeGeneratorService {
 
     private static final String[] CEPS = new String[]{
             "01001000", // Praça da Sé, São Paulo/SP

@@ -1,8 +1,8 @@
 package br.com.alc.ecommerce.channel.core.service.generator.stub;
 
-import br.com.alc.ecommerce.channel.core.service.generator.CepGeneratorService;
+import br.com.alc.ecommerce.channel.core.service.generator.ZipCodeGeneratorService;
 
-public class CepGeneratorServiceStub implements CepGeneratorService {
+public class ZipCodeGeneratorServiceStub implements ZipCodeGeneratorService {
 
     private static String cepEsperado;
 

@@ -1,5 +1,9 @@
 package br.com.alc.ecommerce.channel.infrastructure.config;
 
+import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
+import br.com.alc.ecommerce.channel.core.service.generator.ZipCodeGeneratorService;
+import br.com.alc.ecommerce.channel.core.service.generator.impl.OrderGeneratorServiceImpl;
+import br.com.alc.ecommerce.channel.core.service.generator.impl.ZipCodeGeneratorServiceImpl;
 import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
 import br.com.alc.ecommerce.channel.core.service.watch.impl.RealWatchService;
 import br.com.alc.ecommerce.channel.infrastructure.configuration.BeanConfiguration;
@@ -14,9 +18,23 @@ import static org.junit.Assert.assertTrue;
 public class BeanConfigurationTest {
 
     @Test
+    void whenExecutingZipCodeGeneratorServiceMethodThenShouldReturnAnInstanceOfZipCodeGeneratorServiceImpl() {
+        BeanConfiguration beanConfiguration = new BeanConfiguration();
+        ZipCodeGeneratorService zipCodeGeneratorService = beanConfiguration.zipCodeGeneratorService();
+        assertTrue("Should return an instance of ZipCodeGeneratorServiceImpl", zipCodeGeneratorService instanceof ZipCodeGeneratorServiceImpl);
+    }
+
+    @Test
+    void whenExecutingOrderGeneratorServiceMethodThenShouldReturnAnInstanceOfOrderGeneratorServiceImpl() {
+        BeanConfiguration beanConfiguration = new BeanConfiguration();
+        OrderGeneratorService orderGeneratorService = beanConfiguration.orderGeneratorService(beanConfiguration.watchService());
+        assertTrue("Should return an instance of OrderGeneratorServiceImpl", orderGeneratorService instanceof OrderGeneratorServiceImpl);
+    }
+
+    @Test
     void whenExecutingWatchServiceMethodThenShouldReturnAnInstanceOfRealWatchService() {
         BeanConfiguration beanConfiguration = new BeanConfiguration();
         WatchService watchService = beanConfiguration.watchService();
-        assertTrue("", watchService instanceof RealWatchService);
+        assertTrue("Should return an instance of RealWatchService", watchService instanceof RealWatchService);
     }
 }

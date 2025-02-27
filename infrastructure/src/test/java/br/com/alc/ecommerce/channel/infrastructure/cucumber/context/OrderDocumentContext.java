@@ -1,6 +1,6 @@
 package br.com.alc.ecommerce.channel.infrastructure.cucumber.context;
 
-import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.document.DocumentDataTable;
+import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.context.DocumentDataTable;
 import br.com.alc.ecommerce.channel.infrastructure.helper.fixture.ResourceFixture;
 import br.com.alc.ecommerce.channel.infrastructure.helper.repository.OrderRepositoryHelper;
 import br.com.alc.ecommerce.channel.infrastructure.helper.util.ObjectMapperHelper;

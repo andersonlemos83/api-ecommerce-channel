@@ -1,4 +1,4 @@
-package br.com.alc.ecommerce.channel.infrastructure.cucumber.stepdefs.orderfinderresponse;
+package br.com.alc.ecommerce.channel.infrastructure.cucumber.stepdefs.verifier;
 
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.finder.HalfOrderFinderResponseDataTable;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.finder.OrderFinderResponseDataTable;

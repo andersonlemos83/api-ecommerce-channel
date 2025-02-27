@@ -1,6 +1,6 @@
-package br.com.alc.ecommerce.channel.infrastructure.cucumber.stepdefs.documentverifier;
+package br.com.alc.ecommerce.channel.infrastructure.cucumber.stepdefs.verifier;
 
-import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.document.DocumentDataTable;
+import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.context.DocumentDataTable;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.stepdefs.StepDefs;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.verifier.OrderDocumentVerifier;
 import io.cucumber.java.pt.E;

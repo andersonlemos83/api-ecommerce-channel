@@ -1,10 +1,10 @@
 package br.com.alc.ecommerce.channel.infrastructure.config;
 
 import br.com.alc.ecommerce.channel.core.port.output.MostRecentOrderFinderOutPort;
-import br.com.alc.ecommerce.channel.core.service.generator.CepGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
-import br.com.alc.ecommerce.channel.core.service.generator.stub.CepGeneratorServiceStub;
+import br.com.alc.ecommerce.channel.core.service.generator.ZipCodeGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.stub.OrderGeneratorServiceStub;
+import br.com.alc.ecommerce.channel.core.service.generator.stub.ZipCodeGeneratorServiceStub;
 import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
 import br.com.alc.ecommerce.channel.core.service.watch.stub.VirtualWatchService;
 import br.com.alc.ecommerce.channel.infrastructure.adapter.output.stub.MostRecentOrderFinderOutPortStub;
@@ -25,8 +25,8 @@ public class EcommerceChannelInfrastructureConfig {
 
     @Primary
     @Bean("cepGeneratorService")
-    public CepGeneratorService cepGeneratorService() {
-        return new CepGeneratorServiceStub();
+    public ZipCodeGeneratorService cepGeneratorService() {
+        return new ZipCodeGeneratorServiceStub();
     }
 
     @Primary

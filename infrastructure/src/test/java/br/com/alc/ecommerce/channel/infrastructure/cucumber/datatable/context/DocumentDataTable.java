@@ -1,4 +1,4 @@
-package br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.document;
+package br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.context;
 
 import br.com.alc.ecommerce.channel.infrastructure.helper.fixture.ResourceFixture;
 import lombok.*;

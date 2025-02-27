@@ -1,6 +1,6 @@
 package br.com.alc.ecommerce.channel.infrastructure.cucumber.stepdefs.order;
 
-import br.com.alc.ecommerce.channel.core.service.generator.stub.CepGeneratorServiceStub;
+import br.com.alc.ecommerce.channel.core.service.generator.stub.ZipCodeGeneratorServiceStub;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.order.CustomerDataTable;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.order.OrderRequestDataTable;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.order.PaymentDataTable;
@@ -16,7 +16,7 @@ public class OrderRequestStepDefs extends StepDefs {
 
     @E("^que seja gerado os seguintes CEPs$")
     public void queSejaGeradoOsSeguintesCeps(List<String> ceps) {
-        ceps.forEach(CepGeneratorServiceStub::createCep);
+        ceps.forEach(ZipCodeGeneratorServiceStub::createCep);
     }
 
     @E("^que seja gerado os seguintes dados de Order Request$")
