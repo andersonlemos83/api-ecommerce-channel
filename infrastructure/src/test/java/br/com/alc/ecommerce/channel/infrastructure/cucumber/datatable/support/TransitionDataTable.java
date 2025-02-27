@@ -1,5 +1,6 @@
 package br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.support;
 
+import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.bot.OrderBotRequestDataTable;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.callback.OrderCallbackRequestDataTable;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.finder.OrderFinderRequestDataTable;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.generator.OrderGeneratorRequestDataTable;
@@ -23,6 +24,8 @@ import java.util.List;
 public class TransitionDataTable implements Serializable {
 
     private WebTestClient.ResponseSpec response;
+
+    private OrderBotRequestDataTable orderBotRequestDataTable;
 
     private OrderFinderRequestDataTable orderFinderRequestDataTable;
 

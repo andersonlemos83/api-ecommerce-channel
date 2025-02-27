@@ -42,7 +42,7 @@ public class OrderController {
     public Mono<FullOrderFinderResponseDto> findOrdersByOrderNumber(@PathVariable("orderNumber") String orderNumber) {
         log.info("---> Request GET /order/{}", orderNumber);
         return byOrderNumberOrderFinderInAdapter.execute(orderNumber)
-                .doFinally(responses -> log.info("<--- Response GET /order/{}: {}", orderNumber, generateJson(responses)));
+                .doOnNext(responses -> log.info("<--- Response GET /order/{}: {}", orderNumber, generateJson(responses)));
     }
 
     @GetMapping(value = "/paginated", produces = TEXT_EVENT_STREAM_VALUE)
