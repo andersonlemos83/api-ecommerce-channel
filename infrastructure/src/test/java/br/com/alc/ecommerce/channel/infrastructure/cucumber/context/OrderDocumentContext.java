@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
 @Component
 @AllArgsConstructor
@@ -29,7 +29,7 @@ public class OrderDocumentContext {
         String json = ResourceFixture.getContentFromResourceJson("/fixtures/OrderDocument-987654383.json");
         for (int i = 0; i < quantity; i++) {
             OrderDocument orderDocument = ObjectMapperHelper.generateOrderDocument(json);
-            String orderNumber = String.valueOf(ThreadLocalRandom.current().nextInt(999999999));
+            String orderNumber = String.valueOf(RandomGenerator.getDefault().nextInt(999999999));
             orderDocument.getOrderRequest().setOrderNumber(orderNumber);
             orderRepositoryHelper.save(orderDocument);
         }
