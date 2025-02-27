@@ -21,10 +21,12 @@ import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
+
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
 @CucumberContextConfiguration
-@SpringBootTest(classes = EcommerceChannelInfrastructureApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = EcommerceChannelInfrastructureApplication.class, webEnvironment = DEFINED_PORT)
 @ContextConfiguration(classes = {EcommerceChannelInfrastructureApplication.class, EcommerceChannelInfrastructureConfig.class, RabbitConfig.class, WireMockConfig.class})
 public class SpringContextStepDefs extends StepDefs {
 

@@ -27,6 +27,13 @@ spring:
     locale: pt_BR
     locale-resolver: fixed
 
+server:
+  port: 8383
+
+management:
+  server:
+    port: 9393
+
 feign:
   client:
     config:

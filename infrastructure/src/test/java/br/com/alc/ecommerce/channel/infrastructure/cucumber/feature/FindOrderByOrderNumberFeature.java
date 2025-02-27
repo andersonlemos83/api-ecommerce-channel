@@ -12,7 +12,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @AllArgsConstructor
 public class FindOrderByOrderNumberFeature {
 
-    private static final String BASE_URL = "http://localhost:8181";
+    private static final String BASE_URL = "http://localhost:8383";
     private static final String URI_PATTERN = "/order/{0}";
     private static final int TEN_MB = 10 * 1024 * 1024;
 
@@ -20,7 +20,7 @@ public class FindOrderByOrderNumberFeature {
 
     public WebTestClient.ResponseSpec execute(String orderNumber) {
         String uri = MessageFormat.format(URI_PATTERN, orderNumber);
-        return this.webTestClient.mutate()
+        return webTestClient.mutate()
                 .baseUrl(BASE_URL)
                 .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(TEN_MB))
                 .build()

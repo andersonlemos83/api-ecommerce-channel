@@ -40,11 +40,12 @@ public class EcommerceChannelExceptionHandler {
     }
 
     @ExceptionHandler(PeriodInvalidException.class)
-    public Mono<ResponseEntity<ErrorResponseDto>> handlePeriodInvalidException(PeriodInvalidException exception) {
+    public ResponseEntity<ErrorResponseDto> handlePeriodInvalidException(PeriodInvalidException exception) {
         return Mono.just(exception)
                 .map(PeriodInvalidException::getMessage)
                 .map(this::buildBadRequestErrorResponseDto)
-                .map(this::buildBadRequestResponseEntity);
+                .map(this::buildBadRequestResponseEntity)
+                .block();
     }
 
     private String joiningMessages(BindingResult bindingResult) {

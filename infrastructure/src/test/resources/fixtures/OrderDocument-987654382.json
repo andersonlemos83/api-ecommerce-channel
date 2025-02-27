@@ -1,0 +1,52 @@
+{
+  "id": null,
+  "orderRequest": {
+    "channelCode": "APP",
+    "companyCode": "150",
+    "storeCode": "129",
+    "pos": 830,
+    "orderNumber": "987654382",
+    "totalValue": 28.07,
+    "freightValue": 0.28,
+    "customer": {
+      "name": "Padberg LLC",
+      "document": "02.728.414/0001-67",
+      "documentType": "CNPJ",
+      "address": "Rua da Ajuda",
+      "addressNumber": "464",
+      "addressComplement": null,
+      "neighborhood": "Centro",
+      "city": "Rio de Janeiro",
+      "state": "RJ",
+      "country": "Brasil",
+      "zipCode": "20040-000",
+      "phone": "(21) 96984-4603",
+      "email": "padberg.llc@gmail.com"
+    },
+    "items": [
+      {
+        "code": 559642294,
+        "quantity": 1,
+        "value": 27.79
+      }
+    ],
+    "payments": [
+      {
+        "paymentMethod": "CREDIT",
+        "paymentDate": "2025-02-25T12:21:54",
+        "authorizationCode": "501770",
+        "cardNumber": "9852920618600794",
+        "pixKey": null,
+        "value": 28.07
+      }
+    ]
+  },
+  "invoiceKey": null,
+  "invoiceNumber": null,
+  "issuanceDate": null,
+  "invoiceBase64": null,
+  "status": "INVOICE_PENDING",
+  "errorReason": null,
+  "createdDate": "2025-02-25T12:21:54",
+  "updatedDate": "2025-02-25T12:21:54"
+}
