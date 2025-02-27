@@ -83,3 +83,11 @@ Funcionalidade: Consultar pedidos por periodo
     Entao deveria receber os dados de Error Response
       | Http Status | Message                                                                                                |
       | BAD_REQUEST | O campo pageNumber deve ser maior que ou igual à 0, O campo pageSize deve ser maior que ou igual à 10. |
+
+  Cenario: 07 - Consultar pedidos existentes na base de dados entre 2025-02-25 e 2025-02-27 com paginacao - Sucesso
+    Dado que seja informado os dados de Order Finder Request
+      | Start Period Date | End Period Date | Page Number | Page Size |
+      | 2025-02-25        | 2025-02-27      | 2           | 20        |
+    E que existam "45" Order Document cadastradas
+    Quando consultar pedidos por periodo
+    Entao deveria receber "5" Half Order Finder Response

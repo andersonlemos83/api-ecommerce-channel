@@ -46,6 +46,21 @@ public class OrderFinderResponseVerifier {
         }
     }
 
+    public void verifyHalfOrderFinderResponse(long quantityExpected, WebTestClient.ResponseSpec responseSpec) {
+        responseSpec.expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(TEXT_EVENT_STREAM_VALUE);
+
+        long quantityResponse = responseSpec.expectBodyList(HalfOrderFinderResponseDto.class)
+                .returnResult()
+                .getResponseBody()
+                .stream()
+                .count();
+
+        assertEquals(quantityExpected, quantityResponse, "Should return the expected number of Half Order Finder Response.");
+    }
+
     private void verifyFullOrderFinderResponse(OrderFinderResponseDataTable expected, WebTestClient.ResponseSpec responseSpec) {
         FullOrderFinderResponseDto fullOrderFinderResponseDto = responseSpec.expectBody(FullOrderFinderResponseDto.class)
                 .returnResult()

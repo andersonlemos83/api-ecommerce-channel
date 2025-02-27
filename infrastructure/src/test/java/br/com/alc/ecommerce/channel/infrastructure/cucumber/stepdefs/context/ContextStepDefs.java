@@ -17,4 +17,9 @@ public class ContextStepDefs extends StepDefs {
     public void queExistamAsOrderDocumentCadastradas(List<DocumentDataTable> documentDataTableList) {
         orderDocumentContext.insert(documentDataTableList);
     }
+
+    @E("^que existam \"([^\"]*)\" Order Document cadastradas$")
+    public void queExistamNOrderDocumentCadastradas(long quantity) {
+        orderDocumentContext.insert(quantity);
+    }
 }

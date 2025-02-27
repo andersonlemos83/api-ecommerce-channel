@@ -30,4 +30,9 @@ public class OrderFinderResponseStepDefs extends StepDefs {
     public void naoDeveriaReceberNenhumHalfOrderFinderResponse() {
         orderFinderResponseVerifier.verifyHalfOrderFinderResponse(emptyList(), transitionDataTable.getResponse());
     }
+
+    @E("^deveria receber \"([^\"]*)\" Half Order Finder Response$")
+    public void deveriaReceberNHalfOrderFinderResponse(long quantity) {
+        orderFinderResponseVerifier.verifyHalfOrderFinderResponse(quantity, transitionDataTable.getResponse());
+    }
 }
