@@ -1,9 +1,6 @@
 package br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.messaging;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -11,9 +8,15 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class MessagingDataTable implements Serializable {
 
+    @EqualsAndHashCode.Include
     private String queueName;
+
+    @EqualsAndHashCode.Include
     private String jsonKey;
+
+    private Integer quantity;
 
 }

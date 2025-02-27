@@ -42,6 +42,16 @@ public class MessagingVerifier {
         assertTrue(errorMessage, messages.isEmpty());
     }
 
+    public void verifyQuantityQueues(List<MessagingDataTable> messagingDataTableList) {
+        messagingDataTableList.forEach(this::verifyQuantityQueue);
+    }
+
+    public void verifyQuantityQueue(MessagingDataTable expected) {
+        Integer quantityReturned = rabbitMqManager.getMessageCount(expected.getQueueName());
+        String errorMessage = MessageFormat.format("Expected message should be published in the queue {0}", expected.getQueueName());
+        assertEquals(errorMessage, expected.getQuantity(), quantityReturned);
+    }
+
     private String getExpectedJson(MessagingDataTable messagingDataTable) {
         return JsonFixture.oneJson(messagingDataTable);
     }

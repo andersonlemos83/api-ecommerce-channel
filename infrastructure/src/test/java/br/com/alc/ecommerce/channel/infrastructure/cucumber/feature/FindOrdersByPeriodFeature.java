@@ -1,6 +1,7 @@
 package br.com.alc.ecommerce.channel.infrastructure.cucumber.feature;
 
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.datatable.finder.OrderFinderRequestDataTable;
+import br.com.alc.ecommerce.channel.infrastructure.cucumber.feature.factory.WebTestClientFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -13,17 +14,12 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class FindOrdersByPeriodFeature {
 
-    private static final String BASE_URL = "http://localhost:8383";
     private static final String URI = "/order/paginated";
-    private static final int TEN_MB = 10 * 1024 * 1024;
 
-    private final WebTestClient webTestClient;
+    private final WebTestClientFactory webTestClientFactory;
 
     public WebTestClient.ResponseSpec execute(OrderFinderRequestDataTable orderFinderRequestDataTable) {
-        return webTestClient.mutate()
-                .baseUrl(BASE_URL)
-                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(TEN_MB))
-                .build()
+        return webTestClientFactory.getWebTestClient()
                 .get()
                 .uri(buildUriFunction(orderFinderRequestDataTable))
                 .exchange();

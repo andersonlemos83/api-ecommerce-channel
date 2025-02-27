@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 @AllArgsConstructor
 public class MessagingStepDefs extends StepDefs {
 
@@ -22,7 +20,12 @@ public class MessagingStepDefs extends StepDefs {
 
     @E("^nao deveria publicar nenhum JSON na fila$")
     public void naoDeveriaPublicarNenhumJsonNaFila(List<MessagingDataTable> messagingDataTableList) {
-        List<String> queues = messagingDataTableList.stream().map(MessagingDataTable::getQueueName).distinct().collect(toList());
+        List<String> queues = messagingDataTableList.stream().map(MessagingDataTable::getQueueName).distinct().toList();
         messagingVerifier.verifyEmptyQueues(queues);
+    }
+
+    @E("^deveria publicar a quantidade esperada de mensagens na fila$")
+    public void deveriaPublicarAhQuantidadeEsperadaDeMensagensNaFila(List<MessagingDataTable> messagingDataTableList) {
+        messagingVerifier.verifyQuantityQueues(messagingDataTableList);
     }
 }
