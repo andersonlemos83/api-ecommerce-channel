@@ -1,5 +1,6 @@
 package br.com.alc.ecommerce.channel.core;
 
+import br.com.alc.ecommerce.channel.core.port.input.AllInputPortUnitTests;
 import br.com.alc.ecommerce.channel.core.service.AllServiceUnitTests;
 import br.com.alc.ecommerce.channel.core.util.AllUtilUnitTests;
 import org.junit.platform.suite.api.SelectClasses;
@@ -8,6 +9,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
 @Suite
 @SelectClasses({
+        AllInputPortUnitTests.class,
         AllServiceUnitTests.class,
         AllUtilUnitTests.class
 })
