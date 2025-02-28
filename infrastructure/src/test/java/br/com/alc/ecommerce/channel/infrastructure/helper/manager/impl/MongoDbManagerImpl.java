@@ -18,6 +18,7 @@ public class MongoDbManagerImpl implements MongoDbManager {
     @Override
     public void cleanDatabase() {
         Set<String> collectionNames = mongoTemplate.getCollectionNames();
+        log.info("--> Collections: {}", collectionNames);
         collectionNames.parallelStream()
                 .forEach(collectionName -> {
                     mongoTemplate.getCollection(collectionName).drop();

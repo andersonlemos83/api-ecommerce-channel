@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -27,7 +28,8 @@ public class ByPeriodOrderFinderValidatorServiceImplTest {
     @Test
     void givenAnInvalidPeriodoWhenExecutingTheByPeriodOrderFinderValidatorThenShouldThrowsAhPeriodInvalidException() {
         OrderFinderRequest orderFinderRequest = buildInvalidOrderFinderRequest();
-        PeriodInvalidException exception = assertThrows(PeriodInvalidException.class, () -> validator.validate(orderFinderRequest).block());
+        Mono<Void> returned = validator.validate(orderFinderRequest);
+        PeriodInvalidException exception = assertThrows(PeriodInvalidException.class, () -> returned.block());
         assertEquals("O período de 30/01/2025 00:00:00 até 29/01/2025 23:59:59 é inválido.", exception.getMessage());
     }
 
