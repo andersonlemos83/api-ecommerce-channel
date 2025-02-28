@@ -4,6 +4,6 @@ import br.com.alc.ecommerce.channel.core.domain.address.AddressResponse;
 
 public interface AddressFinderOutPort {
 
-    AddressResponse execute(String cep);
+    AddressResponse execute(String zipCode);
 
 }

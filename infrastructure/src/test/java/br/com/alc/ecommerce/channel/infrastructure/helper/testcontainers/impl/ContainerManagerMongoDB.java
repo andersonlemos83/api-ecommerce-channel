@@ -48,6 +48,8 @@ public class ContainerManagerMongoDB extends AbstractContainerManager {
         log.info("Initializing MongoDB replica set... {}", REPLICA_SET_COMMAND);
         Container.ExecResult execResult = getInstance().execInContainer(REPLICA_SET_COMMAND);
         log.info("MongoDB replica set was Initialized successfully: {}", execResult.getStderr());
+
+        TimeUnit.MILLISECONDS.sleep(500);
     }
 
     private void waitForMongoDBReady() throws IOException, InterruptedException {

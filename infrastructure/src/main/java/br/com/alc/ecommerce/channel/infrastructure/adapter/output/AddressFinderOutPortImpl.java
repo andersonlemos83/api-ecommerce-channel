@@ -29,22 +29,22 @@ public class AddressFinderOutPortImpl implements AddressFinderOutPort {
 
     @Override
     @Cacheable(cacheNames = ADDRESS_FINDER_CACHE, key = "#cep", unless = "#result == null")
-    public AddressResponse execute(String cep) {
-        AddressResponse addressResponse = findAddressByZipCodeWithRetry(cep);
+    public AddressResponse execute(String zipCode) {
+        AddressResponse addressResponse = findAddressByZipCodeWithRetry(zipCode);
         if (addressResponse.isErro()) {
-            throw new ZipCodeNotFoundException(cep);
+            throw new ZipCodeNotFoundException(zipCode);
         }
         return addressResponse;
     }
 
-    private AddressResponse findAddressByZipCodeWithRetry(String cep) {
+    private AddressResponse findAddressByZipCodeWithRetry(String zipCode) {
         try {
-            log.debug("Incoming into AddressFinderOutPortImpl: {}", generateJson(cep));
+            log.debug("Incoming into AddressFinderOutPortImpl: {}", generateJson(zipCode));
             return retryTemplate.execute(callback -> {
-                log.info("---> Request GET /ws/{}/json/ {}: {}", cep, callback.getRetryCount() + 1, cep);
-                AddressResponseDto addressResponseDto = viaCepClient.findByCep(cep);
-                log.info("<--- Response GET /ws/{}/json/: {}", cep, generateJson(addressResponseDto));
-                log.info("Save cache {}:{} - {}", ADDRESS_FINDER_CACHE, cep, generateJson(addressResponseDto));
+                log.info("---> Request GET /ws/{}/json/ {}: {}", zipCode, callback.getRetryCount() + 1, zipCode);
+                AddressResponseDto addressResponseDto = viaCepClient.findByCep(zipCode);
+                log.info("<--- Response GET /ws/{}/json/: {}", zipCode, generateJson(addressResponseDto));
+                log.info("Save cache {}:{} - {}", ADDRESS_FINDER_CACHE, zipCode, generateJson(addressResponseDto));
                 AddressResponse addressResponse = modelMapper.map(addressResponseDto, AddressResponse.class);
                 log.debug("Outgoing from AddressFinderOutPortImpl: {}", generateJson(addressResponse));
                 return addressResponse;
