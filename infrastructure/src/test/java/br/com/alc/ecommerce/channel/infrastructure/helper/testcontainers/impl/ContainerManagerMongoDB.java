@@ -17,7 +17,7 @@ import static java.util.Collections.singletonList;
 public class ContainerManagerMongoDB extends AbstractContainerManager {
 
     private static final int MONGO_PORT = 27017;
-    private static final int MAX_RETRIES = 10;
+    private static final int MAX_RETRIES = 25;
 
     private static final String[] PING_COMMAND = {"sh", "-c", "mongo --eval 'db.runCommand({ ping: 1 })' --quiet"};
     private static final String[] REPLICA_SET_COMMAND = {"sh", "-c", "mongo --username admin --password secret --authenticationDatabase admin --eval 'rs.initiate()' --quiet"};
@@ -44,19 +44,23 @@ public class ContainerManagerMongoDB extends AbstractContainerManager {
     @Override
     protected void executeInContainer() {
         waitForMongoDBReady();
-
-        log.info("Initializing MongoDB replica set... {}", REPLICA_SET_COMMAND);
-        Container.ExecResult execResult = getInstance().execInContainer(REPLICA_SET_COMMAND);
-        log.info("MongoDB replica set was Initialized successfully: {}", execResult.getStderr());
-
-        TimeUnit.MILLISECONDS.sleep(500);
+        waitForReplicaSetReady();
     }
 
     private void waitForMongoDBReady() throws IOException, InterruptedException {
         int retries = 1;
         while (!isPingSucessful() && retries <= MAX_RETRIES) {
             log.info("{} starting... {}/{}", createContainerName(), retries, MAX_RETRIES);
-            TimeUnit.MILLISECONDS.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(250);
+            retries++;
+        }
+    }
+
+    private void waitForReplicaSetReady() throws IOException, InterruptedException {
+        int retries = 1;
+        while (!isReplicaSetSucessful() && retries <= MAX_RETRIES) {
+            log.info("Starting MongoDB replica set... {}/{}", retries, MAX_RETRIES);
+            TimeUnit.MILLISECONDS.sleep(250);
             retries++;
         }
     }
@@ -64,5 +68,14 @@ public class ContainerManagerMongoDB extends AbstractContainerManager {
     private boolean isPingSucessful() throws IOException, InterruptedException {
         Container.ExecResult execResult = getInstance().execInContainer(PING_COMMAND);
         return execResult.getStdout().contains("\"ok\" : 1");
+    }
+
+    private boolean isReplicaSetSucessful() throws IOException, InterruptedException {
+        Container.ExecResult execResult = getInstance().execInContainer(REPLICA_SET_COMMAND);
+        boolean sucessful = execResult.getStdout().contains("\"ok\" : 1");
+        if (!sucessful) {
+            log.info("MongoDB replica set was not initialized: {}", execResult.getStderr());
+        }
+        return sucessful;
     }
 }

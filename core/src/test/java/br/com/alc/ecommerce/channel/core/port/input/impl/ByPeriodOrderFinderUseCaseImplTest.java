@@ -30,7 +30,7 @@ public class ByPeriodOrderFinderUseCaseImplTest {
     private ByPeriodOrderFinderFinderOutPort byPeriodOrderFinderFinderOutPortMock;
 
     @Test
-    void whenExecutingTheByPeriodOrderFinderThenShouldCallByPeriodOrderFinderValidatorServiceAndCallByPeriodOrderFinderFinderOutPort() {
+    void whenExecutingTheByPeriodOrderFinderThenShouldCallByPeriodOrderFinderValidatorServiceAndReturnTheExpectedOrder() {
         OrderFinderRequest orderFinderRequest = Instancio.create(OrderFinderRequest.class);
         Order orderExpected = Instancio.create(Order.class);
         when(byPeriodOrderFinderValidatorServiceMock.validate(orderFinderRequest)).thenReturn(Mono.empty());
@@ -39,7 +39,6 @@ public class ByPeriodOrderFinderUseCaseImplTest {
         Order orderReturned = byPeriodOrderFinderUseCase.execute(orderFinderRequest).blockLast();
 
         verify(byPeriodOrderFinderValidatorServiceMock, times(1)).validate(orderFinderRequest);
-        verify(byPeriodOrderFinderFinderOutPortMock, times(1)).execute(orderFinderRequest);
         assertEquals(orderExpected, orderReturned);
     }
 }

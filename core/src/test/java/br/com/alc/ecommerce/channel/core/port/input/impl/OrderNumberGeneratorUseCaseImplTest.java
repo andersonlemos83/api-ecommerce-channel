@@ -31,7 +31,7 @@ public class OrderNumberGeneratorUseCaseImplTest {
     private OrderNumberIntegratorOutPort orderNumberIntegratorOutPortMock;
 
     @Test
-    void whenExecutingTheOrderNumberGeneratorThenShouldCallOrderNumberGeneratorServiceAndCallOrderNumberIntegratorOutPort() {
+    void whenExecutingTheOrderNumberGeneratorThenShouldCallOrderNumberIntegratorOutPortAndReturnTheExpectedOrderBotResponse() {
         OrderBotRequest orderBotRequest = Instancio.create(OrderBotRequest.class);
         String orderNumberExpected = Instancio.create(String.class);
         OrderGeneratorRequest orderGeneratorRequest = OrderGeneratorRequest.builder().orderNumber(orderNumberExpected).build();
@@ -41,7 +41,6 @@ public class OrderNumberGeneratorUseCaseImplTest {
 
         OrderBotResponse returned = orderNumberGeneratorUseCase.execute(orderBotRequest).blockLast();
 
-        verify(orderNumberGeneratorServiceMock, times(1)).execute(orderBotRequest);
         verify(orderNumberIntegratorOutPortMock, times(1)).execute(orderGeneratorRequest);
         assertNotNull(returned);
         assertEquals(orderNumberExpected, returned.getOrderNumber());

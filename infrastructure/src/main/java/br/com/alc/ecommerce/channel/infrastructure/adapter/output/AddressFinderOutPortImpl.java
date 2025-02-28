@@ -28,7 +28,7 @@ public class AddressFinderOutPortImpl implements AddressFinderOutPort {
     private final ModelMapper modelMapper;
 
     @Override
-    @Cacheable(cacheNames = ADDRESS_FINDER_CACHE, key = "#cep", unless = "#result == null")
+    @Cacheable(cacheNames = ADDRESS_FINDER_CACHE, key = "#zipCode", unless = "#result == null")
     public AddressResponse execute(String zipCode) {
         AddressResponse addressResponse = findAddressByZipCodeWithRetry(zipCode);
         if (addressResponse.isErro()) {

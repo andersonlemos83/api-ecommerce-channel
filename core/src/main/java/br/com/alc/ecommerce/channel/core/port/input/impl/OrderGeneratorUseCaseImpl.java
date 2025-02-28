@@ -6,8 +6,8 @@ import br.com.alc.ecommerce.channel.core.domain.order.OrderRequest;
 import br.com.alc.ecommerce.channel.core.port.input.OrderGeneratorUseCase;
 import br.com.alc.ecommerce.channel.core.port.output.AddressFinderOutPort;
 import br.com.alc.ecommerce.channel.core.port.output.OrderIntegratorOutPort;
-import br.com.alc.ecommerce.channel.core.service.generator.ZipCodeGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
+import br.com.alc.ecommerce.channel.core.service.generator.ZipCodeGeneratorService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 

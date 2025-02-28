@@ -1,9 +1,6 @@
 package br.com.alc.ecommerce.channel.core.port.input;
 
-import br.com.alc.ecommerce.channel.core.port.input.impl.ByOrderNumberOrderFinderUseCaseImplTest;
-import br.com.alc.ecommerce.channel.core.port.input.impl.ByPeriodOrderFinderUseCaseImplTest;
-import br.com.alc.ecommerce.channel.core.port.input.impl.OrderGeneratorUseCaseImplTest;
-import br.com.alc.ecommerce.channel.core.port.input.impl.OrderNumberGeneratorUseCaseImplTest;
+import br.com.alc.ecommerce.channel.core.port.input.impl.*;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SuiteDisplayName;
@@ -12,6 +9,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @SelectClasses({
         ByOrderNumberOrderFinderUseCaseImplTest.class,
         ByPeriodOrderFinderUseCaseImplTest.class,
+        OrderCallbackProcessorUseCaseImplTest.class,
         OrderGeneratorUseCaseImplTest.class,
         OrderNumberGeneratorUseCaseImplTest.class
 })

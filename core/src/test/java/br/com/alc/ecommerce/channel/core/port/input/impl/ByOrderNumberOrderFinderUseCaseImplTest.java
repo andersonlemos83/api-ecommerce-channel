@@ -38,7 +38,7 @@ public class ByOrderNumberOrderFinderUseCaseImplTest {
     }
 
     @Test
-    void givenAnNoExistingOrderWhenExecutingTheByOrderNumberOrderFinderThenShouldThrowsAnOrderNotFoundException() {
+    void givenAnNoExistingOrderWhenExecutingTheByOrderNumberOrderFinderThenShouldCallByOrderNumberOrderFinderOutPortAndThrowsAnOrderNotFoundException() {
         String orderNumber = "123456";
         when(byOrderNumberOrderFinderOutPortMock.execute(orderNumber)).thenReturn(Mono.empty());
 
