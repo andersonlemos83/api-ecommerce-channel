@@ -1,5 +1,7 @@
 package br.com.alc.ecommerce.channel.core;
 
+import br.com.alc.ecommerce.channel.core.domain.AllDomainUnitTests;
+import br.com.alc.ecommerce.channel.core.exception.AllExceptionUnitTests;
 import br.com.alc.ecommerce.channel.core.port.input.AllInputPortUnitTests;
 import br.com.alc.ecommerce.channel.core.service.AllServiceUnitTests;
 import br.com.alc.ecommerce.channel.core.util.AllUtilUnitTests;
@@ -9,6 +11,8 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
 @Suite
 @SelectClasses({
+        AllDomainUnitTests.class,
+        AllExceptionUnitTests.class,
         AllInputPortUnitTests.class,
         AllServiceUnitTests.class,
         AllUtilUnitTests.class

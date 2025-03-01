@@ -38,8 +38,13 @@ public class OrderGeneratorServiceImplTest {
         LocalDateTime nowExpected = buildNow();
         when(watchServiceMock.nowLocalDateTime()).thenReturn(nowExpected);
 
-        OrderRequest orderRequest = orderGeneratorService.execute(orderGeneratorRequest, addressResponse);
+        for (int i = 0; i < 10; i++) {
+            OrderRequest orderRequest = orderGeneratorService.execute(orderGeneratorRequest, addressResponse);
+            assertOrderRequest(orderRequest, orderGeneratorRequest, addressResponse, nowExpected);
+        }
+    }
 
+    private void assertOrderRequest(OrderRequest orderRequest, OrderGeneratorRequest orderGeneratorRequest, AddressResponse addressResponse, LocalDateTime nowExpected) {
         assertTrue(Arrays.asList("WEB", "APP", "STR", "SLF").contains(orderRequest.getChannelCode()));
         assertTrue(StringUtils.isNumeric(orderRequest.getCompanyCode()));
         assertEquals(3, StringUtils.length(orderRequest.getCompanyCode()));

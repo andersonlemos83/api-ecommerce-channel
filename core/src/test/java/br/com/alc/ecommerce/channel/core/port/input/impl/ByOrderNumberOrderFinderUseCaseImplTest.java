@@ -43,7 +43,7 @@ public class ByOrderNumberOrderFinderUseCaseImplTest {
         when(byOrderNumberOrderFinderOutPortMock.execute(orderNumber)).thenReturn(Mono.empty());
 
         Mono<Order> orderMono = byOrderNumberOrderFinderUseCase.execute(orderNumber);
-        OrderNotFoundException exception = assertThrows(OrderNotFoundException.class, () -> orderMono.block());
+        OrderNotFoundException exception = assertThrows(OrderNotFoundException.class, orderMono::block);
 
         verify(byOrderNumberOrderFinderOutPortMock, times(1)).execute(orderNumber);
         assertEquals("O pedido não foi encontrado.", exception.getMessage());

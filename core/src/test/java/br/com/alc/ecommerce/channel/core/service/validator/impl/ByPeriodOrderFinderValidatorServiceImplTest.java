@@ -29,7 +29,7 @@ public class ByPeriodOrderFinderValidatorServiceImplTest {
     void givenAnInvalidPeriodoWhenExecutingTheByPeriodOrderFinderValidatorThenShouldThrowsAhPeriodInvalidException() {
         OrderFinderRequest orderFinderRequest = buildInvalidOrderFinderRequest();
         Mono<Void> returned = validator.validate(orderFinderRequest);
-        PeriodInvalidException exception = assertThrows(PeriodInvalidException.class, () -> returned.block());
+        PeriodInvalidException exception = assertThrows(PeriodInvalidException.class, returned::block);
         assertEquals("O período de 30/01/2025 00:00:00 até 29/01/2025 23:59:59 é inválido.", exception.getMessage());
     }
 
