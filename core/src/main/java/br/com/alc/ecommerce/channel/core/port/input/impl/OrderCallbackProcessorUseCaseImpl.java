@@ -11,7 +11,7 @@ import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,10 +26,9 @@ public final class OrderCallbackProcessorUseCaseImpl implements OrderCallbackPro
     private static final Map<SaleStatus, OrderStatus> status;
 
     static {
-        status = new HashMap<>();
+        status = new EnumMap<>(SaleStatus.class);
         status.put(SaleStatus.ERROR, OrderStatus.ERROR);
         status.put(SaleStatus.PROCESSED, OrderStatus.INVOICED);
-        status.put(null, OrderStatus.ERROR);
     }
 
     private final MostRecentOrderFinderOutPort mostRecentOrderFinderOutPort;

@@ -83,7 +83,7 @@ public final class OrderProcessorUseCaseImpl implements OrderProcessorUseCase {
     }
 
     private Order.OrderBuilder buildOrderBuilder(OrderRequest orderRequest) {
-        LocalDateTime now = watchService.nowLocalDateTime();
+        final LocalDateTime now = watchService.nowLocalDateTime();
         return Order.builder()
                 .orderRequest(orderRequest)
                 .createdDate(now)
