@@ -1,6 +1,6 @@
 package br.com.alc.ecommerce.channel.core.service.generator;
 
-public interface CepGeneratorService {
+public interface ZipCodeGeneratorService {
 
     String execute();
 

@@ -1,18 +1,18 @@
 package br.com.alc.ecommerce.channel.core.service.generator.impl;
 
-import br.com.alc.ecommerce.channel.core.service.generator.CepGeneratorService;
+import br.com.alc.ecommerce.channel.core.service.generator.ZipCodeGeneratorService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
 import static br.com.alc.ecommerce.channel.core.util.ObjectMapperUtil.generateJson;
 
 @Log4j2
 @AllArgsConstructor
-public final class CepGeneratorServiceImpl implements CepGeneratorService {
+public final class ZipCodeGeneratorServiceImpl implements ZipCodeGeneratorService {
 
-    private static final String[] CEPS = new String[]{
+    private static final String[] ZIP_CODES = new String[]{
             "01001000", // Praça da Sé, São Paulo/SP
             "20040000", // Avenida Rio Branco, Rio de Janeiro/RJ
             "30130000", // Praça Sete de Setembro, Belo Horizonte/MG
@@ -36,9 +36,9 @@ public final class CepGeneratorServiceImpl implements CepGeneratorService {
 
     @Override
     public String execute() {
-        int index = ThreadLocalRandom.current().nextInt(CEPS.length);
-        String cep = CEPS[index];
-        log.info("Outgoing from CepGeneratorServiceImpl: {}", generateJson(cep));
-        return cep;
+        int index = RandomGenerator.getDefault().nextInt(ZIP_CODES.length);
+        String zipCode = ZIP_CODES[index];
+        log.info("Outgoing from ZipCodeGeneratorServiceImpl: {}", generateJson(zipCode));
+        return zipCode;
     }
 }

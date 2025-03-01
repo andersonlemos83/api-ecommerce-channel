@@ -32,18 +32,6 @@ public class MessagingProducerImpl implements MessagingProducer {
         }
     }
 
-    @Async
-    @Override
-    public void publish(String queue, Object request) {
-        try {
-            final String content = generateJson(request);
-            log.info("---> Sending to queue {} - {}", queue, content);
-            rabbitTemplate.convertAndSend(queue, buildMessage(content));
-        } catch (Exception exception) {
-            log.error(exception.getMessage(), exception);
-        }
-    }
-
     private Message buildMessage(String content) {
         return MessageBuilder.withBody(content.getBytes(UTF_8))
                 .setContentType(CONTENT_TYPE_JSON)

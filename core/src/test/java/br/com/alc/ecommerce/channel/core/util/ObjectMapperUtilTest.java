@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SuppressWarnings("java:S5786") // Public required for JUnit test suite
@@ -23,5 +26,22 @@ public class ObjectMapperUtilTest {
         Object nonSerializableObject = new Object();
         String jsonReturned = ObjectMapperUtil.generateJson(nonSerializableObject);
         assertEquals(nonSerializableObject.toString(), jsonReturned);
+    }
+
+    @Test
+    void givenAnValidJsonWhenExecutingTheGenerateMapMethodThenShouldReturnAnExpectedMap() {
+        Map<String, Object> mapExpected = new HashMap<>();
+        mapExpected.put("orderQuantity", 100);
+
+        Map<String, Object> mapReturned = ObjectMapperUtil.generateMap("{\"orderQuantity\":100}");
+
+        assertEquals(mapExpected, mapReturned);
+    }
+
+    @Test
+    void givenAnInvalidJsonWhenExecutingTheGenerateMapMethodThenShouldReturnAnEmptyMap() {
+        Map<String, Object> mapExpected = new HashMap<>();
+        Map<String, Object> mapReturned = ObjectMapperUtil.generateMap("");
+        assertEquals(mapExpected, mapReturned);
     }
 }

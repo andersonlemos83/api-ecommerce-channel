@@ -3,12 +3,12 @@ package br.com.alc.ecommerce.channel.infrastructure.configuration;
 import br.com.alc.ecommerce.channel.core.port.input.*;
 import br.com.alc.ecommerce.channel.core.port.input.impl.*;
 import br.com.alc.ecommerce.channel.core.port.output.*;
-import br.com.alc.ecommerce.channel.core.service.generator.CepGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderNumberGeneratorService;
-import br.com.alc.ecommerce.channel.core.service.generator.impl.CepGeneratorServiceImpl;
+import br.com.alc.ecommerce.channel.core.service.generator.ZipCodeGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.impl.OrderGeneratorServiceImpl;
 import br.com.alc.ecommerce.channel.core.service.generator.impl.OrderNumberGeneratorServiceImpl;
+import br.com.alc.ecommerce.channel.core.service.generator.impl.ZipCodeGeneratorServiceImpl;
 import br.com.alc.ecommerce.channel.core.service.validator.ByPeriodOrderFinderValidatorService;
 import br.com.alc.ecommerce.channel.core.service.validator.impl.ByPeriodOrderFinderValidatorServiceImpl;
 import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
@@ -49,16 +49,16 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public OrderGeneratorUseCase orderGeneratorUseCase(CepGeneratorService cepGeneratorService,
+    public OrderGeneratorUseCase orderGeneratorUseCase(ZipCodeGeneratorService zipCodeGeneratorService,
                                                        AddressFinderOutPort addressFinderOutPort,
                                                        OrderGeneratorService orderGeneratorService,
                                                        OrderIntegratorOutPort orderIntegratorOutPort) {
-        return new OrderGeneratorUseCaseImpl(cepGeneratorService, addressFinderOutPort, orderGeneratorService, orderIntegratorOutPort);
+        return new OrderGeneratorUseCaseImpl(zipCodeGeneratorService, addressFinderOutPort, orderGeneratorService, orderIntegratorOutPort);
     }
 
     @Bean
-    public CepGeneratorService cepGeneratorService() {
-        return new CepGeneratorServiceImpl();
+    public ZipCodeGeneratorService zipCodeGeneratorService() {
+        return new ZipCodeGeneratorServiceImpl();
     }
 
     @Bean

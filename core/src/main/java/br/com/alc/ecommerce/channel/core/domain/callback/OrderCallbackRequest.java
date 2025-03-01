@@ -26,7 +26,7 @@ public final class OrderCallbackRequest implements Serializable {
     private SaleStatus status;
     private String errorReason;
 
-    public boolean isNotProcessedOrError() {
+    public boolean isNotProcessedOrNotError() {
         return !(PROCESSED.equals(status) || ERROR.equals(status));
     }
 }

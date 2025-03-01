@@ -1,0 +1,10 @@
+{
+  "cep": null,
+  "logradouro": null,
+  "complemento": null,
+  "bairro": null,
+  "localidade": null,
+  "uf": null,
+  "ddd": null,
+  "erro": true
+}

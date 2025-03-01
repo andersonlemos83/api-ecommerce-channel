@@ -41,7 +41,7 @@ public final class OrderCallbackProcessorUseCaseImpl implements OrderCallbackPro
         log.info("Incoming into OrderCallbackProcessorUseCaseImpl: {}", generateJson(orderCallbackRequest));
         Optional<Order> orderOptional = mostRecentOrderFinderOutPort.execute(orderCallbackRequest.getOrderNumber());
 
-        if (orderOptional.isEmpty() || orderCallbackRequest.isNotProcessedOrError()) {
+        if (orderOptional.isEmpty() || orderCallbackRequest.isNotProcessedOrNotError()) {
             log.info(OUTGOING_TEMPLATE, orderCallbackRequest.getStatus(), generateJson(orderCallbackRequest));
             return;
         }

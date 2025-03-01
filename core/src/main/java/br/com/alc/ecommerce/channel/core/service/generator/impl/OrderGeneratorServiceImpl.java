@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
 import static br.com.alc.ecommerce.channel.core.domain.order.DocumentType.CPF;
 import static br.com.alc.ecommerce.channel.core.domain.order.PaymentMethod.*;
@@ -43,9 +43,9 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
                 .companyCode(buildRandomCompanyCode())
                 .storeCode(buildRandomStoreCode())
                 .pos(buildRandomPos())
+                .orderNumber(orderGeneratorRequest.getOrderNumber())
                 .totalValue(totalValue)
                 .freightValue(freightValue)
-                .orderNumber(orderGeneratorRequest.getOrderNumber())
                 .customer(buildRandomCustomer(addressResponse))
                 .items(items)
                 .payments(buildRandomPayments(totalValue))
@@ -67,16 +67,16 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
     }
 
     private BigInteger buildRandomCode() {
-        long randomCode = ThreadLocalRandom.current().nextLong(999999999);
+        long randomCode = RandomGenerator.getDefault().nextLong(999999999);
         return BigInteger.valueOf(randomCode);
     }
 
     private Integer buildRandomQuantity() {
-        return ThreadLocalRandom.current().nextInt(1, 10);
+        return RandomGenerator.getDefault().nextInt(1, 10);
     }
 
     private BigDecimal buildRandomItemValue() {
-        double randomValue = ThreadLocalRandom.current().nextDouble(1, 100);
+        double randomValue = RandomGenerator.getDefault().nextDouble(1, 100);
         return BigDecimal.valueOf(randomValue).setScale(2, HALF_EVEN);
     }
 
@@ -98,22 +98,22 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
 
     private String buildRandomChannelCode() {
         List<String> channels = Arrays.asList("WEB", "APP", "STR", "SLF");
-        int randomIndex = ThreadLocalRandom.current().nextInt(channels.size());
+        int randomIndex = RandomGenerator.getDefault().nextInt(channels.size());
         return channels.get(randomIndex);
     }
 
     private String buildRandomCompanyCode() {
-        int randomCompanyCode = ThreadLocalRandom.current().nextInt(999);
+        int randomCompanyCode = RandomGenerator.getDefault().nextInt(999);
         return StringUtils.leftPad(String.valueOf(randomCompanyCode), 3, '0');
     }
 
     private String buildRandomStoreCode() {
-        int randomStoreCode = ThreadLocalRandom.current().nextInt(999);
+        int randomStoreCode = RandomGenerator.getDefault().nextInt(999);
         return StringUtils.leftPad(String.valueOf(randomStoreCode), 3, '0');
     }
 
     private Integer buildRandomPos() {
-        return ThreadLocalRandom.current().nextInt(999);
+        return RandomGenerator.getDefault().nextInt(999);
     }
 
     private Customer buildRandomCustomer(AddressResponse addressResponse) {
@@ -123,7 +123,7 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
                 .name(name)
                 .document(buildRandomDocument(documentType))
                 .documentType(documentType)
-                .address(addressResponse.getCity())
+                .address(addressResponse.getStreet())
                 .addressNumber(buildRandomAddressNumber())
                 .addressComplement(addressResponse.getComplement())
                 .neighborhood(addressResponse.getNeighborhood())
@@ -138,7 +138,7 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
 
     private DocumentType buildRandomDocumentType() {
         List<DocumentType> documents = Arrays.stream(DocumentType.values()).toList();
-        int randomIndex = ThreadLocalRandom.current().nextInt(documents.size());
+        int randomIndex = RandomGenerator.getDefault().nextInt(documents.size());
         return documents.get(randomIndex);
     }
 
@@ -157,12 +157,12 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
     }
 
     private String buildRandomAddressNumber() {
-        int addressNumber = ThreadLocalRandom.current().nextInt(999);
+        int addressNumber = RandomGenerator.getDefault().nextInt(999);
         return String.valueOf(addressNumber);
     }
 
     private String buildRandomPhone(String ddd) {
-        int randomNumber = 10000000 + ThreadLocalRandom.current().nextInt(90000000);
+        int randomNumber = 10000000 + RandomGenerator.getDefault().nextInt(90000000);
         return String.format("(%d) %d%d-%04d", Integer.valueOf(ddd), 9, randomNumber / 10000, randomNumber % 10000);
     }
 
@@ -190,12 +190,12 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
 
     private PaymentMethod buildRandomPaymentMethod() {
         List<PaymentMethod> methods = Arrays.stream(PaymentMethod.values()).toList();
-        int randomIndex = ThreadLocalRandom.current().nextInt(methods.size());
+        int randomIndex = RandomGenerator.getDefault().nextInt(methods.size());
         return methods.get(randomIndex);
     }
 
     private String buildRandomAuthorizationCode() {
-        int randomAuthorizationCode = ThreadLocalRandom.current().nextInt(999999);
+        int randomAuthorizationCode = RandomGenerator.getDefault().nextInt(999999);
         return String.valueOf(randomAuthorizationCode);
     }
 
@@ -203,8 +203,8 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
         return Optional.ofNullable(paymentMethod)
                 .filter(p -> CREDIT.equals(p) || DEBIT.equals(p))
                 .map(p -> {
-                    int randomPrefix = ThreadLocalRandom.current().nextInt(10000000, 99999999);
-                    int randomSufix = ThreadLocalRandom.current().nextInt(10000000, 99999999);
+                    int randomPrefix = RandomGenerator.getDefault().nextInt(10000000, 99999999);
+                    int randomSufix = RandomGenerator.getDefault().nextInt(10000000, 99999999);
                     return "" + randomPrefix + randomSufix;
                 })
                 .orElse(null);

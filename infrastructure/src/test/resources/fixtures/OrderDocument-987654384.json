@@ -1,0 +1,97 @@
+{
+  "id": null,
+  "orderRequest": {
+    "channelCode": "SLF",
+    "companyCode": "403",
+    "storeCode": "843",
+    "pos": 518,
+    "orderNumber": "987654384",
+    "totalValue": 2598.66,
+    "freightValue": 25.73,
+    "customer": {
+      "name": "Moen Group",
+      "document": "75.871.351/0001-77",
+      "documentType": "CNPJ",
+      "address": "Avenida Presidente Vargas",
+      "addressNumber": "447",
+      "addressComplement": "até 379/380",
+      "neighborhood": "Campina",
+      "city": "Belém",
+      "state": "PA",
+      "country": "Brasil",
+      "zipCode": "66010-000",
+      "phone": "(91) 98216-6892",
+      "email": "moen.group@gmail.com"
+    },
+    "items": [
+      {
+        "code": 906091357,
+        "quantity": 6,
+        "value": 74.40
+      },
+      {
+        "code": 899384424,
+        "quantity": 4,
+        "value": 88.03
+      },
+      {
+        "code": 504372542,
+        "quantity": 3,
+        "value": 18.00
+      },
+      {
+        "code": 542347814,
+        "quantity": 8,
+        "value": 29.76
+      },
+      {
+        "code": 543608661,
+        "quantity": 2,
+        "value": 57.04
+      },
+      {
+        "code": 490704376,
+        "quantity": 8,
+        "value": 28.95
+      },
+      {
+        "code": 805897383,
+        "quantity": 9,
+        "value": 2.41
+      },
+      {
+        "code": 621396197,
+        "quantity": 8,
+        "value": 22.75
+      },
+      {
+        "code": 48184947,
+        "quantity": 4,
+        "value": 87.86
+      },
+      {
+        "code": 97522969,
+        "quantity": 6,
+        "value": 96.91
+      }
+    ],
+    "payments": [
+      {
+        "paymentMethod": "PIX",
+        "paymentDate": "2025-02-27T12:21:55",
+        "authorizationCode": "116826",
+        "cardNumber": null,
+        "pixKey": "dcbd5381-d32d-45e6-ab9e-6f0b79c579d5",
+        "value": 2598.66
+      }
+    ]
+  },
+  "invoiceKey": null,
+  "invoiceNumber": null,
+  "issuanceDate": null,
+  "invoiceBase64": null,
+  "status": "ERROR",
+  "errorReason": "O valor total dos itens está diferente do total informado.",
+  "createdDate": "2025-02-27T12:21:55",
+  "updatedDate": "2025-02-27T12:21:55"
+}
