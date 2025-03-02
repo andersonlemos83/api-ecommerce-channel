@@ -74,7 +74,7 @@ public class CustomerInvoiceSenderServiceImpl implements CustomerInvoiceSenderSe
                 .emailTo(order.fetchCustomerEmail())
                 .emailSubject(EMAIL_SUBJECT)
                 .emailBody(buildEmailBody(order))
-                .invoiceBase64(order.getInvoiceBase64())
+                .attachmentBase64(order.getInvoiceBase64())
                 .fileName(buildFileName(order))
                 .build();
     }

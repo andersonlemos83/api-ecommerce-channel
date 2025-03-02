@@ -27,7 +27,7 @@ public class CustomerInvoiceEmailSenderImplTest {
     void givenAhValidCustomerInvoiceRequestWhenExecutingTheSendMethodThenShouldCallJavaMailSender() {
         String invoiceBase64 = ResourceFixture.getContentFromResource("/fixtures/InvoiceBase64-27250212345678550010000000011234567898765432.txt");
         CustomerInvoiceRequestDto customerInvoiceRequestDto = Instancio.create(CustomerInvoiceRequestDto.class);
-        customerInvoiceRequestDto.setInvoiceBase64(invoiceBase64);
+        customerInvoiceRequestDto.setAttachmentBase64(invoiceBase64);
         MimeMessage mimeMessage = Instancio.create(MimeMessage.class);
 
         when(javaMailSenderMock.createMimeMessage()).thenReturn(mimeMessage);

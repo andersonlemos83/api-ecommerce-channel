@@ -14,7 +14,7 @@ public class CustomerInvoiceRequest implements Serializable {
     private String emailTo;
     private String emailSubject;
     private String emailBody;
-    private String invoiceBase64;
+    private String attachmentBase64;
     private String fileName;
 
 }

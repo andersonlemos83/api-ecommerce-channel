@@ -75,7 +75,7 @@ public class CustomerInvoiceSenderServiceImplTest {
         assertEquals("martin_lopes@rafaelmarin.net", request.getEmailTo());
         assertEquals("Email de Nota Fiscal - E-Commerce Digital Fictício Ltda", request.getEmailSubject());
         assertEquals(EMAIL_BODY_EXPECTED, request.getEmailBody());
-        assertEquals("UklGRtzoBQBXRUJQVlA---TESTE---4IGwsBADQXwqdASoABAAEPjEW", request.getInvoiceBase64());
+        assertEquals("UklGRtzoBQBXRUJQVlA---TESTE---4IGwsBADQXwqdASoABAAEPjEW", request.getAttachmentBase64());
         assertEquals("nota-fiscal-27250212345678550010000000011234567898765432.png", request.getFileName());
     }
 

@@ -39,7 +39,7 @@ public class CustomerInvoiceEmailSenderImpl implements CustomerInvoiceEmailSende
             mimeMessageHelper.setText(customerInvoiceRequestDto.getEmailBody(), true);
             mimeMessageHelper.setFrom(EMAIL_FROM);
 
-            InputStreamSource attachmentInputStreamSource = buildAttachmentInputStreamSource(customerInvoiceRequestDto.getInvoiceBase64());
+            InputStreamSource attachmentInputStreamSource = buildAttachmentInputStreamSource(customerInvoiceRequestDto.getAttachmentBase64());
             mimeMessageHelper.addAttachment(customerInvoiceRequestDto.getFileName(), attachmentInputStreamSource);
 
             log.info("---> Sending e-mail to {}", mimeMessage.getAllRecipients());
@@ -49,8 +49,8 @@ public class CustomerInvoiceEmailSenderImpl implements CustomerInvoiceEmailSende
         }
     }
 
-    private InputStreamSource buildAttachmentInputStreamSource(String invoiceBase64) {
-        byte[] decodedBytes = Base64.getDecoder().decode(invoiceBase64);
+    private InputStreamSource buildAttachmentInputStreamSource(String attachmentBase64) {
+        byte[] decodedBytes = Base64.getDecoder().decode(attachmentBase64);
         return new ByteArrayResource(decodedBytes);
     }
 }

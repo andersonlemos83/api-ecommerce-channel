@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nota Fiscal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Nota Fiscal Eletrônica (NF-e)</h2>
+        <p><strong>E-COMMERCE DIGITAL FICTÍCIO LTDA</strong><br>CNPJ 63855524000184</p>
+        <p><strong>Total (R$):</strong> 105,04</p>
+        <p><strong>Emissão:</strong> 30/01/2025 13:49:00</p>
+        <p><strong>Descrição:</strong> Compra fictícia no E-COMMERCE DIGITAL FICTÍCIO LTDA</p>
+        <p><strong>Número da nota:</strong> 000000001</p>
+        <p><strong>Chave da nota:</strong> 27250212345678550010000000011234567898765432</p>
+    </div>
+</body>
+</html>

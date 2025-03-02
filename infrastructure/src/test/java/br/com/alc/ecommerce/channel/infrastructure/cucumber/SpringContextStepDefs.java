@@ -2,6 +2,7 @@ package br.com.alc.ecommerce.channel.infrastructure.cucumber;
 
 import br.com.alc.ecommerce.channel.infrastructure.EcommerceChannelInfrastructureApplication;
 import br.com.alc.ecommerce.channel.infrastructure.config.EcommerceChannelInfrastructureConfig;
+import br.com.alc.ecommerce.channel.infrastructure.config.GreenMailConfig;
 import br.com.alc.ecommerce.channel.infrastructure.config.RabbitConfig;
 import br.com.alc.ecommerce.channel.infrastructure.config.WireMockConfig;
 import br.com.alc.ecommerce.channel.infrastructure.cucumber.stepdefs.StepDefs;
@@ -27,7 +28,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @AutoConfigureWebTestClient
 @CucumberContextConfiguration
 @SpringBootTest(classes = EcommerceChannelInfrastructureApplication.class, webEnvironment = DEFINED_PORT)
-@ContextConfiguration(classes = {EcommerceChannelInfrastructureApplication.class, EcommerceChannelInfrastructureConfig.class, RabbitConfig.class, WireMockConfig.class})
+@ContextConfiguration(classes = {EcommerceChannelInfrastructureApplication.class, EcommerceChannelInfrastructureConfig.class, RabbitConfig.class, WireMockConfig.class, GreenMailConfig.class})
 public class SpringContextStepDefs extends StepDefs {
 
     @DefaultParameterTransformer
@@ -64,7 +65,7 @@ public class SpringContextStepDefs extends StepDefs {
 
     @Before
     @Override
-    public void initializeContext() {
+    public void initializeContext() throws Exception {
         super.initializeContext();
     }
 
