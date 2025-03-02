@@ -3,6 +3,7 @@ package br.com.alc.ecommerce.channel.core.domain.order;
 import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -31,6 +32,18 @@ public final class Order implements Serializable {
     public String fetchOrderNumber() {
         return Optional.ofNullable(orderRequest)
                 .map(OrderRequest::getOrderNumber)
+                .orElse(null);
+    }
+
+    public BigDecimal fetchTotalValue() {
+        return Optional.ofNullable(orderRequest)
+                .map(OrderRequest::getTotalValue)
+                .orElse(null);
+    }
+
+    public String fetchCustomerEmail() {
+        return Optional.ofNullable(orderRequest)
+                .map(OrderRequest::fetchCustomerEmail)
                 .orElse(null);
     }
 

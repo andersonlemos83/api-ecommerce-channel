@@ -7,6 +7,7 @@ import br.com.alc.ecommerce.channel.core.domain.order.SaleStatus;
 import br.com.alc.ecommerce.channel.core.port.input.OrderCallbackProcessorUseCase;
 import br.com.alc.ecommerce.channel.core.port.output.MostRecentOrderFinderOutPort;
 import br.com.alc.ecommerce.channel.core.port.output.OrderInserterOutPort;
+import br.com.alc.ecommerce.channel.core.service.customerinvoice.CustomerInvoiceSenderService;
 import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -33,6 +34,7 @@ public final class OrderCallbackProcessorUseCaseImpl implements OrderCallbackPro
 
     private final MostRecentOrderFinderOutPort mostRecentOrderFinderOutPort;
     private final OrderInserterOutPort orderInserterOutPort;
+    private final CustomerInvoiceSenderService customerInvoiceSenderService;
     private final WatchService watchService;
 
     @Override
@@ -47,6 +49,9 @@ public final class OrderCallbackProcessorUseCaseImpl implements OrderCallbackPro
 
         Order order = buildUpdatedOrder(orderCallbackRequest, orderOptional.get());
         orderInserterOutPort.execute(order);
+        if (order.isInvoiced()) {
+            customerInvoiceSenderService.execute(order);
+        }
         log.info(OUTGOING_TEMPLATE, order.getStatus(), generateJson(order));
     }
 

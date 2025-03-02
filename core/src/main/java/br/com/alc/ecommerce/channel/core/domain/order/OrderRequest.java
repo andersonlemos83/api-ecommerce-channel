@@ -5,6 +5,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -24,4 +25,9 @@ public final class OrderRequest implements Serializable {
     private List<ShoppingCartItem> items;
     private List<Payment> payments;
 
+    public String fetchCustomerEmail() {
+        return Optional.ofNullable(customer)
+                .map(Customer::getEmail)
+                .orElse(null);
+    }
 }

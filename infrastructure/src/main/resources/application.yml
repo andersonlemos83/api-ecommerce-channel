@@ -51,6 +51,19 @@ spring:
       uri: mongodb://localhost:27017/ecommerce_db
       repositories:
         enabled: true
+  mail:
+    host: null
+    port: 25
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+          connectiontimeout: 30000
+          timeout: 30000
+          writetimeout: 30000
 
 server:
   compression:

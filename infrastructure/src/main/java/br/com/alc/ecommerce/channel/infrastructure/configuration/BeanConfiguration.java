@@ -3,6 +3,8 @@ package br.com.alc.ecommerce.channel.infrastructure.configuration;
 import br.com.alc.ecommerce.channel.core.port.input.*;
 import br.com.alc.ecommerce.channel.core.port.input.impl.*;
 import br.com.alc.ecommerce.channel.core.port.output.*;
+import br.com.alc.ecommerce.channel.core.service.customerinvoice.CustomerInvoiceSenderService;
+import br.com.alc.ecommerce.channel.core.service.customerinvoice.impl.CustomerInvoiceSenderServiceImpl;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderNumberGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.ZipCodeGeneratorService;
@@ -82,8 +84,9 @@ public class BeanConfiguration {
     @Bean
     public OrderCallbackProcessorUseCase orderCallbackProcessorUseCase(MostRecentOrderFinderOutPort mostRecentOrderFinderOutPort,
                                                                        OrderInserterOutPort orderInserterOutPort,
+                                                                       CustomerInvoiceSenderService customerInvoiceSenderService,
                                                                        WatchService watchService) {
-        return new OrderCallbackProcessorUseCaseImpl(mostRecentOrderFinderOutPort, orderInserterOutPort, watchService);
+        return new OrderCallbackProcessorUseCaseImpl(mostRecentOrderFinderOutPort, orderInserterOutPort, customerInvoiceSenderService, watchService);
     }
 
     @Bean
@@ -100,5 +103,10 @@ public class BeanConfiguration {
     @Bean
     public ByPeriodOrderFinderValidatorService byPeriodOrderFinderValidatorService() {
         return new ByPeriodOrderFinderValidatorServiceImpl();
+    }
+
+    @Bean
+    public CustomerInvoiceSenderService customerInvoiceSenderService(CustomerInvoiceSenderOutPort customerInvoiceSenderOutPort) {
+        return new CustomerInvoiceSenderServiceImpl(customerInvoiceSenderOutPort);
     }
 }
