@@ -11,11 +11,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.io.InputStream;
+import java.util.*;
 
 import static jakarta.mail.Part.ATTACHMENT;
+import static java.util.Comparator.naturalOrder;
 import static org.junit.Assert.assertEquals;
 
 @Component
@@ -38,20 +38,22 @@ public class EmailVerifier {
     }
 
     private void verify(EmailDataTable expected, MimeMessage returned) throws MessagingException, IOException {
-        assertEquals(expected.generateEmailTo(), generateEmailToReturned(returned));
-        assertEquals(expected.generateEmailFrom(), generateEmailFromReturned(returned));
+        assertEquals(expected.generateEmailsTo(), generateEmailsToReturned(returned));
+        assertEquals(expected.generateEmailsFrom(), generateEmailsFromReturned(returned));
         assertEquals(expected.getEmailSubject(), returned.getSubject());
         assertEquals(expected.getEmailBody(), generateEmailBody(returned));
+        assertEquals(expected.generateAttachmentsBase64(), generateAttachmentsBase64Returned(returned));
+        assertEquals(expected.generateFileNames(), generateFileNamesReturned(returned));
     }
 
-    private List<String> generateEmailToReturned(MimeMessage returned) throws MessagingException {
+    private List<String> generateEmailsToReturned(MimeMessage returned) throws MessagingException {
         return Arrays.stream(returned.getAllRecipients())
                 .map(Address::toString)
                 .sorted(Comparator.naturalOrder())
                 .toList();
     }
 
-    private List<String> generateEmailFromReturned(MimeMessage returned) throws MessagingException {
+    private List<String> generateEmailsFromReturned(MimeMessage returned) throws MessagingException {
         return Arrays.stream(returned.getFrom())
                 .map(Address::toString)
                 .sorted(Comparator.naturalOrder())
@@ -87,5 +89,39 @@ public class EmailVerifier {
             }
         }
         return result.toString();
+    }
+
+    private List<String> generateAttachmentsBase64Returned(MimeMessage message) throws MessagingException, IOException {
+        Object content = message.getContent();
+        List<String> fileNames = new ArrayList<>();
+        if (content instanceof MimeMultipart mimeMultipart) {
+            for (int i = 0; i < mimeMultipart.getCount(); i++) {
+                BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+                if (ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition()) || bodyPart.getFileName() != null) {
+                    byte[] byteArray = ((InputStream) bodyPart.getContent()).readAllBytes();
+                    String attachmentBase64 = Base64.getEncoder().encodeToString(byteArray);
+                    fileNames.add(attachmentBase64);
+                }
+            }
+        }
+        return fileNames.stream()
+                .sorted(naturalOrder())
+                .toList();
+    }
+
+    private List<String> generateFileNamesReturned(MimeMessage message) throws MessagingException, IOException {
+        Object content = message.getContent();
+        List<String> fileNames = new ArrayList<>();
+        if (content instanceof MimeMultipart mimeMultipart) {
+            for (int i = 0; i < mimeMultipart.getCount(); i++) {
+                BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+                if (ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition()) || bodyPart.getFileName() != null) {
+                    fileNames.add(bodyPart.getFileName());
+                }
+            }
+        }
+        return fileNames.stream()
+                .sorted(naturalOrder())
+                .toList();
     }
 }

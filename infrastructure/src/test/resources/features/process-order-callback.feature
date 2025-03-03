@@ -19,8 +19,8 @@ Funcionalidade: Processar Callback Pedido
       | Json                                            |
       | /fixtures/OrderDocument-987654351-invoiced.json |
     E deveria enviar os e-mails esperados
-      | Email To Regex               | Email From Regex   | Email Subject                                           | Email Body                        |
-      | martin_lopes@rafaelmarin.net | no-reply@gmail.com | Email de Nota Fiscal - E-Commerce Digital Fictício Ltda | /fixtures/EmailBody-987654351.txt |
+      | Email To Regex               | Email From Regex   | Email Subject                                           | Email Body                        | Attachment Base64 Regex                                                  | File Name Regex                                              |
+      | martin_lopes@rafaelmarin.net | no-reply@gmail.com | Email de Nota Fiscal - E-Commerce Digital Fictício Ltda | /fixtures/EmailBody-987654351.txt | /fixtures/InvoiceBase64-27250212345678550010000000011234567898765432.txt | nota-fiscal-27250212345678550010000000011234567898765432.png |
 
   Cenario: 02 - Processar callback pedido valido com status de erro - Sucesso
     Dado que seja informado os dados de Order Callback Request

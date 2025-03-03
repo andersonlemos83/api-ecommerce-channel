@@ -4,11 +4,11 @@ import br.com.alc.ecommerce.channel.infrastructure.helper.fixture.ResourceFixtur
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.Comparator.naturalOrder;
 import static lombok.AccessLevel.NONE;
 
 @Data
@@ -23,27 +23,27 @@ public class EmailDataTable implements Serializable {
     private String emailSubject;
     @Getter(NONE)
     private String emailBody;
-    private String attachmentBase64;
-    private String fileName;
+    private String attachmentBase64Regex;
+    private String fileNameRegex;
 
-    public List<String> generateEmailTo() {
+    public List<String> generateEmailsTo() {
         if (emailToRegex == null || "".equalsIgnoreCase(emailToRegex)) {
             return emptyList();
         } else {
             return asList(emailToRegex.split(";"))
                     .stream()
-                    .sorted(Comparator.naturalOrder())
+                    .sorted(naturalOrder())
                     .toList();
         }
     }
 
-    public List<String> generateEmailFrom() {
+    public List<String> generateEmailsFrom() {
         if (emailFromRegex == null || "".equalsIgnoreCase(emailFromRegex)) {
             return emptyList();
         } else {
             return asList(emailFromRegex.split(";"))
                     .stream()
-                    .sorted(Comparator.naturalOrder())
+                    .sorted(naturalOrder())
                     .toList();
         }
     }
@@ -56,5 +56,33 @@ public class EmailDataTable implements Serializable {
             return ResourceFixture.getContentFromResource(emailBody);
         }
         return emailBody;
+    }
+
+    public List<String> generateAttachmentsBase64() {
+        if (attachmentBase64Regex == null || "".equalsIgnoreCase(attachmentBase64Regex)) {
+            return emptyList();
+        } else {
+            return asList(attachmentBase64Regex.split(";;"))
+                    .stream()
+                    .map(attachment -> {
+                        if (attachment.startsWith("/fixtures/")) {
+                            return ResourceFixture.getContentFromResource(attachmentBase64Regex);
+                        }
+                        return attachment;
+                    })
+                    .sorted(naturalOrder())
+                    .toList();
+        }
+    }
+
+    public List<String> generateFileNames() {
+        if (fileNameRegex == null || "".equalsIgnoreCase(fileNameRegex)) {
+            return emptyList();
+        } else {
+            return asList(fileNameRegex.split(";;"))
+                    .stream()
+                    .sorted(naturalOrder())
+                    .toList();
+        }
     }
 }

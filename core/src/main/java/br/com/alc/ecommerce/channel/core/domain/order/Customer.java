@@ -14,6 +14,9 @@ public final class Customer implements Serializable {
     private String name;
     private String document;
     private DocumentType documentType;
+    private String phone;
+    private String email;
+
     private String address;
     private String addressNumber;
     private String addressComplement;
@@ -22,7 +25,5 @@ public final class Customer implements Serializable {
     private String state;
     private String country;
     private String zipCode;
-    private String phone;
-    private String email;
 
 }
