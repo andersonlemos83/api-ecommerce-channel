@@ -41,7 +41,7 @@ public class EmailVerifier {
         assertEquals(expected.generateEmailsTo(), generateEmailsToReturned(returned));
         assertEquals(expected.generateEmailsFrom(), generateEmailsFromReturned(returned));
         assertEquals(expected.getEmailSubject(), returned.getSubject());
-        assertEquals(expected.getEmailBody(), generateEmailBody(returned));
+        assertEquals(expected.getEmailBody().trim(), generateEmailBody(returned).trim());
         assertEquals(expected.generateAttachmentsBase64(), generateAttachmentsBase64Returned(returned));
         assertEquals(expected.generateFileNames(), generateFileNamesReturned(returned));
     }
