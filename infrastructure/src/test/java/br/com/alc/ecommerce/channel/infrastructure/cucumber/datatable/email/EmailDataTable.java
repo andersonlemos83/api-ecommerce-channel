@@ -53,7 +53,9 @@ public class EmailDataTable implements Serializable {
             return null;
         }
         if (emailBody.startsWith("/fixtures/")) {
-            return ResourceFixture.getContentFromResource(emailBody);
+            return ResourceFixture.getContentFromResource(emailBody)
+                    .replaceAll("[\\r\\n]+", "")
+                    .trim();
         }
         return emailBody;
     }

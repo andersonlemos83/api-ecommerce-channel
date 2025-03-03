@@ -23,7 +23,7 @@ public class CustomerInvoiceSenderServiceImpl implements CustomerInvoiceSenderSe
 
     private static final String EMAIL_SUBJECT = "Email de Nota Fiscal - E-Commerce Digital Fictício Ltda";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    private static final NumberFormat REAL_FORMATTER = NumberFormat.getInstance(new Locale("pt", "BR"));
+    private static final NumberFormat REAL_FORMATTER = NumberFormat.getInstance(Locale.of("pt", "BR"));
     private static final String EMAIL_BODY_TEMPLATE = """
             <!DOCTYPE html>
             <html lang="pt-BR">

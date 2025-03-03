@@ -38,4 +38,5 @@ client:
   via-cep:
     url: https://viacep.com.br/
   ecommerce-checkout:
-    url: http://localhost:8181/
+    url: http://localhost:8443/ # Wiremock
+#    url: http://localhost:8181/ # API

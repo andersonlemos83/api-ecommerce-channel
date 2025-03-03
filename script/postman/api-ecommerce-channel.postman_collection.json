@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "fb0b5a91-cc4e-49a9-a9b7-9b60c02293da",
+		"name": "api-ecommerce-channel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2549117"
+	},
+	"item": [
+		{
+			"name": "Start Order Bot Stream",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"orderQuantity\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8383/order/start-bot",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"order",
+						"start-bot"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Order By Order Number",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8383/order/292631570",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"order",
+						"292631570"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Orders By Period Stream",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8383/order/paginated?startPeriodDate=2025-01-01&endPeriodDate=2026-01-01&pageNumber=0&pageSize=20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"order",
+						"paginated"
+					],
+					"query": [
+						{
+							"key": "startPeriodDate",
+							"value": "2025-01-01"
+						},
+						{
+							"key": "endPeriodDate",
+							"value": "2026-01-01"
+						},
+						{
+							"key": "pageNumber",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Viacep",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://viacep.com.br/ws/30130000/json/",
+					"protocol": "https",
+					"host": [
+						"viacep",
+						"com",
+						"br"
+					],
+					"path": [
+						"ws",
+						"30130000",
+						"json",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

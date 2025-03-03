@@ -1,0 +1,16 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/authorize-sale"
+    },
+    "response": {
+        "status": 200,
+        "jsonBody": {
+            "status": "IN_PROCESSING",
+            "date": "2025-01-30T13:48:00.000"
+        },
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        }
+    }
+}

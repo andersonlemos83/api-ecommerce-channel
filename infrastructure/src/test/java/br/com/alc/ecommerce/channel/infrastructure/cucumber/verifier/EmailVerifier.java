@@ -41,7 +41,7 @@ public class EmailVerifier {
         assertEquals(expected.generateEmailsTo(), generateEmailsToReturned(returned));
         assertEquals(expected.generateEmailsFrom(), generateEmailsFromReturned(returned));
         assertEquals(expected.getEmailSubject(), returned.getSubject());
-        assertEquals(expected.getEmailBody().trim().replaceAll("\\s+", ""), generateEmailBody(returned).trim().replaceAll("\\s+", ""));
+        assertEquals(expected.getEmailBody(), generateEmailBody(returned));
         assertEquals(expected.generateAttachmentsBase64(), generateAttachmentsBase64Returned(returned));
         assertEquals(expected.generateFileNames(), generateFileNamesReturned(returned));
     }
@@ -88,7 +88,9 @@ public class EmailVerifier {
                 result.append(generateText((MimeMultipart) bodyPart.getContent()));
             }
         }
-        return result.toString();
+        return result.toString()
+                .replaceAll("[\\r\\n]+", "")
+                .trim();
     }
 
     private List<String> generateAttachmentsBase64Returned(MimeMessage message) throws MessagingException, IOException {
