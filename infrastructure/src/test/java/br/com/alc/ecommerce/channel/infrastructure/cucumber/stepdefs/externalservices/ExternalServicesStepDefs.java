@@ -21,9 +21,9 @@ public class ExternalServicesStepDefs extends StepDefs {
 
     private final EcommerceCheckoutClientVerifier ecommerceCheckoutClientVerifier;
 
-    @E("^que existam os seguintes responses disponiveis no endpoint findByCep$")
-    public void queExistamOsSeguintesResponsesDisponiveisNoEndpointFindByCep(List<JsonResponseDataTable> jsonResponseDataTableList) {
-        jsonResponseDataTableList.forEach(viaCepClientStub::configureFindByCepEndpoint);
+    @E("^que existam os seguintes responses disponiveis no endpoint findByZipCode$")
+    public void queExistamOsSeguintesResponsesDisponiveisNoEndpointFindByZipCode(List<JsonResponseDataTable> jsonResponseDataTableList) {
+        jsonResponseDataTableList.forEach(viaCepClientStub::configureFindByZipCodeEndpoint);
     }
 
     @E("^que existam os seguintes responses disponiveis no endpoint authorize-sale$")

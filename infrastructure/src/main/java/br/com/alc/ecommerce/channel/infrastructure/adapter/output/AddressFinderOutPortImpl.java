@@ -42,7 +42,7 @@ public class AddressFinderOutPortImpl implements AddressFinderOutPort {
             log.debug("Incoming into AddressFinderOutPortImpl: {}", generateJson(zipCode));
             return retryTemplate.execute(callback -> {
                 log.info("---> Request GET /ws/{}/json/ {}: {}", zipCode, callback.getRetryCount() + 1, zipCode);
-                AddressResponseDto addressResponseDto = viaCepClient.findByCep(zipCode);
+                AddressResponseDto addressResponseDto = viaCepClient.findByZipCode(zipCode);
                 log.info("<--- Response GET /ws/{}/json/: {}", zipCode, generateJson(addressResponseDto));
                 log.info("Save cache {}:{} - {}", ADDRESS_FINDER_CACHE, zipCode, generateJson(addressResponseDto));
                 AddressResponse addressResponse = modelMapper.map(addressResponseDto, AddressResponse.class);

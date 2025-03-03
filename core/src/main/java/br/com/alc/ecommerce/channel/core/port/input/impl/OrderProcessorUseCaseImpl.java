@@ -12,7 +12,6 @@ import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static br.com.alc.ecommerce.channel.core.domain.order.OrderStatus.*;
@@ -83,10 +82,9 @@ public final class OrderProcessorUseCaseImpl implements OrderProcessorUseCase {
     }
 
     private Order.OrderBuilder buildOrderBuilder(OrderRequest orderRequest) {
-        final LocalDateTime now = watchService.nowLocalDateTime();
         return Order.builder()
                 .orderRequest(orderRequest)
-                .createdDate(now)
-                .updatedDate(now);
+                .createdDate(watchService.nowLocalDateTime())
+                .updatedDate(watchService.nowLocalDateTime());
     }
 }

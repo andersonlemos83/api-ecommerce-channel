@@ -16,14 +16,14 @@ import static org.eclipse.jetty.http.HttpStatus.BAD_REQUEST_400;
 @RequiredArgsConstructor
 public class ViaCepClientStub {
 
-    private static final String URL_FIND_BY_CEP = "/ws/{0}/json/";
+    private static final String URL_FIND_BY_ZIP_CODE = "/ws/{0}/json/";
 
     private final WireMockServer wireMockServer;
 
     @SneakyThrows
-    public void configureFindByCepEndpoint(JsonResponseDataTable jsonResponseDataTable) {
+    public void configureFindByZipCodeEndpoint(JsonResponseDataTable jsonResponseDataTable) {
         String cep = Optional.ofNullable(jsonResponseDataTable.getKey()).map(String::valueOf).orElse(null);
-        String url = MessageFormat.format(URL_FIND_BY_CEP, cep);
+        String url = MessageFormat.format(URL_FIND_BY_ZIP_CODE, cep);
         if (jsonResponseDataTable.isStatusOk()) {
             wireMockServer.stubFor(get(urlEqualTo(url))
                     .withName(url)

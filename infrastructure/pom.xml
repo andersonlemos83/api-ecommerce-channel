@@ -275,7 +275,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- test - icegreen -->
+        <!-- test - greenmail -->
         <dependency>
             <groupId>com.icegreen</groupId>
             <artifactId>greenmail-junit5</artifactId>
