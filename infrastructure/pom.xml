@@ -120,6 +120,12 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+        <!-- spring-boot - mail -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
         <!-- spring-boot - actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -201,6 +207,12 @@
             <version>3.2.0</version>
         </dependency>
 
+        <!-- mail -->
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+        </dependency>
+
         <!-- spring-boot - test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -255,18 +267,19 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- test - rabbit -->
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <!-- test - wiremock -->
         <dependency>
             <groupId>org.wiremock</groupId>
             <artifactId>wiremock</artifactId>
             <version>3.2.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- test - icegreen -->
+        <dependency>
+            <groupId>com.icegreen</groupId>
+            <artifactId>greenmail-junit5</artifactId>
+            <version>2.0.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -393,7 +406,7 @@
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>5.0.0</version>
+                <version>9.0.1</version>
                 <executions>
                     <execution>
                         <id>get-the-git-infos</id>

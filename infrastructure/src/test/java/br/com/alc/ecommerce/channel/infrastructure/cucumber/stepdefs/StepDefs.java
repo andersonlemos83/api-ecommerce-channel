@@ -11,7 +11,7 @@ public class StepDefs {
     @Autowired
     private EnvironmentConfigurator environmentConfigurator;
 
-    public void initializeContext() {
+    public void initializeContext() throws Exception {
         environmentConfigurator.configureEnvironment();
         transitionDataTable = TransitionDataTable.builder().build();
     }

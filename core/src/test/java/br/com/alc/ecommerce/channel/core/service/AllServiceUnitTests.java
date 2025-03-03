@@ -1,5 +1,6 @@
 package br.com.alc.ecommerce.channel.core.service;
 
+import br.com.alc.ecommerce.channel.core.service.customerinvoice.impl.CustomerInvoiceSenderServiceImplTest;
 import br.com.alc.ecommerce.channel.core.service.generator.impl.OrderGeneratorServiceImplTest;
 import br.com.alc.ecommerce.channel.core.service.generator.impl.OrderNumberGeneratorServiceImplTest;
 import br.com.alc.ecommerce.channel.core.service.generator.impl.ZipCodeGeneratorServiceImplTest;
@@ -11,6 +12,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
 @Suite
 @SelectClasses({
+        CustomerInvoiceSenderServiceImplTest.class,
         OrderGeneratorServiceImplTest.class,
         OrderNumberGeneratorServiceImplTest.class,
         ZipCodeGeneratorServiceImplTest.class,

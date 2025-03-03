@@ -6,6 +6,7 @@ import br.com.alc.ecommerce.channel.core.domain.order.OrderStatus;
 import br.com.alc.ecommerce.channel.core.domain.order.SaleStatus;
 import br.com.alc.ecommerce.channel.core.port.output.MostRecentOrderFinderOutPort;
 import br.com.alc.ecommerce.channel.core.port.output.OrderInserterOutPort;
+import br.com.alc.ecommerce.channel.core.service.customerinvoice.CustomerInvoiceSenderService;
 import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
 import org.instancio.Instancio;
 import org.instancio.Select;
@@ -31,13 +32,16 @@ public class OrderCallbackProcessorUseCaseImplTest {
     private MostRecentOrderFinderOutPort mostRecentOrderFinderOutPortMock;
 
     @Mock
+    private CustomerInvoiceSenderService customerInvoiceSenderServiceMock;
+
+    @Mock
     private OrderInserterOutPort orderInserterOutPortMock;
 
     @Mock
     private WatchService watchServiceMock;
 
     @Test
-    void givenAnExistingOrderAndProcessedOrderCallbackWhenExecutingTheOrderCallbackProcessorThenShouldCallOrderInserterOutPort() {
+    void givenAnExistingOrderAndProcessedOrderCallbackWhenExecutingTheOrderCallbackProcessorThenShouldCallOrderInserterOutPortAndCallCustomerInvoiceSenderService() {
         OrderCallbackRequest orderCallbackRequest = Instancio.of(OrderCallbackRequest.class).set(Select.field("status"), SaleStatus.PROCESSED).create();
         Order orderReturned = Instancio.of(Order.class).set(Select.field("status"), OrderStatus.INVOICE_PENDING).create();
         LocalDateTime nowExpected = Instancio.create(LocalDateTime.class);
@@ -49,6 +53,7 @@ public class OrderCallbackProcessorUseCaseImplTest {
         orderCallbackProcessorUseCase.execute(orderCallbackRequest);
 
         verify(orderInserterOutPortMock, times(1)).execute(orderExpected);
+        verify(customerInvoiceSenderServiceMock, times(1)).execute(orderExpected);
     }
 
     @Test
@@ -64,6 +69,7 @@ public class OrderCallbackProcessorUseCaseImplTest {
         orderCallbackProcessorUseCase.execute(orderCallbackRequest);
 
         verify(orderInserterOutPortMock, times(1)).execute(orderExpected);
+        verifyNoInteractions(customerInvoiceSenderServiceMock);
     }
 
     @Test
@@ -75,7 +81,7 @@ public class OrderCallbackProcessorUseCaseImplTest {
 
         orderCallbackProcessorUseCase.execute(orderCallbackRequest);
 
-        verifyNoInteractions(orderInserterOutPortMock, watchServiceMock);
+        verifyNoInteractions(orderInserterOutPortMock, customerInvoiceSenderServiceMock, watchServiceMock);
     }
 
     @Test
@@ -86,7 +92,7 @@ public class OrderCallbackProcessorUseCaseImplTest {
 
         orderCallbackProcessorUseCase.execute(orderCallbackRequest);
 
-        verifyNoInteractions(orderInserterOutPortMock, watchServiceMock);
+        verifyNoInteractions(orderInserterOutPortMock, customerInvoiceSenderServiceMock, watchServiceMock);
     }
 
     private Order buildOrderExpected(OrderCallbackRequest orderCallbackRequest, Order orderReturned, OrderStatus orderStatus, LocalDateTime nowExpected) {

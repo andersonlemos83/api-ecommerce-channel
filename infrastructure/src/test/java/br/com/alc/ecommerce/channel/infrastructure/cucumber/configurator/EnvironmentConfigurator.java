@@ -4,6 +4,7 @@ import br.com.alc.ecommerce.channel.infrastructure.helper.manager.MongoDbManager
 import br.com.alc.ecommerce.channel.infrastructure.helper.manager.RabbitMqManager;
 import br.com.alc.ecommerce.channel.infrastructure.helper.manager.RedisManager;
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.icegreen.greenmail.util.GreenMail;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -23,14 +24,16 @@ public class EnvironmentConfigurator {
     private final RabbitMqManager rabbitMqManager;
     private final RedisManager redisManager;
     private final WireMockServer wireMockServer;
+    private final GreenMail greenMail;
 
-    public void configureEnvironment() {
+    public void configureEnvironment() throws Exception {
         log.info("START - Initializing Context");
         mongoDbManager.cleanDatabase();
         rabbitMqManager.disableAllListeners();
         rabbitMqManager.clearQueues(QUEUES);
         redisManager.clearCache();
         wireMockServer.resetAll();
+        greenMail.purgeEmailFromAllMailboxes();
         log.info("END - Initializing Context");
     }
 }

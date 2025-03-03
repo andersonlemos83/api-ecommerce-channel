@@ -3,6 +3,8 @@ package br.com.alc.ecommerce.channel.infrastructure.configuration;
 import br.com.alc.ecommerce.channel.core.port.input.*;
 import br.com.alc.ecommerce.channel.core.port.input.impl.*;
 import br.com.alc.ecommerce.channel.core.port.output.*;
+import br.com.alc.ecommerce.channel.core.service.customerinvoice.CustomerInvoiceSenderService;
+import br.com.alc.ecommerce.channel.core.service.customerinvoice.impl.CustomerInvoiceSenderServiceImpl;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.OrderNumberGeneratorService;
 import br.com.alc.ecommerce.channel.core.service.generator.ZipCodeGeneratorService;
@@ -15,6 +17,7 @@ import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
 import br.com.alc.ecommerce.channel.core.service.watch.impl.RealWatchService;
 import br.com.alc.ecommerce.channel.infrastructure.EcommerceChannelInfrastructureApplication;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -82,8 +85,9 @@ public class BeanConfiguration {
     @Bean
     public OrderCallbackProcessorUseCase orderCallbackProcessorUseCase(MostRecentOrderFinderOutPort mostRecentOrderFinderOutPort,
                                                                        OrderInserterOutPort orderInserterOutPort,
+                                                                       CustomerInvoiceSenderService customerInvoiceSenderService,
                                                                        WatchService watchService) {
-        return new OrderCallbackProcessorUseCaseImpl(mostRecentOrderFinderOutPort, orderInserterOutPort, watchService);
+        return new OrderCallbackProcessorUseCaseImpl(mostRecentOrderFinderOutPort, orderInserterOutPort, customerInvoiceSenderService, watchService);
     }
 
     @Bean
@@ -100,5 +104,10 @@ public class BeanConfiguration {
     @Bean
     public ByPeriodOrderFinderValidatorService byPeriodOrderFinderValidatorService() {
         return new ByPeriodOrderFinderValidatorServiceImpl();
+    }
+
+    @Bean
+    public CustomerInvoiceSenderService customerInvoiceSenderService(CustomerInvoiceSenderOutPort customerInvoiceSenderOutPort, @Value("${email.from}") String emailFrom) {
+        return new CustomerInvoiceSenderServiceImpl(customerInvoiceSenderOutPort, emailFrom);
     }
 }

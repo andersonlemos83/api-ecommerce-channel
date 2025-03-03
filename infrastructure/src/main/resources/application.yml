@@ -35,9 +35,6 @@ spring:
     order-exchange: order-exchange
     order-queue: order-queue
     sale-callback-queue: sale-callback-queue
-  web:
-    locale: pt_BR
-    locale-resolver: accept_header
   data:
     redis:
       repositories:
@@ -51,6 +48,22 @@ spring:
       uri: mongodb://localhost:27017/ecommerce_db
       repositories:
         enabled: true
+  mail:
+    host: null
+    port: 25
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+          connectiontimeout: 30000
+          timeout: 30000
+          writetimeout: 30000
+  web:
+    locale: pt_BR
+    locale-resolver: accept_header
 
 server:
   compression:
@@ -114,6 +127,9 @@ management:
   health:
     redis:
       enabled: false
+
+email:
+  from: no-reply@gmail.com
 
 client:
   via-cep:

@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  wiremock:
+    image: wiremock/wiremock:latest
+    container_name: wiremock
+    volumes:
+      - .wiremock:/home/wiremock
+    ports:
+      - "8443:8080"
+    expose:
+      - 8443
+    command: ["--verbose", "--root-dir", "/home/wiremock", "--global-response-templating"]
+
+# curl 'http://localhost:8443/findByCode?code=100231933559'

@@ -23,6 +23,9 @@ spring:
 #      uri: mongodb://ecommerce_user:ecommerce_user@localhost:27017/ecommerce_db?authSource=ecommerce_user
       repositories:
         enabled: true
+  mail:
+    host: localhost
+    port: 3025
   web:
     locale: pt_BR
     locale-resolver: fixed
@@ -39,6 +42,9 @@ feign:
     config:
       default:
         loggerLevel: FULL # NONE, BASIC, HEADERS, FULL
+
+email:
+  from: no-reply-test@gmail.com
 
 client:
   via-cep:

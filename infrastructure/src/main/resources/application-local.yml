@@ -15,6 +15,9 @@ spring:
       uri: mongodb://admin:secret@localhost:27017/ecommerce_db?authSource=admin
       repositories:
         enabled: true
+  mail:
+    host: localhost
+    port: 1025
 
 server:
   port: 8383
@@ -35,4 +38,5 @@ client:
   via-cep:
     url: https://viacep.com.br/
   ecommerce-checkout:
-    url: http://localhost:8181/
+    url: http://localhost:8443/ # Wiremock
+#    url: http://localhost:8181/ # API
