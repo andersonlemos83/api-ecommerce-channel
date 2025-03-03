@@ -43,6 +43,9 @@ feign:
       default:
         loggerLevel: FULL # NONE, BASIC, HEADERS, FULL
 
+email:
+  from: no-reply-test@gmail.com
+
 client:
   via-cep:
     url: http://localhost:9090/

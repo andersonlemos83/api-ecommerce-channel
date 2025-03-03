@@ -22,8 +22,6 @@ import static org.apache.commons.lang3.exception.ExceptionUtils.getMessage;
 @AllArgsConstructor
 public class CustomerInvoiceEmailSenderImpl implements CustomerInvoiceEmailSender {
 
-    private static final String EMAIL_FROM = "no-reply@gmail.com";
-
     private final JavaMailSender javaMailSender;
 
     @Async
@@ -35,9 +33,9 @@ public class CustomerInvoiceEmailSenderImpl implements CustomerInvoiceEmailSende
 
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setTo(customerInvoiceRequestDto.getEmailTo());
+            mimeMessageHelper.setFrom(customerInvoiceRequestDto.getEmailFrom());
             mimeMessageHelper.setSubject(customerInvoiceRequestDto.getEmailSubject());
             mimeMessageHelper.setText(customerInvoiceRequestDto.getEmailBody(), true);
-            mimeMessageHelper.setFrom(EMAIL_FROM);
 
             InputStreamSource attachmentInputStreamSource = buildAttachmentInputStreamSource(customerInvoiceRequestDto.getAttachmentBase64());
             mimeMessageHelper.addAttachment(customerInvoiceRequestDto.getFileName(), attachmentInputStreamSource);

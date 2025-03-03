@@ -12,6 +12,7 @@ import java.io.Serializable;
 public class CustomerInvoiceRequest implements Serializable {
 
     private String emailTo;
+    private String emailFrom;
     private String emailSubject;
     private String emailBody;
     private String attachmentBase64;

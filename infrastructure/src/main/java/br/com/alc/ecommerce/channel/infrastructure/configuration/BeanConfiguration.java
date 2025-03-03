@@ -17,6 +17,7 @@ import br.com.alc.ecommerce.channel.core.service.watch.WatchService;
 import br.com.alc.ecommerce.channel.core.service.watch.impl.RealWatchService;
 import br.com.alc.ecommerce.channel.infrastructure.EcommerceChannelInfrastructureApplication;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -106,7 +107,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public CustomerInvoiceSenderService customerInvoiceSenderService(CustomerInvoiceSenderOutPort customerInvoiceSenderOutPort) {
-        return new CustomerInvoiceSenderServiceImpl(customerInvoiceSenderOutPort);
+    public CustomerInvoiceSenderService customerInvoiceSenderService(CustomerInvoiceSenderOutPort customerInvoiceSenderOutPort, @Value("${email.from}") String emailFrom) {
+        return new CustomerInvoiceSenderServiceImpl(customerInvoiceSenderOutPort, emailFrom);
     }
 }

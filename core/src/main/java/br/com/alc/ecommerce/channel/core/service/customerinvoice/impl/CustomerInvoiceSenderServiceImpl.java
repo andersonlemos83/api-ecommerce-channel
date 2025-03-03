@@ -61,6 +61,7 @@ public class CustomerInvoiceSenderServiceImpl implements CustomerInvoiceSenderSe
     private static final String FILE_NAME_TEMPLATE = "nota-fiscal-{0}.png";
 
     private final CustomerInvoiceSenderOutPort customerInvoiceSenderOutPort;
+    private final String emailFrom;
 
     @Override
     public void execute(Order order) {
@@ -72,6 +73,7 @@ public class CustomerInvoiceSenderServiceImpl implements CustomerInvoiceSenderSe
     private CustomerInvoiceRequest getCustomerInvoiceRequest(Order order) {
         return CustomerInvoiceRequest.builder()
                 .emailTo(order.fetchCustomerEmail())
+                .emailFrom(emailFrom)
                 .emailSubject(EMAIL_SUBJECT)
                 .emailBody(buildEmailBody(order))
                 .attachmentBase64(order.getInvoiceBase64())

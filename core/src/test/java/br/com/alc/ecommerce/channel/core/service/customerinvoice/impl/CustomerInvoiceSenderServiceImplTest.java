@@ -4,6 +4,7 @@ import br.com.alc.ecommerce.channel.core.domain.customerinvoice.CustomerInvoiceR
 import br.com.alc.ecommerce.channel.core.domain.order.Order;
 import br.com.alc.ecommerce.channel.core.port.output.CustomerInvoiceSenderOutPort;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -63,6 +64,13 @@ public class CustomerInvoiceSenderServiceImplTest {
     @Mock
     private CustomerInvoiceSenderOutPort customerInvoiceSenderOutPortMock;
 
+    private String emailFrom = "no-reply@gmail.com";
+
+    @BeforeEach
+    public void setUp() {
+        customerInvoiceSenderService = new CustomerInvoiceSenderServiceImpl(customerInvoiceSenderOutPortMock, emailFrom);
+    }
+
     @Test
     void whenExecutingTheCustomerInvoiceSenderThenShouldCallCustomerInvoiceSenderOutPort() {
         customerInvoiceSenderService.execute(buildOrder());
@@ -73,6 +81,7 @@ public class CustomerInvoiceSenderServiceImplTest {
         CustomerInvoiceRequest request = captor.getValue();
 
         assertEquals("martin_lopes@rafaelmarin.net", request.getEmailTo());
+        assertEquals("no-reply@gmail.com", request.getEmailFrom());
         assertEquals("Email de Nota Fiscal - E-Commerce Digital Fictício Ltda", request.getEmailSubject());
         assertEquals(EMAIL_BODY_EXPECTED, request.getEmailBody());
         assertEquals("UklGRtzoBQBXRUJQVlA---TESTE---4IGwsBADQXwqdASoABAAEPjEW", request.getAttachmentBase64());

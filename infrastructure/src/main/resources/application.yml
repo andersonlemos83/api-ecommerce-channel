@@ -128,6 +128,9 @@ management:
     redis:
       enabled: false
 
+email:
+  from: no-reply@gmail.com
+
 client:
   via-cep:
     url: http://localhost:9093/api-via-cep/
