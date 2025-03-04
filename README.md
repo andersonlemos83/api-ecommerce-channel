@@ -48,3 +48,227 @@ The main concepts and technologies I want to validate include:
 - **Code Quality**: SonarQube
 
 ## Domain
+
+In a fictional e-commerce platform with multiple sales channels, including a website, mobile app, physical store, and self-checkout kiosk, 
+whenever a customer makes a purchase, the respective channel must invoice each order in the sales orchestrator system, 
+record all transactions in the database, and finally send a copy of the invoice to the customer's email. 
+This process completes the order invoicing workflow.
+
+Additionally, the customer will be able to check their purchases by providing the order number or specifying a specific period.
+
+Finally, as an exercise, it is desired to simulate the interaction of multiple customers through a bot that will make random purchases.
+
+## Features
+
+## start-order-bot.feature
+### Base Scenario - Start order bot with all valid data provided
+**Given** that the number of random orders has been specified  
+**When** the bot is started via the `/order/start-bot` endpoint  
+**Then** a message should be published for each generated order number in the queue `order-generator-queue`  
+**And** a response should be returned with all generated order numbers
+
+## process-order-generation.feature
+### Base Scenario - Process random order generation with all valid data provided
+**Given** that a valid order number has been provided  
+**And** that all address data is available from the `/findByZipCode` endpoint of the ViaCepClient service  
+**When** the random order generation is processed via the `order-generator-queue` listener  
+**Then** a message containing the generated order data should be published in the queue `order-queue`
+
+## process-order.feature
+### Base Scenario - Process order with all valid data provided
+**Given** that all valid order data has been provided  
+**When** the order is processed via the `order-queue` listener  
+**Then** the system should authorize the order invoicing through the `/authorize-sale` endpoint of the EcommerceCheckoutClient service  
+**And** should register an order awaiting an invoice in the database
+
+## process-order-callback.feature
+### Base Scenario - Process an order callback with all valid data provided
+**Given** that all valid order callback data has been provided  
+**And** that there is an order awaiting an invoice in the database  
+**When** the order callback is processed via the `sale-callback-queue` listener  
+**Then** an order with an invoice should be registered in the database  
+**And** an email containing the order invoice details should be sent to the customer
+
+## find-order-by-order-number.feature
+### Base Scenario - Find an existing order from the database by order number
+**Given** that there are orders in the database  
+**When** the order is searched via the `/order/{orderNumber}` endpoint  
+**Then** a response should be returned with all the expected order details
+
+## find-orders-by-period.feature
+### Base Scenario - Find existing orders from the database by period
+**Given** that a valid period has been provided  
+**And** that there are orders in the database  
+**When** the orders are searched via the `/order/paginated` endpoint  
+**Then** a response should be returned with all orders from the specified period
+
+## Feature Flow
+
+<img src="script/diagrams/feature-start-order-bot.png" alt="Feature Start Order Bot" width="100%" height="100%">
+
+[Ver em tela cheia](./script/diagrams/feature-start-order-bot.png)
+
+<img src="script/diagrams/feature-find-order-by-order-number.png" alt="Feature Find Order By Order Number" width="100%" height="100%">
+
+[Ver em tela cheia](./script/diagrams/feature-find-order-by-order-number.png)
+
+<img src="script/diagrams/feature-find-orders-by-period.png" alt="Feature Find Orders By Period" width="100%" height="100%">
+
+[Ver em tela cheia](./script/diagrams/feature-find-orders-by-period.png)
+
+## Architecture
+
+The Ecommerce Channel project was developed following the principles of Clean Architecture and Hexagonal Architecture, structured as follows:
+
+- **Core Module**: Responsible for centralizing business rules in their purest form, minimizing dependency on frameworks and external technologies as much as possible.
+- **Infrastructure Module**: Responsible for integrating input and output information, utilizing various technologies and frameworks to communicate with databases, APIs, and other systems.
+
+<img src="./script/diagrams/architecture.png" alt="Architecture (Clean + Hexagonal)" width="70%" height="70%">
+
+[Ver em tela cheia](./script/diagrams/architecture.png)
+
+## Requirements
+
+- Java JDK 21
+- Maven 3.6.2 or higher
+- Docker (Necessary for Testcontainer and to run the application locally)
+
+## First Steps
+
+- **Download all project dependencies**:
+  ```
+    mvn dependency:resolve -U
+  ```
+- **Build the project**:
+  ```
+    mvn -U -B clean install -Dmaven.test.skip=true
+  ```
+- **Build the project and run all tests**:
+  ```
+    mvn -U -B clean install
+  ```
+
+## About the Tests
+
+To organize the tests according to their type and function, they were grouped into three main suites:
+
+- **RunCucumberTest**: It contains all acceptance tests implemented with Cucumber and BDD. This suite has a slower execution, as it requires the initialization of the context and infrastructure.
+- **UnitTests**: It contains all unit tests of the project. As it has no external dependencies, its execution is fast.
+- **AllTests**: It groups all implemented tests, combining acceptance tests (RunCucumberTest) and unit tests (UnitTests).
+
+## Getting Started with the Application
+
+- **Wiremock**:
+1. Start a Wiremock instance:
+  ```
+    docker-compose -f .\script\docker\wiremock.yml up -d
+  ```
+
+2. Test the Wiremock instance: 
+  ```
+    curl --location 'http://localhost:8443/authorize-sale' --header 'Content-Type: application/json' --data '{"anyData": 0}'
+  ```
+
+- **Redis**:
+1. Start a Redis instance:
+  ```
+    docker-compose -f .\script\docker\redis.yml up -d
+  ```
+
+2. Test the Redis instance:
+  ```
+    1. docker exec -it redis /bin/bash
+    2. redis-cli
+    3. KEYS "*"
+    4. exit
+    5. exit
+  ```
+
+- **RabbitMQ**:
+1. Start a RabbitMQ instance:
+  ```
+    docker-compose -f .\script\docker\rabbitmq.yml up -d
+  ```
+
+2. Access the RabbitMQ instance:
+   [Access RabbitMQ Admin](http://localhost:15672/)
+
+3. Log in to RabbitMQ Admin with guest:
+  ```
+    username: guest
+    password: guest
+  ```
+
+4. Create a new user ecommerce-channel:
+  ```
+    1. Go to /Admin/User
+    2. Fill in Username: ecommerce-channel, Password: ecommerce-channel and Tags: administrator
+    3. Click "Add user" 
+  ```
+
+5. Create a new virtual host ecommerce-checkout:
+  ```
+    1. Go to /Admin/Virtual Hosts
+    2. Fill in Name: ecommerce-checkout and Default Queue Type: Classic
+    3. Click "Add virtual host" 
+  ```
+
+6. Add permissions for the ecommerce-channel user to the ecommerce-checkout virtual host:
+  ```
+    1. Go to /Admin/Virtual Hosts/ecommerce-checkout
+    2. Fill in User: ecommerce-channel, Configure regexp: .*, Write regexp: .* and Read regexp: .*
+    3. Click "Set permissions" 
+  ```
+
+- **MongoDB**:
+1. Start a MongoDB instance:
+  ```
+    docker-compose -f .\script\docker\mongodb.yml up -d
+  ```
+
+2. Access the Mongo Express instance:
+   [Access Mongo Express](http://localhost:8081/)
+
+3. Log in to Mongo Express with express:
+  ```
+    username: express
+    password: express
+  ```
+
+- **Mailhog**:
+1. Start a Mailhog instance:
+  ```
+    docker-compose -f .\script\docker\mailhog.yml up -d
+  ```
+
+2. Access the Mailhog instance:
+   [Access Mailhog](http://localhost:8025/)
+
+- **Running the Application**:
+1. Create and run a Spring Boot runner:
+  ```
+    Main Class: /infrastructure/src/main/java/br/com/alc/ecommerce/channel/infrastructure/EcommerceChannelInfrastructureApplication.java
+    Profile: local (application-local.yml)
+  ```
+
+2. Access Swagger UI:
+   [Access Swagger UI](http://localhost:8383/swagger-ui.html)
+
+3. Import Postman Collection:
+   [api-ecommerce-channel.postman_collection.json](./script/postman/api-ecommerce-channel.postman_collection.json)
+
+4. Test application:
+  ```
+  1. Send a POST request to http://localhost:8383/order/start-bot (Use Swagger or Postman!);
+  2. Send a GET request to http://localhost:8383/order/{order_number} with an order number returned from step 1 (Use Swagger or Postman!);
+  3. Check if the response from step 2 has status=INVOICE_PENDING;
+  4. Publish the message "sale-callback-queue-message.json" to the "sale-callback-queue" queue, adjusting the order number to the one returned in step 1 (Use RabbitMQ Admin!);
+  5. Send a GET request to http://localhost:8383/order/paginated with a valid period (Use Swagger or Postman!);
+  6. Check if the response from step 5 has status=INVOICED;
+  7. Verify if the invoice was sent to Mailhog.
+  ```
+[sale-callback-queue-message.json](./script/rabbit/sale-callback-queue-message.json)
+
+## That's all folks!
+
+I hope you enjoyed it.

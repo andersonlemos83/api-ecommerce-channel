@@ -49,44 +49,79 @@ Os principais conceitos e tecnologias que desejo validar incluem:
 
 ## Domínio
 
-Um e-commerce fictício realiza centenas de milhares de vendas por múltiplos canais, incluindo site, aplicativo, loja física e caixa de autoatendimento.
-Para garantir a correta tributação, autorização e registro das vendas, torna-se essencial a criação de um sistema orquestrador.
-Esse orquestrador será responsável por compilar a matriz tributária dos itens da sacola, validar as formas de pagamento,
-autorizar as vendas junto ao MidClient de vendas, notificar os canais e clientes sobre a emissão da nota fiscal e registrar todas as transações no banco de dados.
+Em um e-commerce fictício com múltiplos canais de venda, incluindo site, aplicativo, loja física e caixa de autoatendimento, 
+sempre que um cliente realiza uma compra, o respectivo canal deve faturar cada pedido no sistema orquestrador de vendas, 
+registrar todas as transações no banco de dados e, por fim, enviar ao cliente uma cópia da nota fiscal para seu e-mail. 
+Esse processo conclui o fluxo de faturamento de pedidos.
+
+Além disso, o cliente poderá consultar suas compras informando o número do pedido ou um período específico.
+
+Por fim, como exercício, deseja-se simular a interação de vários clientes por meio de um robô que realizará compras aleatórias.
 
 ## Features
 
-## authorize-sale.feature
-### Cenário Base - Autorizar venda com todos os dados válidos informados
-**Dado** que todos os dados válidos de uma venda tenham sido informados  
-**Quando** a venda for autorizada por meio do endpoint `/authorize-sale`  
-**Então** deverá publicar uma mensagem contendo os dados da venda na fila (ou tópico) `authorize-sale`  
-**E** deverá retornar uma resposta indicando que o processamento está em andamento
+## start-order-bot.feature
+### Cenário Base - Iniciar bot de pedidos com todos os dados válidos informados
+**Dado** que a quantidade de pedidos aleatórios tenha sido informada  
+**Quando** o bot for iniciado por meio do endpoint `/order/start-bot`  
+**Então** deverá publicar uma mensagem para cada número pedido gerado na fila `order-generator-queue`  
+**E** deverá retornar uma resposta com todos os números de pedidos gerados
 
-## process-sale-authorization.feature
-### Cenário Base - Processar autorização de venda com todos os dados válidos informados
-**Dado** que todos os dados válidos de uma venda tenham sido informados  
-**E** que os dados da matriz tributária estejam disponíveis no endpoint `/findByCode` do serviço TaxClient  
-**E** que os dados da nota fiscal estejam disponíveis no endpoint `/authorize` do serviço MidClient  
-**Quando** a autorização da venda for processada por meio do listener `authorize-sale`  
-**Então** o sistema deverá autorizar a venda com sua matriz tributária junto ao endpoint `/authorize` do serviço MidClient  
-**E** deverá registrar a venda na base de dados  
-**E** deverá publicar uma mensagem contendo os dados da venda processada e sua nota fiscal na fila (ou tópico) `sale-callback`
+## process-order-generation.feature
+### Cenário Base - Processar geração de pedido aleatório com todos os dados válidos informados
+**Dado** que um número de pedido válido tenha sido informado  
+**E** que todos os dados de endereço estejam disponíveis no endpoint `/findByZipCode` do serviço ViaCepClient  
+**Quando** a geração do pedido aleatório for processada por meio do listener `order-generator-queue`  
+**Então** deverá publicar uma mensagem contendo os dados do pedido gerado na fila `order-queue`
 
-## Fluxo de Orquestração de Vendas
+## process-order.feature
+### Cenário Base - Processar pedido com todos os dados válidos informados
+**Dado** que todos os dados válidos do pedido tenham sido informados  
+**Quando** o pedido for processado por meio do listener `order-queue`  
+**Então** o sistema deverá autorizar o faturamento do pedido junto ao endpoint `/authorize-sale` do serviço EcommerceCheckoutClient  
+**E** deverá registrar um pedido aguardando nota fiscal na base de dados
 
-<img src="script/diagrams/sales-orchestration-flow.png" alt="Fluxo de Orquestração de Vendas" width="100%" height="100%">
+## process-order-callback.feature
+### Cenário Base - Processar um callback pedido com todos os dados válidos informados
+**Dado** que todos os dados válidos de um callback pedido tenham sido informados  
+**E** que exista um pedido aguardando nota fiscal na base de dados 
+**Quando** o pedido callback for processado por meio do listener `sale-callback-queue`  
+**Então** deverá registrar um pedido com nota fiscal na base de dados  
+**E** deverá enviar um email contendo os dados do pedido com nota fiscal para o cliente
 
-[Ver em tela cheia](./script/diagrams/sales-orchestration-flow.png)
+## find-order-by-order-number.feature
+### Cenário Base - Consultar pedido existente na base de dados por número pedido
+**Dado** que existam pedidos na base de dados  
+**Quando** o pedido for consultado por meio do endpoint `/order/{orderNumber}`  
+**Então** deverá retornar uma resposta com todos os dados do pedido esperado
+
+## find-orders-by-period.feature
+### Cenário Base - Consultar pedidos existentes na base de dados por período
+**Dado** que um período válido tenha sido informado  
+**E** que existam pedidos na base de dados  
+**Quando** os pedidos forem consultados por meio do endpoint `/order/paginated`  
+**Então** deverá retornar uma resposta com todos os pedidos do período
+
+## Fluxo das funcionalidades
+
+<img src="script/diagrams/feature-start-order-bot.png" alt="Feature Iniciar Bot de Pedidos" width="100%" height="100%">
+
+[Ver em tela cheia](./script/diagrams/feature-start-order-bot.png)
+
+<img src="script/diagrams/feature-find-order-by-order-number.png" alt="Feature Consultar Pedido por Número do Pedido" width="100%" height="100%">
+
+[Ver em tela cheia](./script/diagrams/feature-find-order-by-order-number.png)
+
+<img src="script/diagrams/feature-find-orders-by-period.png" alt="Feature Consultar Pedidos por Período" width="100%" height="100%">
+
+[Ver em tela cheia](./script/diagrams/feature-find-orders-by-period.png)
 
 ## Arquitetura
 
-O projeto Ecommerce Checkout foi desenvolvido seguindo os princípios da arquitetura limpa e hexagonal, visando isolar as regras de negócio em um módulo Core e permitir a implementação de diferentes infraestruturas.
+O projeto Ecommerce Channel foi desenvolvido seguindo os princípios da arquitetura limpa (Clean Architecture) e hexagonal (Hexagonal Architecture), estruturado da seguinte forma 
 
-Atualmente, foram implementados os seguintes módulos de infraestrutura:
-
-- **Módulo de Infraestrutura Padrão**: Utiliza Oracle como banco de dados e RabbitMQ como mensageria.
-- **Módulo de Infratrutura Alternativa**: Utiliza PostgreSQL como banco de dados e Kafka como mensageria.
+- **Módulo Core**: Responsável por centralizar as regras de negócio na sua forma mais pura, minimizando ao máximo a dependência de frameworks e tecnologias externas. 
+- **Módulo Infratrutura**: Responsável pela integração das informações de entrada e saída, utilizando diferentes tecnologias e frameworks para comunicação com bancos de dados, APIs e outros sistemas.
 
 <img src="./script/diagrams/architecture.png" alt="Arquitetura (Limpa + Hexagonal)" width="70%" height="70%">
 
@@ -121,7 +156,7 @@ Para organizar os testes de acordo com seu tipo e função, eles foram agrupados
 - **UnitTests**: Contém todos os testes de unidade do projeto. Por não possuir dependências externas, a sua execução é rápida.
 - **AllTests**: Agrupa todos os testes implementados, combinando os testes de aceitação (RunCucumberTest) e os testes de unidade (UnitTests).
 
-## Começando com a Aplicação Padrão (Oracle e RabbitMQ)
+## Começando com a Aplicação
 
 - **Wiremock**:
 1. Subir uma instância do Wiremock:
@@ -129,9 +164,9 @@ Para organizar os testes de acordo com seu tipo e função, eles foram agrupados
     docker-compose -f .\script\docker\wiremock.yml up -d
   ```
 
-2. Testar a instância do Wiremock: [Testar Wiremock](http://localhost:8443/findByCode?code=100231933559)
+2. Testar a instância do Wiremock: 
   ```
-    curl 'http://localhost:8443/findByCode?code=100231933559'
+    curl --location 'http://localhost:8443/authorize-sale' --header 'Content-Type: application/json' --data '{"anyData": 0}'
   ```
 
 - **Redis**:
@@ -164,10 +199,10 @@ Para organizar os testes de acordo com seu tipo e função, eles foram agrupados
     password: guest
   ```
 
-4. Criar um novo usuário ecommerce-checkout:
+4. Criar um novo usuário ecommerce-channel:
   ```
     1. Acessar /Admin/User
-    2. Preencha Username: ecommerce-checkout, Password: ecommerce-checkout e Tags: administrator
+    2. Preencha Username: ecommerce-channel, Password: ecommerce-channel e Tags: administrator
     3. Aperte "Add user" 
   ```
 
@@ -178,152 +213,61 @@ Para organizar os testes de acordo com seu tipo e função, eles foram agrupados
     3. Aperte "Add virtual host" 
   ```
 
-6. Adicionar permissão do usuário ecommerce-checkout ao virtual host ecommerce-checkout:
+6. Adicionar permissão do usuário ecommerce-channel ao virtual host ecommerce-checkout:
   ```
     1. Acessar /Admin/Virtual Hosts/ecommerce-checkout
-    2. Preencha User: ecommerce-checkout, Configure regexp: .*, Write regexp: .* e Read regexp: .*
+    2. Preencha User: ecommerce-channel, Configure regexp: .*, Write regexp: .* e Read regexp: .*
     3. Aperte "Set permissions" 
   ```
 
-7. Logar no RabbitMQ Admin com ecommerce-checkout:
+- **MongoDB**:
+1. Subir uma instância do MongoDB:
   ```
-    username: ecommerce-checkout
-    password: ecommerce-checkout
-  ```
-
-8. Criar um nova fila sale-callback-queue:
-  ```
-    1. Acessar /Queues and Streams
-    2. Preencha Virtual host: ecommerce-checkout, Type: Default fo virtual host, Name: sale-callback-queue e Durability: Durable
-    3. Aperte "Add queue" 
+    docker-compose -f .\script\docker\mongodb.yml up -d
   ```
 
-- **Oracle**:
-1. Subir uma instância do Oracle:
-  ```
-    docker-compose -f .\script\docker\oracledb-12c-ee.yml up -d
-  ```
+2. Acessar a instância do Mongo Express:
+   [Acessar Mongo Express](http://localhost:8081/)
 
-2. Testar a instância através de algum client Oracle (recomendo DBeaver ou SQL Developer):
+3. Logar no Mongo Express com express:
   ```
-  host: localhost
-  port: 1521
-  service name: ORCL
-  username: SYSTEM
-  password: oracle
-
-  jdbc:oracle:thin:@//localhost:1521/ORCL
-
-  OBS: As vezes a instância do Oracle demora para subir!
+    username: express
+    password: express
   ```
 
-3. Criar objetos do esquema ECOMMERCE_CHECKOUT_OWNER:
-   [oracle.sql](./script/db/oracle.sql)
+- **Mailhog**:
+1. Subir uma instância do Mailhog:
+  ```
+    docker-compose -f .\script\docker\mailhog.yml up -d
+  ```
 
-- **Aplicação Padrão (Oracle e RabbiMQ)**:
+2. Acessar a instância do Mailhog:
+   [Acessar Mailhog](http://localhost:8025/)
+
+- **Executando a Aplicação**:
 1. Crie e execute um Spring Boot runner:
   ```
-    Main Class: /infrastructure/src/main/java/br/com/alc/ecommerce/checkout/infrastructure/EcommerceCheckoutInfrastructureApplication.java
+    Main Class: /infrastructure/src/main/java/br/com/alc/ecommerce/channel/infrastructure/EcommerceChannelInfrastructureApplication.java
     Profile: local (application-local.yml)
   ```
 
 2. Acessar Swagger UI:
-   [Acessar Swagger UI](http://localhost:8181/swagger-ui.html)
+   [Acessar Swagger UI](http://localhost:8383/swagger-ui.html)
 
 3. Importar Collection do Postman:
-   [api-ecommerce-checkout.postman_collection.json](./script/postman/api-ecommerce-checkout.postman_collection.json)
+   [api-ecommerce-channel.postman_collection.json](./script/postman/api-ecommerce-channel.postman_collection.json)
 
 4. Testar aplicação:
   ```
-  1. Enviar um request POST para http://localhost:8181/authorize-sale (Swagger ou Postman!);
-  2. Verificar se existe um registro PROCESSADO na tabela ECOMMERCE_CHECKOUT_OWNER.SALE_ORDER;
-  3. Verificar se existe uma mensagem na fila sale-callback-queue.
+  1. Enviar um request POST para http://localhost:8383/order/start-bot (Use Swagger ou Postman!);
+  2. Enviar um request GET para http://localhost:8383/order/{order_number} com um número de pedido retornado no passo 1 (Use Swagger ou Postman!);
+  3. Verificar se o response do passo 2 possui o status=INVOICE_PENDING;
+  4. Publicar na fila "sale-callback-queue" a mensagem "sale-callback-queue-message.json" ajustando o número do pedido para o retornado no passo 1 (Use RabbitMQ Admin!);
+  5. Enviar um request GET para http://localhost:8383/order/paginated com um período válido (Use Swagger ou Postman!);
+  6. Verificar se o response do passo 5 possui o status=INVOICED;
+  7. Verificar se foi enviado a nota fiscal para o Mailhog.
   ```
-
-## Começando com a Aplicação Alternativa (PostgreSQL e Kafka)
-
-- **Wiremock**:
-1. Subir uma instância do Wiremock:
-  ```
-    docker-compose -f .\script\docker\wiremock.yml up -d
-  ```
-
-2. Testar a instância do Wiremock: [Testar Wiremock](http://localhost:8443/findByCode?code=100231933559)
-  ```
-    curl 'http://localhost:8443/findByCode?code=100231933559'
-  ```
-
-- **Redis**:
-1. Subir uma instância do Redis:
-  ```
-    docker-compose -f .\script\docker\redis.yml up -d
-  ```
-
-2. Testar a instância do Redis:
-  ```
-    1. docker exec -it redis /bin/bash
-    2. redis-cli
-    3. KEYS "*"
-    4. exit
-    5. exit
-  ```
-
-- **Kafka**:
-1. Subir uma instância do Kafka:
-  ```
-    docker-compose -f .\script\docker\kafka.yml up -d
-  ```
-
-2. Acessar a instância do Kafka:
-   [Acessar Kafka Admin](http://localhost:8787/)
-
-3. Criar um novo tópico sale-callback-topic:
-  ```
-    1. Acessar /Topics
-    2. Aperte "Add a Topic"
-    2. Preencha Topic Name: sale-callback-topic, Number of Partitions: 2 e Cleanup policy: Delete
-    3. Aperte "Create topic" 
-  ```
-
-- **PostgreSQL**:
-1. Subir uma instância do PostgreSQL:
-  ```
-    docker-compose -f .\script\docker\postgresdb.yml up -d
-  ```
-
-2. Testar a instância através de algum client PostgreSQL (recomendo DBeaver ou PGAdmin):
-  ```
-  host: localhost
-  port: 5432
-  database: postgres
-  username: postgres
-  password: postgres
-
-  jdbc:postgresql://localhost:5432/postgres
-  ```
-
-3. Criar objetos do DB ecommerce_db:
-   [postgres.sql](./script/db/postgres.sql)
-
-- **Aplicação Alternativa (PostgreSQL e Kafka)**:
-1. Crie e execute um Spring Boot runner:
-  ```
-    Main Class: /alternative-infrastructure/src/main/java/br/com/alc/ecommerce/checkout/infrastructure/EcommerceCheckoutAlternativeInfrastructureApplication.java
-    Profile: local (application-local.yml)
-  ```
-
-2. Acessar Swagger UI:
-   [Acessar Swagger UI](http://localhost:8282/swagger-ui.html)
-
-3. Importar Collection do Postman:
-   [api-ecommerce-checkout.postman_collection.json](./script/postman/api-ecommerce-checkout.postman_collection.json)
-
-4. Testar aplicação:
-  ```
-  1. Enviar um request POST para http://localhost:8282/authorize-sale (Swagger ou Postman!);
-  2. Verificar se existe um registro PROCESSADO na tabela PUBLIC.SALE_ORDER;
-  3. Verificar se existe uma mensagem no tópico sale-callback-topic.
-  ```
+   [sale-callback-queue-message.json](./script/rabbit/sale-callback-queue-message.json)
 
 ## That's all folks!
 
