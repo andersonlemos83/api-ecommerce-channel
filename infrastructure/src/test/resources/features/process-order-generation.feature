@@ -13,7 +13,7 @@ Funcionalidade: Processar Geracao Pedido
       | 987654321    |
     E que seja gerado os seguintes CEPs
       | 57048434 |
-    E que existam os seguintes responses disponiveis no endpoint findByCep
+    E que existam os seguintes responses disponiveis no endpoint findByZipCode
       | Key      | Status | Response                                   |
       | 57048434 | OK     | /fixtures/AddressResponseDto-57048434.json |
     E que seja gerado os seguintes dados de Order Request
@@ -42,7 +42,7 @@ Funcionalidade: Processar Geracao Pedido
       | 987654322    |
     E que seja gerado os seguintes CEPs
       | 57048435 |
-    E que existam os seguintes responses disponiveis no endpoint findByCep
+    E que existam os seguintes responses disponiveis no endpoint findByZipCode
       | Key      | Status | Response                                   |
       | 57048435 | OK     | /fixtures/AddressResponseDto-57048435.json |
     E que seja gerado os seguintes dados de Order Request
@@ -71,7 +71,7 @@ Funcionalidade: Processar Geracao Pedido
       | 987654323    |
     E que seja gerado os seguintes CEPs
       | 57048-436 |
-    E que existam os seguintes responses disponiveis no endpoint findByCep
+    E que existam os seguintes responses disponiveis no endpoint findByZipCode
       | Key       | Status      | Response                   |
       | 57048-436 | BAD_REQUEST | Http 400 - Verifique a URL |
     E que seja gerado os seguintes dados de Order Request

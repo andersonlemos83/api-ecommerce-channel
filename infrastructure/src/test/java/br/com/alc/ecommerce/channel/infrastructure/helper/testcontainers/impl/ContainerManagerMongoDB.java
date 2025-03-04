@@ -8,6 +8,7 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.Collections.singletonList;
@@ -17,7 +18,7 @@ import static java.util.Collections.singletonList;
 public class ContainerManagerMongoDB extends AbstractContainerManager {
 
     private static final int MONGO_PORT = 27017;
-    private static final int MAX_RETRIES = 25;
+    private static final int MAX_RETRIES = 50;
 
     private static final String[] PING_COMMAND = {"sh", "-c", "mongo --eval 'db.runCommand({ ping: 1 })' --quiet"};
     private static final String[] REPLICA_SET_COMMAND = {"sh", "-c", "mongo --username admin --password secret --authenticationDatabase admin --eval 'rs.initiate()' --quiet"};
@@ -28,6 +29,8 @@ public class ContainerManagerMongoDB extends AbstractContainerManager {
                 .withEnv("MONGO_INITDB_ROOT_USERNAME", "admin")
                 .withEnv("MONGO_INITDB_ROOT_PASSWORD", "secret")
                 .withEnv("MONGO_INITDB_DATABASE", "ecommerce_db")
+                .withCommand("--replSet", "rs0")
+                .withStartupTimeout(Duration.ofSeconds(180))
                 .withPrivilegedMode(true)
                 .withReuse(false);
         container.setPortBindings(singletonList(MONGO_PORT + ":" + MONGO_PORT));

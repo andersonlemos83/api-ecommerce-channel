@@ -12,7 +12,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public interface ViaCepClient {
 
     @Headers("Content-Type: " + APPLICATION_JSON_VALUE)
-    @GetMapping(value = "/ws/{cep}/json/", consumes = APPLICATION_JSON_VALUE)
-    AddressResponseDto findByCep(@PathVariable("cep") String cep);
+    @GetMapping(value = "/ws/{zipCode}/json/", consumes = APPLICATION_JSON_VALUE)
+    AddressResponseDto findByZipCode(@PathVariable("zipCode") String zipCode);
 
 }
