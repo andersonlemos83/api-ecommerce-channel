@@ -54,9 +54,9 @@ whenever a customer makes a purchase, the respective channel must invoice each o
 record all transactions in the database, and finally send a copy of the invoice to the customer's email. 
 This process completes the order invoicing workflow.
 
-Additionally, the customer will be able to check their purchases by providing the order number or specifying a specific period.
+Additionally, the customers will be able to check their purchases by providing the order number or specifying a specific period of time.
 
-Finally, as an exercise, it is desired to simulate the interaction of multiple customers through a bot that will make random purchases.
+Finally, as an exercise, it is intended to simulate the interaction of multiple customers through a bot that will make random purchases.
 
 ## Features
 
@@ -79,13 +79,13 @@ Finally, as an exercise, it is desired to simulate the interaction of multiple c
 **Given** that all valid order data has been provided  
 **When** the order is processed via the `order-queue` listener  
 **Then** the system should authorize the order invoicing through the `/authorize-sale` endpoint of the EcommerceCheckoutClient service  
-**And** should register an order awaiting an invoice in the database
+**And** it should register an order awaiting an invoice in the database
 
 ## process-order-callback.feature
-### Base Scenario - Process an order callback with all valid data provided
-**Given** that all valid order callback data has been provided  
+### Base Scenario - Process a callback order with all valid data provided
+**Given** that all valid callback order data has been provided  
 **And** that there is an order awaiting an invoice in the database  
-**When** the order callback is processed via the `sale-callback-queue` listener  
+**When** the callback order is processed via the `sale-callback-queue` listener  
 **Then** an order with an invoice should be registered in the database  
 **And** an email containing the order invoice details should be sent to the customer
 
@@ -96,36 +96,36 @@ Finally, as an exercise, it is desired to simulate the interaction of multiple c
 **Then** a response should be returned with all the expected order details
 
 ## find-orders-by-period.feature
-### Base Scenario - Find existing orders from the database by period
-**Given** that a valid period has been provided  
+### Base Scenario - Find existing orders from the database by period of time
+**Given** that a valid period of time has been provided  
 **And** that there are orders in the database  
 **When** the orders are searched via the `/order/paginated` endpoint  
-**Then** a response should be returned with all orders from the specified period
+**Then** a response should be returned with all orders from the specified period of time
 
 ## Feature Flow
 
 <img src="script/diagrams/feature-start-order-bot.png" alt="Feature Start Order Bot" width="100%" height="100%">
 
-[Ver em tela cheia](./script/diagrams/feature-start-order-bot.png)
+[View in full screen](./script/diagrams/feature-start-order-bot.png)
 
 <img src="script/diagrams/feature-find-order-by-order-number.png" alt="Feature Find Order By Order Number" width="100%" height="100%">
 
-[Ver em tela cheia](./script/diagrams/feature-find-order-by-order-number.png)
+[View in full screen](./script/diagrams/feature-find-order-by-order-number.png)
 
 <img src="script/diagrams/feature-find-orders-by-period.png" alt="Feature Find Orders By Period" width="100%" height="100%">
 
-[Ver em tela cheia](./script/diagrams/feature-find-orders-by-period.png)
+[View in full screen](./script/diagrams/feature-find-orders-by-period.png)
 
 ## Architecture
 
-The Ecommerce Channel project was developed following the principles of Clean Architecture and Hexagonal Architecture, structured as follows:
+The Ecommerce Channel project was developed following the principles of Clean Architecture and Hexagonal Architecture, and it is structured as follows:
 
 - **Core Module**: Responsible for centralizing business rules in their purest form, minimizing dependency on frameworks and external technologies as much as possible.
-- **Infrastructure Module**: Responsible for integrating input and output information, utilizing various technologies and frameworks to communicate with databases, APIs, and other systems.
+- **Infrastructure Module**: Responsible for integrating input and output information, using different technologies and frameworks to communicate with databases, APIs, and other systems.
 
 <img src="./script/diagrams/architecture.png" alt="Architecture (Clean + Hexagonal)" width="70%" height="70%">
 
-[Ver em tela cheia](./script/diagrams/architecture.png)
+[View in full screen](./script/diagrams/architecture.png)
 
 ## Requirements
 
