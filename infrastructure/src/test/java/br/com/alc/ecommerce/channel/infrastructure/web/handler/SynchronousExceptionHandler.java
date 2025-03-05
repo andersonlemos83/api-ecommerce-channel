@@ -20,12 +20,14 @@ public class SynchronousExceptionHandler extends AbstractExceptionHandler {
         return response.block();
     }
 
+    @Override
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleOrderNotFoundException(OrderNotFoundException exception) {
         Mono<ResponseEntity<ErrorResponseDto>> response = super.handleOrderNotFoundException(exception);
         return response.block();
     }
 
+    @Override
     @ExceptionHandler(PeriodInvalidException.class)
     public ResponseEntity<ErrorResponseDto> handlePeriodInvalidException(PeriodInvalidException exception) {
         Mono<ResponseEntity<ErrorResponseDto>> response = super.handlePeriodInvalidException(exception);

@@ -30,8 +30,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @ActiveProfiles("test")
-@WebFluxTest({OrderController.class, ErrorResponseVerifier.class})
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("java:S5786") // Public required for JUnit test suite
+@WebFluxTest({OrderController.class, ErrorResponseVerifier.class})
 public class OrderControllerTest {
 
     @Autowired

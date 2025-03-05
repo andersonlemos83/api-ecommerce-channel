@@ -19,11 +19,13 @@ public class EcommerceChannelExceptionHandler extends AbstractExceptionHandler {
         return super.handleGenericMethodArgumentNotValidException(exception.getBindingResult());
     }
 
+    @Override
     @ExceptionHandler(OrderNotFoundException.class)
     public Mono<ResponseEntity<ErrorResponseDto>> handleOrderNotFoundException(OrderNotFoundException exception) {
         return super.handleOrderNotFoundException(exception);
     }
 
+    @Override
     @ExceptionHandler(PeriodInvalidException.class)
     public Mono<ResponseEntity<ErrorResponseDto>> handlePeriodInvalidException(PeriodInvalidException exception) {
         return super.handlePeriodInvalidException(exception);

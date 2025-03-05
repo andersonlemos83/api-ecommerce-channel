@@ -3,6 +3,7 @@ package br.com.alc.ecommerce.channel.infrastructure.web.handler;
 import br.com.alc.ecommerce.channel.core.exception.OrderNotFoundException;
 import br.com.alc.ecommerce.channel.core.exception.PeriodInvalidException;
 import br.com.alc.ecommerce.channel.infrastructure.dto.error.ErrorResponseDto;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -10,10 +11,12 @@ import reactor.core.publisher.Mono;
 
 import java.text.MessageFormat;
 
+import static br.com.alc.ecommerce.channel.core.util.ObjectMapperUtil.generateJson;
 import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.joining;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
+@Log4j2
 public abstract class AbstractExceptionHandler {
 
     protected <T> T handleGenericMethodArgumentNotValidException(BindingResult bindingResult) {
@@ -53,10 +56,12 @@ public abstract class AbstractExceptionHandler {
     }
 
     private ErrorResponseDto buildBadRequestErrorResponseDto(String message) {
-        return ErrorResponseDto.builder()
+        ErrorResponseDto errorResponseDto = ErrorResponseDto.builder()
                 .httpStatus(BAD_REQUEST)
                 .message(message)
                 .build();
+        log.debug("Outgoing from AbstractExceptionHandler: {}", generateJson(errorResponseDto));
+        return errorResponseDto;
     }
 
     private ResponseEntity<ErrorResponseDto> buildBadRequestResponseEntity(ErrorResponseDto errorResponseDto) {
