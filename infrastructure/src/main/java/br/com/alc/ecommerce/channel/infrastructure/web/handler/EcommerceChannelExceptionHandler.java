@@ -3,73 +3,29 @@ package br.com.alc.ecommerce.channel.infrastructure.web.handler;
 import br.com.alc.ecommerce.channel.core.exception.OrderNotFoundException;
 import br.com.alc.ecommerce.channel.core.exception.PeriodInvalidException;
 import br.com.alc.ecommerce.channel.infrastructure.dto.error.ErrorResponseDto;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.support.WebExchangeBindException;
 import reactor.core.publisher.Mono;
 
-import java.text.MessageFormat;
-import java.util.Objects;
-
-import static java.util.Comparator.naturalOrder;
-import static java.util.stream.Collectors.joining;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-
 @ControllerAdvice
-public class EcommerceChannelExceptionHandler {
+@ConditionalOnProperty(name = "app.handle.enable", havingValue = "true", matchIfMissing = true)
+public class EcommerceChannelExceptionHandler extends AbstractExceptionHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        return Mono.just(Objects.requireNonNull(exception.getBindingResult()))
-                .map(this::joiningMessages)
-                .map(this::buildBadRequestErrorResponseDto)
-                .map(this::buildBadRequestResponseEntity)
-                .block();
+    @ExceptionHandler(WebExchangeBindException.class)
+    public Mono<ResponseEntity<ErrorResponseDto>> handleWebExchangeBindException(WebExchangeBindException exception) {
+        return super.handleGenericMethodArgumentNotValidException(exception.getBindingResult());
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleOrderNotFoundException(OrderNotFoundException exception) {
-        return Mono.just(exception)
-                .map(OrderNotFoundException::getMessage)
-                .map(this::buildBadRequestErrorResponseDto)
-                .map(this::buildBadRequestResponseEntity)
-                .block();
+    public Mono<ResponseEntity<ErrorResponseDto>> handleOrderNotFoundException(OrderNotFoundException exception) {
+        return super.handleOrderNotFoundException(exception);
     }
 
     @ExceptionHandler(PeriodInvalidException.class)
-    public ResponseEntity<ErrorResponseDto> handlePeriodInvalidException(PeriodInvalidException exception) {
-        return Mono.just(exception)
-                .map(PeriodInvalidException::getMessage)
-                .map(this::buildBadRequestErrorResponseDto)
-                .map(this::buildBadRequestResponseEntity)
-                .block();
-    }
-
-    private String joiningMessages(BindingResult bindingResult) {
-        return bindingResult
-                .getFieldErrors()
-                .stream()
-                .map(this::buildMessage)
-                .sorted(naturalOrder())
-                .distinct()
-                .collect(joining(", ", "", "."));
-    }
-
-    private String buildMessage(FieldError fieldError) {
-        return MessageFormat.format("O campo {0} {1}", fieldError.getField(), fieldError.getDefaultMessage());
-    }
-
-    private ErrorResponseDto buildBadRequestErrorResponseDto(String message) {
-        return ErrorResponseDto.builder()
-                .httpStatus(BAD_REQUEST)
-                .message(message)
-                .build();
-    }
-
-    private ResponseEntity<ErrorResponseDto> buildBadRequestResponseEntity(ErrorResponseDto errorResponseDto) {
-        return ResponseEntity.status(BAD_REQUEST).body(errorResponseDto);
+    public Mono<ResponseEntity<ErrorResponseDto>> handlePeriodInvalidException(PeriodInvalidException exception) {
+        return super.handlePeriodInvalidException(exception);
     }
 }

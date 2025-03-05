@@ -26,7 +26,7 @@ public class ByPeriodOrderFinderValidatorServiceImplTest {
     }
 
     @Test
-    void givenAnInvalidPeriodoWhenExecutingTheByPeriodOrderFinderValidatorThenShouldThrowsAhPeriodInvalidException() {
+    void givenAnInvalidPeriodWhenExecutingTheByPeriodOrderFinderValidatorThenShouldThrowsAhPeriodInvalidException() {
         OrderFinderRequest orderFinderRequest = buildInvalidOrderFinderRequest();
         Mono<Void> returned = validator.validate(orderFinderRequest);
         PeriodInvalidException exception = assertThrows(PeriodInvalidException.class, returned::block);
@@ -34,7 +34,7 @@ public class ByPeriodOrderFinderValidatorServiceImplTest {
     }
 
     @Test
-    void givenAnValidPeriodoWhenExecutingTheByPeriodOrderFinderValidatorThenNoShouldThrowsAhPeriodInvalidException() {
+    void givenAnValidPeriodWhenExecutingTheByPeriodOrderFinderValidatorThenNoShouldThrowsAhPeriodInvalidException() {
         OrderFinderRequest orderFinderRequest = buildValidOrderFinderRequest();
         Optional<Void> optionalReturned = validator.validate(orderFinderRequest).blockOptional();
         assertTrue(optionalReturned.isEmpty());
