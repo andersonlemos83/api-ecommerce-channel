@@ -14,8 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -41,13 +41,13 @@ public class OrderControllerTest {
     @Autowired
     private ErrorResponseVerifier errorResponseVerifier;
 
-    @MockBean
+    @MockitoBean
     private OrderNumberGeneratorInAdapter orderNumberGeneratorInAdapterMock;
 
-    @MockBean
+    @MockitoBean
     private ByOrderNumberOrderFinderInAdapter byOrderNumberOrderFinderInAdapterMock;
 
-    @MockBean
+    @MockitoBean
     private ByPeriodOrderFinderInAdapter byPeriodOrderFinderInAdapterMock;
 
     @Test

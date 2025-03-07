@@ -25,7 +25,7 @@ public class ContainerManagerMongoDB extends AbstractContainerManager {
 
     @Override
     protected GenericContainer createContainer() {
-        MongoDBContainer container = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"))
+        MongoDBContainer container = new MongoDBContainer(DockerImageName.parse("mongo:4.2.24"))
                 .withEnv("MONGO_INITDB_ROOT_USERNAME", "admin")
                 .withEnv("MONGO_INITDB_ROOT_PASSWORD", "secret")
                 .withEnv("MONGO_INITDB_DATABASE", "ecommerce_db")
@@ -52,7 +52,7 @@ public class ContainerManagerMongoDB extends AbstractContainerManager {
 
     private void waitForMongoDBReady() throws IOException, InterruptedException {
         int retries = 1;
-        while (!isPingSucessful() && retries <= MAX_RETRIES) {
+        while (!isPingSuccessful() && retries <= MAX_RETRIES) {
             log.info("{} starting... {}/{}", createContainerName(), retries, MAX_RETRIES);
             TimeUnit.MILLISECONDS.sleep(250);
             retries++;
@@ -61,19 +61,19 @@ public class ContainerManagerMongoDB extends AbstractContainerManager {
 
     private void waitForReplicaSetReady() throws IOException, InterruptedException {
         int retries = 1;
-        while (!isReplicaSetSucessful() && retries <= MAX_RETRIES) {
+        while (!isReplicaSetSuccessful() && retries <= MAX_RETRIES) {
             log.info("Starting MongoDB replica set... {}/{}", retries, MAX_RETRIES);
             TimeUnit.MILLISECONDS.sleep(250);
             retries++;
         }
     }
 
-    private boolean isPingSucessful() throws IOException, InterruptedException {
+    private boolean isPingSuccessful() throws IOException, InterruptedException {
         Container.ExecResult execResult = getInstance().execInContainer(PING_COMMAND);
         return execResult.getStdout().contains("\"ok\" : 1");
     }
 
-    private boolean isReplicaSetSucessful() throws IOException, InterruptedException {
+    private boolean isReplicaSetSuccessful() throws IOException, InterruptedException {
         Container.ExecResult execResult = getInstance().execInContainer(REPLICA_SET_COMMAND);
         boolean sucessful = execResult.getStdout().contains("\"ok\" : 1");
         if (!sucessful) {

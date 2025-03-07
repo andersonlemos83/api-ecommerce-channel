@@ -11,11 +11,13 @@ import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
 
 public class OrderBotResponseVerifier {
 
+    private static final String TEXT_EVENT_STREAM_UTF8_VALUE = TEXT_EVENT_STREAM_VALUE + ";charset=UTF-8";
+
     public void verify(long quantityExpected, WebTestClient.ResponseSpec responseSpec) {
         responseSpec.expectStatus()
                 .isCreated()
                 .expectHeader()
-                .contentType(TEXT_EVENT_STREAM_VALUE);
+                .contentType(TEXT_EVENT_STREAM_UTF8_VALUE);
 
         long quantityResponse = responseSpec.expectBodyList(OrderBotResponseDto.class)
                 .returnResult()

@@ -17,6 +17,8 @@ import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
 @Component
 public class OrderFinderResponseVerifier {
 
+    private static final String TEXT_EVENT_STREAM_UTF8_VALUE = TEXT_EVENT_STREAM_VALUE + ";charset=UTF-8";
+
     public void verifyFullOrderFinderResponse(List<OrderFinderResponseDataTable> expecteds, WebTestClient.ResponseSpec responseSpec) {
         responseSpec.expectStatus()
                 .isOk()
@@ -30,7 +32,7 @@ public class OrderFinderResponseVerifier {
         responseSpec.expectStatus()
                 .isOk()
                 .expectHeader()
-                .contentType(TEXT_EVENT_STREAM_VALUE);
+                .contentType(TEXT_EVENT_STREAM_UTF8_VALUE);
 
         List<HalfOrderFinderResponseDto> responses = responseSpec.expectBodyList(HalfOrderFinderResponseDto.class)
                 .returnResult()
@@ -50,7 +52,7 @@ public class OrderFinderResponseVerifier {
         responseSpec.expectStatus()
                 .isOk()
                 .expectHeader()
-                .contentType(TEXT_EVENT_STREAM_VALUE);
+                .contentType(TEXT_EVENT_STREAM_UTF8_VALUE);
 
         long quantityResponse = responseSpec.expectBodyList(HalfOrderFinderResponseDto.class)
                 .returnResult()

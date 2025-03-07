@@ -17,6 +17,7 @@ spring:
     default-domain: ~project.artifactId~
   main:
     allow-bean-definition-overriding: true
+    web-application-type: reactive
   cache:
     redis:
       time-to-live: 172800
@@ -64,6 +65,16 @@ spring:
   web:
     locale: pt_BR
     locale-resolver: accept_header
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+      client:
+        config:
+          default:
+            connectTimeout: 15000
+            readTimeout: 15000
+            loggerLevel: BASIC # NONE, BASIC, HEADERS, FULL
 
 server:
   compression:
@@ -83,26 +94,17 @@ springdoc:
     path: /swagger-ui.html
     enabled: true
 
-feign:
-  circuitbreaker:
-    enable: true
-  client:
-    config:
-      default:
-        connectTimeout: 15000
-        readTimeout: 15000
-        loggerLevel: BASIC # NONE, BASIC, HEADERS, FULL
-
 resilience4j:
   circuitbreaker:
     instances:
-      order-invoicer-circuitbreaker:
+      api-ecommerce-checkout_authorizeSale:
         slidingWindowType: TIME_BASED
         slidingWindowSize: 60
         minimumNumberOfCalls: 10
         failureRateThreshold: 50
         permittedNumberOfCallsInHalfOpenState: 5
         waitDurationInOpenState: 20s
+        automaticTransitionFromOpenToHalfOpenEnabled: true
 
 management:
   server:
@@ -123,7 +125,7 @@ management:
     health:
       show-details: always
     prometheus:
-      enabled: true
+      access: unrestricted
   health:
     redis:
       enabled: false

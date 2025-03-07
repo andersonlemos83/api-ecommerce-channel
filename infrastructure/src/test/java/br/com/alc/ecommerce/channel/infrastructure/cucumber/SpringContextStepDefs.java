@@ -17,7 +17,6 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
@@ -28,7 +27,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
 @CucumberContextConfiguration
-@TestPropertySource(properties = "app.handle.enable=false")
 @SpringBootTest(classes = EcommerceChannelInfrastructureApplication.class, webEnvironment = DEFINED_PORT)
 @ContextConfiguration(classes = {EcommerceChannelInfrastructureApplication.class, EcommerceChannelInfrastructureConfig.class, RabbitConfig.class, WireMockConfig.class, GreenMailConfig.class})
 public class SpringContextStepDefs extends StepDefs {
@@ -73,7 +71,7 @@ public class SpringContextStepDefs extends StepDefs {
 
     @BeforeAll
     public static void initializeContainers() {
-        new ContainerFactoryImpl().getInstances().forEach(ContainerManager::start);
+        new ContainerFactoryImpl().getInstances().forEach(ContainerManager::restart);
     }
 
     @AfterAll

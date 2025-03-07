@@ -20,7 +20,6 @@ spring:
     mongodb:
       database: ecommerce_db
       uri: mongodb://admin:secret@localhost:27017/ecommerce_db?authSource=admin
-#      uri: mongodb://ecommerce_user:ecommerce_user@localhost:27017/ecommerce_db?authSource=ecommerce_user
       repositories:
         enabled: true
   mail:
@@ -29,6 +28,14 @@ spring:
   web:
     locale: pt_BR
     locale-resolver: fixed
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 15000
+            readTimeout: 15000
+            loggerLevel: FULL # NONE, BASIC, HEADERS, FULL
 
 server:
   port: 8383
@@ -36,12 +43,6 @@ server:
 management:
   server:
     port: 9393
-
-feign:
-  client:
-    config:
-      default:
-        loggerLevel: FULL # NONE, BASIC, HEADERS, FULL
 
 email:
   from: no-reply-test@gmail.com
