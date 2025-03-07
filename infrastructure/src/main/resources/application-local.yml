@@ -18,6 +18,14 @@ spring:
   mail:
     host: localhost
     port: 1025
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 15000
+            readTimeout: 15000
+            loggerLevel: FULL # NONE, BASIC, HEADERS, FULL
 
 server:
   port: 8383
@@ -25,14 +33,6 @@ server:
 management:
   server:
     port: 9393
-
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 15000
-        readTimeout: 15000
-        loggerLevel: FULL # NONE, BASIC, HEADERS, FULL
 
 client:
   via-cep:

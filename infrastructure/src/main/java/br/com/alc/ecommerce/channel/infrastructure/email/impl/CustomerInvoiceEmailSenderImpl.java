@@ -40,7 +40,7 @@ public class CustomerInvoiceEmailSenderImpl implements CustomerInvoiceEmailSende
             InputStreamSource attachmentInputStreamSource = buildAttachmentInputStreamSource(customerInvoiceRequestDto.getAttachmentBase64());
             mimeMessageHelper.addAttachment(customerInvoiceRequestDto.getFileName(), attachmentInputStreamSource);
 
-            log.info("---> Sending e-mail to {}", mimeMessage.getAllRecipients());
+            log.info("---> Sending e-mail to {}", mimeMessage.getAllRecipients().toString());
             javaMailSender.send(mimeMessage);
         } catch (Exception exception) {
             log.error("Error in the CustomerInvoiceEmailSenderImpl: {}", getMessage(exception), exception);

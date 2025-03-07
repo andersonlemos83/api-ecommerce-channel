@@ -75,6 +75,10 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-server</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -351,6 +355,9 @@
                 <configuration>
                     <release>21</release>
                     <parameters>true</parameters>
+                    <compilerArgs>
+                        <arg>-proc:full</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
