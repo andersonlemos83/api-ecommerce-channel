@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 import java.util.Optional;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.eclipse.jetty.http.HttpStatus.BAD_REQUEST_400;
+import static wiremock.org.eclipse.jetty.http.HttpStatus.BAD_REQUEST_400;
 
 @Component
 @RequiredArgsConstructor
