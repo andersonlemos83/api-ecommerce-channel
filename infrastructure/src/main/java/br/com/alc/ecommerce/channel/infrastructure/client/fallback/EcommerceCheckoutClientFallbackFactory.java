@@ -17,10 +17,10 @@ import static org.apache.commons.lang3.exception.ExceptionUtils.getMessage;
 
 @Log4j2
 @Component
-public class EcommerceCheckoutClientFallbackFactory implements FallbackFactory<EcommerceCheckoutClient> {
+public class EcommerceCheckoutClientFallbackFactory implements FallbackFactory {
 
     @Override
-    public EcommerceCheckoutClient create(Throwable throwable) {
+    public Object create(Throwable throwable) {
         log.error("Error in the EcommerceCheckoutClientFallbackFactory: {}", getMessage(throwable), throwable);
         if (throwable instanceof FeignException.BadRequest exception) {
             Map<String, Object> properties = ObjectMapperUtil.generateMap(exception.contentUTF8());
@@ -29,6 +29,6 @@ public class EcommerceCheckoutClientFallbackFactory implements FallbackFactory<E
                     .orElse(exception.getMessage());
             throw new DefaultOutPortException(message, exception.getCause());
         }
-        return orderRequestDto -> OrderResponseDto.builder().status(ERROR).build();
+        return (EcommerceCheckoutClient) orderRequestDto -> OrderResponseDto.builder().status(ERROR).build();
     }
 }
