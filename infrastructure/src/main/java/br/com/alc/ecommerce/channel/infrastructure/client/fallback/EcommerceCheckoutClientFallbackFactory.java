@@ -17,7 +17,7 @@ import static org.apache.commons.lang3.exception.ExceptionUtils.getMessage;
 
 @Log4j2
 @Component
-@SuppressWarnings("squid:S7091")
+@SuppressWarnings("squid:S7091") // Circular dependencies between classes across packages
 public class EcommerceCheckoutClientFallbackFactory implements FallbackFactory<EcommerceCheckoutClient> {
 
     @Override

@@ -15,7 +15,7 @@ Este é um projeto fictício criado exclusivamente para estudo e validação de 
 Os principais conceitos e tecnologias que desejo validar incluem:
 
 - **Arquitetura**: Arquitetura Limpa e Arquitetura Hexagonal
-- **Framework**: Spring Boot 3.1.4 (Webflux, Netty, Data Mongodb Reactive e Mail)
+- **Framework**: Spring Boot 3.4.3 (Webflux, Netty, Data Mongodb Reactive e Mail)
 - **Testes de Aceitação**: Cucumber, WireMock, Greenmail e Testcontainers
 - **Banco de Dados**: MongoDB
 - **Cache e Tolerância a Falhas**: Redis e Resilience4j
@@ -33,7 +33,7 @@ Os principais conceitos e tecnologias que desejo validar incluem:
 ## Principais Tecnologias e Ferramentas Utilizadas
 
 - **Linguagem**: Java 21 LTS, Gherkin (para BDD com Cucumber)
-- **Framework**: Spring Boot 3.1.4 (Webflux, Netty, Data Mongodb Reactive, AMQP, Mail, Data Redis, Validation, Actuator, entre outros)
+- **Framework**: Spring Boot 3.4.3 (Webflux, Netty, Data Mongodb Reactive, AMQP, Mail, Data Redis, Validation, Actuator, entre outros)
 - **Mensageria e Processamento Assíncrono**: RabbitMQ
 - **Testes de Unidade e Aceitação**: JUnit 5, Mockito, Cucumber, WireMock, Greenmail, Testcontainers e Instancio
 - **Banco de Dados**: MongoDB

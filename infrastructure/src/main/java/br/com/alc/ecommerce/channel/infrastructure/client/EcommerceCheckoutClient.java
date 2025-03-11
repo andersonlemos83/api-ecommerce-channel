@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@SuppressWarnings("squid:S7091")
+@SuppressWarnings("squid:S7091") // Circular dependencies between classes across packages
 @FeignClient(name = "api-ecommerce-checkout",
         url = "${client.ecommerce-checkout.url}",
         fallbackFactory = EcommerceCheckoutClientFallbackFactory.class)
