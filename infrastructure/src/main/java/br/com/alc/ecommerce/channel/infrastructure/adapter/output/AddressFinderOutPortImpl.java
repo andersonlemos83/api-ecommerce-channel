@@ -1,12 +1,10 @@
 package br.com.alc.ecommerce.channel.infrastructure.adapter.output;
 
 import br.com.alc.ecommerce.channel.core.domain.address.AddressResponse;
-import br.com.alc.ecommerce.channel.core.exception.DefaultOutPortException;
 import br.com.alc.ecommerce.channel.core.exception.ZipCodeNotFoundException;
 import br.com.alc.ecommerce.channel.core.port.output.AddressFinderOutPort;
 import br.com.alc.ecommerce.channel.infrastructure.client.ViaCepClient;
 import br.com.alc.ecommerce.channel.infrastructure.dto.address.AddressResponseDto;
-import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import static br.com.alc.ecommerce.channel.core.util.ObjectMapperUtil.generateJson;
 import static br.com.alc.ecommerce.channel.infrastructure.util.ConstantesUtil.ADDRESS_FINDER_CACHE;
-import static org.apache.commons.lang3.exception.ExceptionUtils.getMessage;
 
 @Log4j2
 @Component
@@ -38,20 +35,15 @@ public class AddressFinderOutPortImpl implements AddressFinderOutPort {
     }
 
     private AddressResponse findAddressByZipCodeWithRetry(String zipCode) {
-        try {
-            log.debug("Incoming into AddressFinderOutPortImpl: {}", generateJson(zipCode));
-            return retryTemplate.execute(callback -> {
-                log.info("---> Request GET /ws/{}/json/ {}: {}", zipCode, callback.getRetryCount() + 1, zipCode);
-                AddressResponseDto addressResponseDto = viaCepClient.findByZipCode(zipCode);
-                log.info("<--- Response GET /ws/{}/json/: {}", zipCode, generateJson(addressResponseDto));
-                log.info("Save cache {}:{} - {}", ADDRESS_FINDER_CACHE, zipCode, generateJson(addressResponseDto));
-                AddressResponse addressResponse = modelMapper.map(addressResponseDto, AddressResponse.class);
-                log.debug("Outgoing from AddressFinderOutPortImpl: {}", generateJson(addressResponse));
-                return addressResponse;
-            });
-        } catch (FeignException exception) {
-            log.error("Error in the AddressFinderOutPortImpl: {}", getMessage(exception), exception);
-            throw new DefaultOutPortException(exception.contentUTF8(), exception.getCause());
-        }
+        log.debug("Incoming into AddressFinderOutPortImpl: {}", generateJson(zipCode));
+        return retryTemplate.execute(callback -> {
+            log.info("---> Request GET /ws/{}/json/ {}: {}", zipCode, callback.getRetryCount() + 1, zipCode);
+            AddressResponseDto addressResponseDto = viaCepClient.findByZipCode(zipCode);
+            log.info("<--- Response GET /ws/{}/json/: {}", zipCode, generateJson(addressResponseDto));
+            log.info("Save cache {}:{} - {}", ADDRESS_FINDER_CACHE, zipCode, generateJson(addressResponseDto));
+            AddressResponse addressResponse = modelMapper.map(addressResponseDto, AddressResponse.class);
+            log.debug("Outgoing from AddressFinderOutPortImpl: {}", generateJson(addressResponse));
+            return addressResponse;
+        });
     }
 }
