@@ -12,6 +12,8 @@ import static br.com.alc.ecommerce.channel.core.util.ObjectMapperUtil.generateJs
 @AllArgsConstructor
 public final class ZipCodeGeneratorServiceImpl implements ZipCodeGeneratorService {
 
+    private static final RandomGenerator RANDOM_GENERATOR = RandomGenerator.of("SplittableRandom");
+
     private static final String[] ZIP_CODES = new String[]{
             "01001000", // Praça da Sé, São Paulo/SP
             "20040000", // Avenida Rio Branco, Rio de Janeiro/RJ
@@ -36,7 +38,7 @@ public final class ZipCodeGeneratorServiceImpl implements ZipCodeGeneratorServic
 
     @Override
     public String execute() {
-        int index = RandomGenerator.getDefault().nextInt(ZIP_CODES.length);
+        int index = RANDOM_GENERATOR.nextInt(ZIP_CODES.length);
         String zipCode = ZIP_CODES[index];
         log.info("Outgoing from ZipCodeGeneratorServiceImpl: {}", generateJson(zipCode));
         return zipCode;

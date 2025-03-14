@@ -15,6 +15,8 @@ import java.util.random.RandomGenerator;
 @AllArgsConstructor
 public class OrderDocumentContext {
 
+    private static final RandomGenerator RANDOM_GENERATOR = RandomGenerator.of("SplittableRandom");
+
     private final OrderRepositoryHelper orderRepositoryHelper;
 
     public void insert(List<DocumentDataTable> documentDataTableList) {
@@ -29,7 +31,7 @@ public class OrderDocumentContext {
         String json = ResourceFixture.getContentFromResourceJson("/fixtures/OrderDocument-987654383.json");
         for (int i = 0; i < quantity; i++) {
             OrderDocument orderDocument = ObjectMapperHelper.generateOrderDocument(json);
-            String orderNumber = String.valueOf(RandomGenerator.getDefault().nextInt(999999999));
+            String orderNumber = String.valueOf(RANDOM_GENERATOR.nextInt(999999999));
             orderDocument.getOrderRequest().setOrderNumber(orderNumber);
             orderRepositoryHelper.save(orderDocument);
         }
