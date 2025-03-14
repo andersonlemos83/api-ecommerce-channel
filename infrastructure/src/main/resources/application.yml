@@ -44,8 +44,7 @@ spring:
       port: 6379
       password: null
     mongodb:
-      database:
-      authentication-database:
+      database: null
       uri: mongodb://localhost:27017/ecommerce_db
       repositories:
         enabled: true
@@ -79,7 +78,7 @@ spring:
 server:
   compression:
     enabled: true
-  port: 8181
+  port: 8383
   servlet:
     context-path: /
 
@@ -108,7 +107,7 @@ resilience4j:
 
 management:
   server:
-    port: 9191
+    port: 9393
   endpoints:
     web:
       base-path: /

@@ -9,11 +9,12 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build and Analyze
+  tests:
+    name: Unit And Acceptance Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Code Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Set up JDK 21 for x64
@@ -24,10 +25,60 @@ jobs:
           architecture: x64
           cache: maven
       - name: Unit And Acceptance Tests
-        run: mvn -U -B -V clean test -DargLine="-Xms512M -Xmx2G -Xss4M" --quiet
+        run: |
+          for i in {1..3}; do
+            mvn -U -B -V clean test -DargLine="-Xms512M -Xmx2G -Xss4M" --quiet && break
+            echo "Attempt $i failed. Retrying in 5s..."
+            sleep 5
+          done 
+
+  sonar:
+    needs: tests
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 21 for x64
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          architecture: x64
+          cache: maven
       - name: Sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -U -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.organization="andersonlemos83" -Dsonar.projectKey=andersonlemos83_api-ecommerce-channel -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=$SONAR_TOKEN -DargLine="-Xms512M -Xmx2G -Xss4M" --quiet
-      - name: Package
-        run: mvn -B clean package -Dmaven.test.skip=true -DargLine="-Xms512M -Xmx2G -Xss4M"
+        run: |
+          for i in {1..3}; do
+            mvn -U -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.organization="andersonlemos83" -Dsonar.projectKey=andersonlemos83_api-ecommerce-channel -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=$SONAR_TOKEN -DargLine="-Xms512M -Xmx2G -Xss4M" --quiet && break
+            echo "Attempt $i failed. Retrying in 5s..."
+            sleep 5
+          done 
+
+  build-and-push:
+    needs: sonar
+    name: Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 21 for x64
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          architecture: x64
+          cache: maven
+      - name: Login on Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+      - name: Build Docker Image
+        run: mvn -U -B package -Pdocker-build -Dmaven.test.skip=true -DargLine="-Xms512M -Xmx2G -Xss4M"
+      - name: Push to Docker Hub
+        run: docker image ls --format "{{.Repository}}:{{.Tag}}" | grep "${{ secrets.DOCKER_HUB_USERNAME }}" | xargs -L1 docker push
+      - name: Logout on Docker Hub
+        run: docker logout

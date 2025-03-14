@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  api-ecommerce-channel-infrastructure:
+    container_name: api-ecommerce-channel-infrastructure
+    image: andersonlemos83/api-ecommerce-channel-infrastructure:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: "docker"
+      TZ: "America/Maceio"
+      RABBITMQ_HOST: "host.docker.internal"
+      RABBITMQ_PORT: "5672"
+      RABBITMQ_USERNAME: "ecommerce-channel"
+      RABBITMQ_PASSWORD: "ecommerce-channel"
+      RABBITMQ_VIRTUAL_HOST: "ecommerce-checkout"
+      REDIS_HOST: "host.docker.internal"
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ""
+      MONGODB_DATABASE: "ecommerce_db"
+      MONGODB_URI: "mongodb://admin:secret@host.docker.internal:27017/ecommerce_db?authSource=admin"
+      MAIL_HOST: "host.docker.internal"
+      MAIL_PORT: "1025"
+      VIA_CEP_CLIENT_URL: "https://viacep.com.br/"
+      ECOMMERCE_CHECKOUT_CLIENT_URL: "http://host.docker.internal:8443/"
+    ports:
+      - 8383:8080

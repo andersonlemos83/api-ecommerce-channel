@@ -4,6 +4,10 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=andersonlemos83_api-ecommerce-channel&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=andersonlemos83_api-ecommerce-channel)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=andersonlemos83_api-ecommerce-channel&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=andersonlemos83_api-ecommerce-channel)
 
+![GitHub Created At](https://img.shields.io/github/created-at/andersonlemos83/api-ecommerce-channel)
+![Build Status](https://github.com/andersonlemos83/api-ecommerce-channel/actions/workflows/github-ci.yaml/badge.svg)
+![Docker Image Version](https://img.shields.io/docker/v/andersonlemos83/api-ecommerce-channel-infrastructure?sort=semver&label=api-ecommerce-channel-infrastructure)
+
 This is the English version. For the Portuguese version, click [here](./README.pt.md).
 
 # About the api-ecommerce-channel project
@@ -245,10 +249,9 @@ To organize the tests according to their type and function, they were grouped in
    [Access Mailhog](http://localhost:8025/)
 
 - **Running the Application**:
-1. Create and run a Spring Boot runner:
+1. Start a api-ecommerce-channel-infrastructure instance:
   ```
-    Main Class: /infrastructure/src/main/java/br/com/alc/ecommerce/channel/infrastructure/EcommerceChannelInfrastructureApplication.java
-    Profile: local (application-local.yml)
+    docker-compose -f .\script\docker\api-ecommerce-channel-infrastructure.yml up -d
   ```
 
 2. Access Swagger UI:

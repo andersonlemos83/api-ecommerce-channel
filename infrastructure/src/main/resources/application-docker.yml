@@ -1,0 +1,47 @@
+logging:
+  level:
+    br.com.alc.ecommerce.channel.infrastructure: TRACE
+    org.springframework: INFO
+    com.zaxxer.hikari: INFO
+
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+    virtual-host: ${RABBITMQ_VIRTUAL_HOST}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+    mongodb:
+      database: ${MONGODB_DATABASE}
+      uri: ${MONGODB_URI}
+      repositories:
+        enabled: true
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 15000
+            readTimeout: 15000
+            loggerLevel: BASIC # NONE, BASIC, HEADERS, FULL
+
+server:
+  port: 8080
+
+management:
+  server:
+    port: 9090
+
+client:
+  via-cep:
+    url: ${VIA_CEP_CLIENT_URL}
+  ecommerce-checkout:
+    url: ${ECOMMERCE_CHECKOUT_CLIENT_URL}
