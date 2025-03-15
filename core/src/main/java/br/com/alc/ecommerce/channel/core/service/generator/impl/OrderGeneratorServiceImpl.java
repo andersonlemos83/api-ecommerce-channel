@@ -174,7 +174,7 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
                 .replace(".", "")
                 .replace(",", "")
                 .split("\\s+");
-        String surnamePart = Optional.ofNullable(nameParts)
+        String surnamePart = Optional.of(nameParts)
                 .filter(parts -> parts.length > 1)
                 .map(parts -> "." + parts[parts.length - 1])
                 .orElse("");
