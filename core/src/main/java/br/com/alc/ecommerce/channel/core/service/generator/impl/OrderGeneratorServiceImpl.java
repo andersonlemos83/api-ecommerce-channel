@@ -174,7 +174,11 @@ public final class OrderGeneratorServiceImpl implements OrderGeneratorService {
                 .replace(".", "")
                 .replace(",", "")
                 .split("\\s+");
-        return nameParts[0] + (nameParts.length > 1 ? "." + nameParts[nameParts.length - 1] : "") + "@gmail.com";
+        String surnamePart = Optional.of(nameParts)
+                .filter(parts -> parts.length > 1)
+                .map(parts -> "." + parts[parts.length - 1])
+                .orElse("");
+        return nameParts[0] + surnamePart + "@gmail.com";
     }
 
     private List<Payment> buildRandomPayments(BigDecimal totalValue) {
