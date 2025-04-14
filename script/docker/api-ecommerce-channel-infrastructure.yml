@@ -5,6 +5,11 @@ services:
     image: andersonlemos83/api-ecommerce-channel-infrastructure:latest
     environment:
       SPRING_PROFILES_ACTIVE: "docker"
+      JAVA_TOOL_OPTIONS: >
+        -XX:+UseContainerSupport
+        -XX:InitialRAMPercentage=50.0
+        -XX:MaxRAMPercentage=75.0
+        -XX:MaxDirectMemorySize=256M
       TZ: "America/Maceio"
       RABBITMQ_HOST: "host.docker.internal"
       RABBITMQ_PORT: "5672"

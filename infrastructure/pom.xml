@@ -478,6 +478,7 @@
                                 <tags>
                                     <tag>andersonlemos83/${project.name}:latest</tag>
                                 </tags>
+                                <builder>paketobuildpacks/builder-jammy-base</builder>
                             </image>
                         </configuration>
                         <executions>
