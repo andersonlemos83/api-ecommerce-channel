@@ -24,6 +24,6 @@ services:
       MAIL_HOST: "host.docker.internal"
       MAIL_PORT: "1025"
       VIA_CEP_CLIENT_URL: "https://viacep.com.br/"
-      ECOMMERCE_CHECKOUT_CLIENT_URL: "http://host.docker.internal:8443/"
+      ECOMMERCE_CHECKOUT_CLIENT_URL: "http://host.docker.internal:8181/"
     ports:
       - 8383:8080
