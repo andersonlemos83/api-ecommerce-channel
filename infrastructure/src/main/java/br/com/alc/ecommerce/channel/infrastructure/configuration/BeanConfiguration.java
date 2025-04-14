@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 import static org.modelmapper.convention.MatchingStrategies.LOOSE;
 
@@ -28,22 +29,26 @@ import static org.modelmapper.convention.MatchingStrategies.LOOSE;
 @ComponentScan(basePackageClasses = EcommerceChannelInfrastructureApplication.class)
 public class BeanConfiguration {
 
+    @Lazy
     @Bean
     public OrderNumberGeneratorUseCase orderNumberGeneratorUseCase(OrderNumberGeneratorService orderNumberGeneratorService,
                                                                    OrderNumberIntegratorOutPort orderNumberIntegratorOutPort) {
         return new OrderNumberGeneratorUseCaseImpl(orderNumberGeneratorService, orderNumberIntegratorOutPort);
     }
 
+    @Lazy
     @Bean
     public OrderNumberGeneratorService orderNumberService() {
         return new OrderNumberGeneratorServiceImpl();
     }
 
+    @Lazy
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 
+    @Lazy
     @Bean
     public ModelMapper looseModelMapper() {
         ModelMapper modelMapper = new ModelMapper();
@@ -51,6 +56,7 @@ public class BeanConfiguration {
         return modelMapper;
     }
 
+    @Lazy
     @Bean
     public OrderGeneratorUseCase orderGeneratorUseCase(ZipCodeGeneratorService zipCodeGeneratorService,
                                                        AddressFinderOutPort addressFinderOutPort,
@@ -59,21 +65,25 @@ public class BeanConfiguration {
         return new OrderGeneratorUseCaseImpl(zipCodeGeneratorService, addressFinderOutPort, orderGeneratorService, orderIntegratorOutPort);
     }
 
+    @Lazy
     @Bean
     public ZipCodeGeneratorService zipCodeGeneratorService() {
         return new ZipCodeGeneratorServiceImpl();
     }
 
+    @Lazy
     @Bean
     public OrderGeneratorService orderGeneratorService(WatchService watchService) {
         return new OrderGeneratorServiceImpl(watchService);
     }
 
+    @Lazy
     @Bean
     public WatchService watchService() {
         return new RealWatchService();
     }
 
+    @Lazy
     @Bean
     public OrderProcessorUseCase orderProcessorUseCase(MostRecentOrderFinderOutPort mostRecentOrderFinderOutPort,
                                                        OrderInserterOutPort orderInserterOutPort,
@@ -82,6 +92,7 @@ public class BeanConfiguration {
         return new OrderProcessorUseCaseImpl(mostRecentOrderFinderOutPort, orderInserterOutPort, orderInvoicerOutPort, watchService);
     }
 
+    @Lazy
     @Bean
     public OrderCallbackProcessorUseCase orderCallbackProcessorUseCase(MostRecentOrderFinderOutPort mostRecentOrderFinderOutPort,
                                                                        OrderInserterOutPort orderInserterOutPort,
@@ -90,22 +101,26 @@ public class BeanConfiguration {
         return new OrderCallbackProcessorUseCaseImpl(mostRecentOrderFinderOutPort, orderInserterOutPort, customerInvoiceSenderService, watchService);
     }
 
+    @Lazy
     @Bean
     public ByOrderNumberOrderFinderUseCase byOrderNumberOrderFinderUseCase(ByOrderNumberOrderFinderOutPort byOrderNumberOrderFinderOutPort) {
         return new ByOrderNumberOrderFinderUseCaseImpl(byOrderNumberOrderFinderOutPort);
     }
 
+    @Lazy
     @Bean
     public ByPeriodOrderFinderUseCase byPeriodOrderFinderUseCase(ByPeriodOrderFinderValidatorService byPeriodOrderFinderValidatorService,
                                                                  ByPeriodOrderFinderFinderOutPort byPeriodOrderFinderFinderOutPort) {
         return new ByPeriodOrderFinderUseCaseImpl(byPeriodOrderFinderValidatorService, byPeriodOrderFinderFinderOutPort);
     }
 
+    @Lazy
     @Bean
     public ByPeriodOrderFinderValidatorService byPeriodOrderFinderValidatorService() {
         return new ByPeriodOrderFinderValidatorServiceImpl();
     }
 
+    @Lazy
     @Bean
     public CustomerInvoiceSenderService customerInvoiceSenderService(CustomerInvoiceSenderOutPort customerInvoiceSenderOutPort, @Value("${email.from}") String emailFrom) {
         return new CustomerInvoiceSenderServiceImpl(customerInvoiceSenderOutPort, emailFrom);
