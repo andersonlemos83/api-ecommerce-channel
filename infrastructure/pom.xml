@@ -8,7 +8,7 @@
     <parent>
         <groupId>br.com.alc</groupId>
         <artifactId>api-ecommerce-channel</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>api-ecommerce-channel-infrastructure</artifactId>
@@ -40,7 +40,7 @@
             <dependency>
                 <groupId>io.cucumber</groupId>
                 <artifactId>cucumber-bom</artifactId>
-                <version>7.21.1</version>
+                <version>7.23.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -213,11 +213,6 @@
         </dependency>
 
         <!-- test - cucumber -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>

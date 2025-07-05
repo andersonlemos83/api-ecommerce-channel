@@ -8,7 +8,7 @@
     <parent>
         <groupId>br.com.alc</groupId>
         <artifactId>api-ecommerce-channel</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>api-ecommerce-channel-core</artifactId>
