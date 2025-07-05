@@ -9,10 +9,10 @@ import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 @IncludeEngines("cucumber")
 @SuppressWarnings("squid:S2187")
 @ConfigurationParametersResource("cucumber.properties")
-@SelectPackages("br.com.alc.ecommerce.channel.infrastructure.stepdefs")
+@SelectPackages("br.com.alc.ecommerce.channel.infrastructure.cucumber.stepdefs")
 @SuiteDisplayName("Suite that gathers all Acceptance tests with Cucumber")
 @ConfigurationParameters({
-        @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "br.com.alc.ecommerce.channel.infrastructure"),
+        @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "br.com.alc.ecommerce.channel.infrastructure.cucumber"),
         @ConfigurationParameter(key = FEATURES_PROPERTY_NAME, value = "src/test/resources/features")
 })
 public class RunCucumberTest {
